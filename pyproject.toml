@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "omnicalib-reproduction"
-version = "0.3.1"
+version = "0.3.2"
 description = "Independent OmniCalib numerical baseline with synthetic validation"
 requires-python = ">=3.10"
 dependencies = ["numpy>=1.26,<3", "scipy>=1.11,<2"]

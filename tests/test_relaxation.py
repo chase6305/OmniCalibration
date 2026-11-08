@@ -130,3 +130,45 @@ def test_unfinished_continuation_is_reported_without_claiming_convergence():
     trace = fit.initialization["local_continuation"]
     assert trace["used"] and not trace["converged"]
     assert len(trace["primary_history"]) == len(trace["continuation_history"]) == 2
+
+
+def test_continuation_budget_is_enforced_without_relaxing_stop_rule():
+    robot, surfaces, frames = _problem()
+    fit = calibrate_upper(
+        robot,
+        surfaces,
+        frames,
+        np.eye(4),
+        estimate_camera=False,
+        outer_iterations=2,
+        continuation_iterations=1,
+        allow_restarts=False,
+    )
+    assert not fit.converged
+    assert len(fit.initialization["local_continuation"]["continuation_history"]) == 1
+
+
+def test_continuation_value_error_retains_primary_candidate(monkeypatch):
+    import omnicalib.upper as upper
+
+    original = upper.calibrate_upper
+
+    def fail_child(*args, **kwargs):
+        if kwargs.get("initial") is not None:
+            raise ValueError("synthetic association failure")
+        return original(*args, **kwargs)
+
+    monkeypatch.setattr(upper, "calibrate_upper", fail_child)
+    robot, surfaces, frames = _problem()
+    fit = original(
+        robot,
+        surfaces,
+        frames,
+        np.eye(4),
+        estimate_camera=False,
+        outer_iterations=2,
+        allow_restarts=False,
+    )
+    assert not fit.converged and fit.quality_passed
+    assert fit.initialization["local_continuation"]["error"] == "synthetic association failure"
+    np.testing.assert_allclose(fit.offsets, [0.05], atol=1e-6)

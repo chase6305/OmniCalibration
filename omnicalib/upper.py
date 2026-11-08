@@ -399,6 +399,7 @@ def calibrate_upper(
     max_normalized_rms=2.0,
     allow_restarts=True,
     local_continuation=True,
+    continuation_iterations=None,
     restart_translation_m=0.015,
     trim_scope="link",
     step_relaxation=1.0,
@@ -416,6 +417,12 @@ def calibrate_upper(
     matching is independent of the points used to generate observations.
     """
     restart_arguments = locals().copy()
+    if continuation_iterations is not None and (
+        isinstance(continuation_iterations, bool)
+        or not isinstance(continuation_iterations, (int, np.integer))
+        or not 1 <= continuation_iterations <= outer_iterations
+    ):
+        raise ValueError("Continuation iterations must be an integer in [1, outer_iterations]")
     if not 0 <= max_rejection_fraction < 1:
         raise ValueError("Maximum correspondence rejection fraction must be in [0,1)")
     if point_noise_model not in ("isotropic", "axial"):
@@ -775,6 +782,9 @@ def calibrate_upper(
         options = {
             **restart_arguments,
             "initial": x.copy(),
+            "outer_iterations": outer_iterations
+            if continuation_iterations is None
+            else continuation_iterations,
             "allow_restarts": False,
             "local_continuation": False,
             "initialize_camera": False,
@@ -782,17 +792,29 @@ def calibrate_upper(
             "trim_start_iteration": 0,
             "axial_start_iteration": 0,
         }
-        trial = calibrate_upper(**options)
-        initialization["local_continuation"] = {
-            "used": True,
-            "converged": trial.converged,
-            "primary_iterations": result.iterations,
-            "primary_history": result.history,
-            "continuation_history": trial.history,
-            "quality_passed": trial.quality_passed,
-        }
+        try:
+            trial = calibrate_upper(**options)
+        except ValueError as error:
+            trial = None
+            initialization["local_continuation"] = {
+                "used": True,
+                "converged": False,
+                "error": str(error),
+                "primary_iterations": result.iterations,
+                "primary_history": result.history,
+            }
+        if trial is not None:
+            initialization["local_continuation"] = {
+                "used": True,
+                "converged": trial.converged,
+                "primary_iterations": result.iterations,
+                "primary_history": result.history,
+                "continuation_history": trial.history,
+                "quality_passed": trial.quality_passed,
+            }
         if (
-            trial.success
+            trial is not None
+            and trial.success
             and trial.converged
             and trial.quality_passed
             and not trial.at_bounds

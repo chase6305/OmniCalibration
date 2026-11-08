@@ -26,6 +26,25 @@ def source_hash(directory):
     return digest.hexdigest()
 
 
+def audit_continuations(value, budget):
+    """Check retained traces; copies in nested diagnostics are checked as well."""
+    if isinstance(value, list):
+        return sum(audit_continuations(item, budget) for item in value)
+    if not isinstance(value, dict):
+        return 0
+    count = 0
+    for name, item in value.items():
+        if name == "local_continuation" and isinstance(item, dict) and item.get("used"):
+            if "error" in item:
+                assert not item["converged"] and isinstance(item["error"], str)
+            else:
+                assert "continuation_history" in item, "Missing continuation history"
+                assert len(item["continuation_history"]) <= budget, "Continuation exceeded budget"
+            count += 1
+        count += audit_continuations(item, budget)
+    return count
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("directory", type=Path)
@@ -59,6 +78,11 @@ def main():
             exceptional.append({"case": key[0], "seed": key[1], "error": row["error"]})
             continue
         r = row["result"]
+        options = row["settings"].get("solver_options", {})
+        continuation_budget = options.get("continuation_iterations")
+        if continuation_budget is None:
+            continuation_budget = row["settings"].get("outer_iterations", 12)
+        audit_continuations(r.get("initialization", {}), continuation_budget)
         completed += 1
         assert r["urdf_sha256"] == config["urdf_sha256"], f"Mixed URDF {key}"
         sources = r["mesh_sources"] + [{"path": r["urdf"], "sha256": r["urdf_sha256"]}]
@@ -147,6 +171,7 @@ def main():
             "covariance units",
             "residual aggregation",
             "terminal solver stability",
+            "retained continuation iteration caps and exception status",
             "whole-block acceptance decisions",
         ],
     }

@@ -1,105 +1,82 @@
 {
-  "version": "0.3.1",
-  "source_sha256": "3a75ad50c74971d381b1737bbdeeeb85cc373b992a07fadc5e846fe1d5ab4dc3",
-  "tests_passed": 82,
-  "paired_audit": {
-    "source_sha256": "3a75ad50c74971d381b1737bbdeeeb85cc373b992a07fadc5e846fe1d5ab4dc3",
-    "working_source_matches_snapshot": true,
-    "expected": 4,
-    "recorded": 4,
-    "completed": 4,
-    "accepted": 2,
-    "missing": [],
-    "exceptional": [],
-    "rejected": [
-      {
-        "case": "continuation_False",
-        "seed": 12005,
-        "reasons": [
-          "icp_not_converged"
-        ]
-      },
-      {
-        "case": "continuation_False",
-        "seed": 12014,
-        "reasons": [
-          "icp_not_converged"
-        ]
-      }
-    ],
-    "above_0p1deg_reference": [],
-    "verified_asset_files": {
-      "/home/ubuntu/workspace/chase/HumanoidAssets/Marvin_M6_S_CCS_696_V4.0/visual/glb/shoulder_pitch_l_j1_link.glb": "bd865f100baaf110c7880a9af67c7d5b9c7d2ff350798737b9f9568ad65027a2",
-      "/home/ubuntu/workspace/chase/HumanoidAssets/Marvin_M6_S_CCS_696_V4.0/visual/glb/shoulder_roll_l_j2_link.glb": "019e64f7eb65183487ae6412c4c986155cf052b311b6cdcf093d876b1ee5e43f",
-      "/home/ubuntu/workspace/chase/HumanoidAssets/Marvin_M6_S_CCS_696_V4.0/visual/glb/elbow_pitch_l_j3_link.glb": "77180cbe7eeba2d6eeccd56f2116a20bb6df6cce622418df51d7d0a96d1be4ca",
-      "/home/ubuntu/workspace/chase/HumanoidAssets/Marvin_M6_S_CCS_696_V4.0/visual/glb/elbow_yaw_l_j4_link.glb": "5f130970611070c0725feb6554b3ff238a6a0c253377aa07ca4250e5c12585a4",
-      "/home/ubuntu/workspace/chase/HumanoidAssets/Marvin_M6_S_CCS_696_V4.0/visual/glb/wrist_pitch_l_j5_link.glb": "a836b1968f625e03ca98e0cf28ee51d3ec71961688eb37c0abe3725842d71826",
-      "/home/ubuntu/workspace/chase/HumanoidAssets/Marvin_M6_S_CCS_696_V4.0/visual/glb/wrist_yaw_l_j6_link.glb": "fce23247689b6b2ed27da0f2c327049d4fd3be1a290c884e47a7fba912affb51",
-      "/home/ubuntu/workspace/chase/HumanoidAssets/Marvin_M6_S_CCS_696_V4.0/visual/glb/wrist_roll_l_j7_link.glb": "67eec9b4a6c7bed80af1a6cbecaa9fa9ac3648fd1613f7ba7b07d30839061d70",
-      "/home/ubuntu/workspace/chase/HumanoidAssets/Marvin_M6_S_CCS_696_V4.0/visual/glb/left_hand_base_link.glb": "99ee4633c79981d86762a1092a33f98be6569ac2a669c5546bd811ff8f706977",
-      "/home/ubuntu/workspace/chase/HumanoidAssets/Marvin_M6_S_CCS_696_V4.0/visual/glb/shoulder_pitch_r_j1_link.glb": "29991b925c990886830b45384deaa3b9a99bc88786e7f98decbdfaa173395ec3",
-      "/home/ubuntu/workspace/chase/HumanoidAssets/Marvin_M6_S_CCS_696_V4.0/visual/glb/shoulder_roll_r_j2_link.glb": "e9f91830346793741be150dd465a8afbc8b10ff70fb22efd4759c53ea1316c46",
-      "/home/ubuntu/workspace/chase/HumanoidAssets/Marvin_M6_S_CCS_696_V4.0/visual/glb/elbow_pitch_r_j3_link.glb": "03822946a08c626c1f2b881512ee0d4732f6e489c1ff0649b6e3a7a695adee00",
-      "/home/ubuntu/workspace/chase/HumanoidAssets/Marvin_M6_S_CCS_696_V4.0/visual/glb/elbow_yaw_r_j4_link.glb": "de5890a953a952eaf8dbc2a0c4a4fa2bda887a6ceefbaa5561b7f7c13ae9bdd2",
-      "/home/ubuntu/workspace/chase/HumanoidAssets/Marvin_M6_S_CCS_696_V4.0/visual/glb/wrist_pitch_r_j5_link.glb": "ddd8208f944a59071f236719107bba9f80a6715754ba0df9b56c8c85508ff334",
-      "/home/ubuntu/workspace/chase/HumanoidAssets/Marvin_M6_S_CCS_696_V4.0/visual/glb/wrist_yaw_r_j6_link.glb": "adc693aca71cf359d09501771f70a281b44a12b2cb004bac6cad79c1f944ad02",
-      "/home/ubuntu/workspace/chase/HumanoidAssets/Marvin_M6_S_CCS_696_V4.0/visual/glb/wrist_roll_r_j7_link.glb": "0a13d35a58db5bbe677424f4c90039843eca265d55470b23744f88f576662ce1",
-      "/home/ubuntu/workspace/chase/HumanoidAssets/Marvin_M6_S_CCS_696_V4.0/visual/glb/right_hand_base_link.glb": "6d2b6a5c2eb95a575eb6678c1ee74d7cde644a49491fe2c89784605ec8279ee9",
-      "/home/ubuntu/workspace/chase/HumanoidAssets/Marvin_M6_S_CCS_696_V4.0/visual/glb/base_link.glb": "f9ad51e6bf3fb0242ea2b90188270043bb602ab06abc7723459e571fa37c3e90",
-      "/home/ubuntu/workspace/chase/HumanoidAssets/Marvin_M6_S_CCS_696_V4.0/robot_with_ee.urdf": "c1dec0dad56bf3cfbf5a193f7623ef22d513ecc354e4b0ce90f1ccf05a432972"
-    },
-    "asset_root_override": null,
-    "checked": [
-      "strict JSON",
-      "unique expected keys",
-      "frozen source/config/URDF/mesh hashes",
-      "parameter layout",
-      "covariance units",
-      "residual aggregation",
-      "terminal solver stability",
-      "whole-block acceptance decisions"
-    ]
-  },
+  "version": "0.3.2",
+  "source_sha256": "38727de98918d836ef638aea227095986229d8e2f0879bd51590c491bfa7c98c",
+  "tests_passed": 85,
   "independent_audit": {
-    "source_sha256": "3a75ad50c74971d381b1737bbdeeeb85cc373b992a07fadc5e846fe1d5ab4dc3",
+    "source_sha256": "38727de98918d836ef638aea227095986229d8e2f0879bd51590c491bfa7c98c",
     "working_source_matches_snapshot": true,
-    "expected": 28,
-    "recorded": 28,
-    "completed": 28,
-    "accepted": 24,
+    "expected": 64,
+    "recorded": 64,
+    "completed": 64,
+    "accepted": 56,
     "missing": [],
     "exceptional": [],
     "rejected": [
       {
         "case": "left_unanchored",
-        "seed": 17001,
+        "seed": 18001,
         "reasons": [
           "rank_deficient"
         ]
       },
       {
         "case": "left_unanchored",
-        "seed": 17002,
+        "seed": 18002,
         "reasons": [
           "rank_deficient"
         ]
       },
       {
         "case": "left_unanchored",
-        "seed": 17003,
+        "seed": 18003,
         "reasons": [
           "rank_deficient"
         ]
       },
       {
         "case": "left_unanchored",
-        "seed": 17004,
+        "seed": 18004,
+        "reasons": [
+          "rank_deficient"
+        ]
+      },
+      {
+        "case": "left_unanchored",
+        "seed": 18005,
+        "reasons": [
+          "rank_deficient"
+        ]
+      },
+      {
+        "case": "left_unanchored",
+        "seed": 18006,
+        "reasons": [
+          "rank_deficient"
+        ]
+      },
+      {
+        "case": "left_unanchored",
+        "seed": 18007,
+        "reasons": [
+          "rank_deficient"
+        ]
+      },
+      {
+        "case": "left_unanchored",
+        "seed": 18008,
         "reasons": [
           "rank_deficient"
         ]
       }
     ],
-    "above_0p1deg_reference": [],
+    "above_0p1deg_reference": [
+      {
+        "case": "dual_quadratic_axial",
+        "seed": 18007,
+        "error_deg": 0.2010232853525671,
+        "accepted": true
+      }
+    ],
     "verified_asset_files": {
       "/home/ubuntu/workspace/chase/HumanoidAssets/Marvin_M6_S_CCS_696_V4.0/visual/glb/shoulder_pitch_l_j1_link.glb": "bd865f100baaf110c7880a9af67c7d5b9c7d2ff350798737b9f9568ad65027a2",
       "/home/ubuntu/workspace/chase/HumanoidAssets/Marvin_M6_S_CCS_696_V4.0/visual/glb/shoulder_roll_l_j2_link.glb": "019e64f7eb65183487ae6412c4c986155cf052b311b6cdcf093d876b1ee5e43f",
@@ -129,10 +106,11 @@
       "covariance units",
       "residual aggregation",
       "terminal solver stability",
+      "retained continuation iteration caps and exception status",
       "whole-block acceptance decisions"
     ]
   },
-  "previous_checks": "run_checks_v030.json",
-  "reproduction_script": "passed; exact replay, gauge retention, unchanged numerical source",
-  "v030_bundle_unchanged_sha256": "4d55eeb6b88c83ca4c3dfb9a2304a1de7801a1beb0e5dcd9fb3f32ad49087e10"
+  "reproduction_log": "outputs/reproduce_v032.log",
+  "status": "complete",
+  "full_reproduction_passed": true
 }
