@@ -4,6 +4,9 @@
 
 | 目的 | 计划 | 规模 | 结果目录（相对仓库） |
 |---|---|---:|---|
+| v0.3.2 预算与异常后续验证 | `configs/benchmark_budget_v032.json` | 64 | `outputs/budget_v032_complete` |
+| v0.3.1 续算独立验证 | `configs/benchmark_continuation_final_v031.json` | 28 | `outputs/continuation_final_complete` |
+| v0.3.1 历史未稳定案例成对对照 | `configs/benchmark_continuation_paired_v031.json` | 4 | `outputs/continuation_paired_complete` |
 | v0.2.3 历史评估 | `configs/benchmark_final_v023.json` | 220 | `outputs/final_v023` |
 | v0.3.0 冻结新种子评估 | `configs/benchmark_final.json` | 400 | `outputs/final_v030` |
 | 编码器缩步开发对照 | `configs/benchmark_round2_convergence.json` | 12 | `outputs/round2/convergence_ablation` |
@@ -20,6 +23,10 @@
 表中的规模表示计划的唯一 `(场景, seed)` 数，含不接受结果和异常。大初值开发有 10 次返回估计、2 次在单例运行超过 20 分钟后停止；停止记录不是成功完成的估计。两个 30mm/3° 案例随后使用冻结 v0.3.0 单独重放，见 `outputs/round2/initial_v030_30mm`，不能将其替换到旧版开发统计中。
 
 ## 运行与审计
+
+各版本的记录对应各自冻结源码，不能混合统计；当前代码重跑旧计划需要新目录。
+v0.3.2 的 64 次结果见 [预算验证](BUDGET_v032.md)，v0.3.1 的续算对照见
+[续算验证](CONTINUATION_v031.md)。v0.3.0 的主评估与补充记录仍保持独立。
 
 ```bash
 # 从仓库根目录运行。资产路径改变时可加 --asset-root。

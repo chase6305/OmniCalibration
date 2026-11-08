@@ -1,7 +1,9 @@
-"""Articulated point-to-plane ICP and a wrist hand-eye baseline.
+"""Joint-offset/camera ICP and a wrist hand-eye baseline.
 
 Meshes must be sampled by an adapter into link-local points and normals.
 Correspondences are refreshed between solves, never differentiated through NN.
+The upper fit proceeds through anchor initialization, alternating association
+and fitting, refreshed diagnostics, local continuation, and camera retries.
 """
 
 from dataclasses import dataclass, field
@@ -11,7 +13,7 @@ from scipy.optimize import least_squares
 from scipy.spatial import cKDTree
 
 from .geometry import inverse, se3_exp, se3_log, transform_points, validate_transform
-from .observability import analyze, jacobian
+from .observability import Diagnostics, analyze, jacobian
 from .parameters import UpperParameters
 from .residuals import residual_profile
 
@@ -33,6 +35,8 @@ def _sqrt_robust_weights(residual, loss, scale):
 
 @dataclass
 class Surface:
+    """One link's local surface samples in meters, with unit outward normals."""
+
     link: str
     points: np.ndarray
     normals: np.ndarray
@@ -59,6 +63,12 @@ class Surface:
 
 @dataclass
 class DepthFrame:
+    """Synchronized joint angles (rad) and masked camera-frame points (m).
+
+    fixed_positions holds known, per-frame states of uncalibrated joints.
+    It does not add new estimated parameters.
+    """
+
     q: np.ndarray
     points_camera: np.ndarray
     fixed_positions: dict | None = None
@@ -91,10 +101,19 @@ def _frame_fk(robot, frame, offsets, with_jacobian=False):
 
 @dataclass
 class UpperResult:
+    """Raw candidate and evidence for a later all-or-nothing proposal.
+
+    offsets are radians; correction is the right-composed camera Lie vector
+    [v (m), w (rad)]. success describes the final inner solver, while converged
+    describes outer ICP stability. Neither alone makes a correction acceptable.
+    history contains the selected primary fit and any successful continuation;
+    initialization retains failed continuation traces and camera retry summaries.
+    """
+
     offsets: np.ndarray
     chest_transform: np.ndarray
     correction: np.ndarray
-    diagnostics: object
+    diagnostics: Diagnostics
     rms_m: float
     correspondences: int
     success: bool
@@ -364,6 +383,233 @@ def model_cloud(robot, q, surfaces):
     return np.concatenate(points), np.concatenate(normals)
 
 
+def _valid_candidate(candidate: UpperResult, parameter_count: int) -> bool:
+    """Require all fit gates before selecting a continuation or camera retry."""
+    return (
+        candidate.success
+        and candidate.converged
+        and candidate.quality_passed
+        and not candidate.at_bounds
+        and candidate.diagnostics.rank == parameter_count
+        and all(candidate.diagnostics.supported)
+    )
+
+
+def _continue_local_fit(result: UpperResult, x, restart_arguments) -> UpperResult | None:
+    """Refine one supported basin; retain its trace even if refinement fails."""
+    initialization = result.initialization
+    outer_iterations = restart_arguments["outer_iterations"]
+    continuation_iterations = restart_arguments["continuation_iterations"]
+    step_relaxation = restart_arguments["step_relaxation"]
+    options = {
+        **restart_arguments,
+        "initial": x.copy(),
+        "outer_iterations": outer_iterations
+        if continuation_iterations is None
+        else continuation_iterations,
+        "allow_restarts": False,
+        "local_continuation": False,
+        "initialize_camera": False,
+        "step_relaxation": min(step_relaxation, 0.25),
+        "trim_start_iteration": 0,
+        "axial_start_iteration": 0,
+    }
+    try:
+        trial = calibrate_upper(**options)
+    except ValueError as error:
+        trial = None
+        initialization["local_continuation"] = {
+            "used": True,
+            "converged": False,
+            "error": str(error),
+            "primary_iterations": result.iterations,
+            "primary_history": result.history,
+        }
+    if trial is not None:
+        initialization["local_continuation"] = {
+            "used": True,
+            "converged": trial.converged,
+            "primary_iterations": result.iterations,
+            "primary_history": result.history,
+            "continuation_history": trial.history,
+            "quality_passed": trial.quality_passed,
+        }
+    if trial is not None and _valid_candidate(trial, len(x)):
+        trial.all_inner_success = result.all_inner_success and trial.all_inner_success
+        trial.history = [dict(row, phase="primary") for row in result.history] + [
+            dict(row, phase="local_continuation") for row in trial.history
+        ]
+        trial.iterations += result.iterations
+        trial.initialization = dict(initialization)
+        return trial
+    return None
+
+
+def _retry_camera_fit(
+    result: UpperResult, x, bounds, chest_nominal, restart_arguments
+) -> UpperResult:
+    """Try neighboring camera basins without reading synthetic scoring truth."""
+    n = len(result.offsets)
+    initialization = result.initialization
+    restart_translation_m = restart_arguments["restart_translation_m"]
+    center = np.r_[np.zeros(n), initialization.get("nuisance_correction", x[n:])]
+    attempts = []
+    best = result
+
+    for root_direction in np.eye(3)[[2, 0, 1]]:
+        direction = chest_nominal[:3, :3].T @ root_direction
+        for sign in (1.0, -1.0):
+            candidate = center.copy()
+            candidate[n : n + 3] += sign * restart_translation_m * direction
+            candidate = np.clip(candidate, -np.nextafter(bounds, 0.0), np.nextafter(bounds, 0.0))
+            options = {
+                **restart_arguments,
+                "initial": candidate,
+                "allow_restarts": False,
+                "initialize_camera": False,
+            }
+            try:
+                trial = calibrate_upper(**options)
+            except ValueError as error:
+                attempts.append(
+                    {
+                        "root_translation_direction": (root_direction * sign).tolist(),
+                        "error": str(error),
+                    }
+                )
+                continue
+            attempts.append(
+                {
+                    "root_translation_direction": (root_direction * sign).tolist(),
+                    "normalized_rms": trial.quality["normalized_rms"],
+                    "converged": trial.converged,
+                    "quality_passed": trial.quality_passed,
+                }
+            )
+            trial_valid = _valid_candidate(trial, len(x))
+            best_valid = _valid_candidate(best, len(x))
+            if (trial_valid and not best_valid) or (
+                trial_valid == best_valid
+                and trial.quality["normalized_rms"] < best.quality["normalized_rms"]
+            ):
+                best = trial
+            if _valid_candidate(best, len(x)):
+                break
+        if _valid_candidate(best, len(x)):
+            break
+    primary = dict(initialization)
+    best.initialization = {
+        **best.initialization,
+        "primary_initialization": primary,
+        "restart_attempts": attempts,
+    }
+    result = best
+    return result
+
+
+def _initialize_camera(
+    robot,
+    surfaces,
+    frames,
+    chest_nominal,
+    x,
+    layout,
+    bounds,
+    *,
+    sigma,
+    correspondence_distance,
+    matching,
+    surface_distance_normals,
+    trim_scope,
+    robust_scale,
+    estimate_depth_scale,
+    axial_floor_fraction,
+    axial_range_power,
+):
+    """Fit camera directions constrained by geometry independent of joint zeros.
+
+    This updates x in place and adds no prior to the final joint/camera fit.
+    Unobservable anchor directions remain at their supplied initial values.
+    """
+    n = layout.joints
+    initialization = {"used": False, "reason": "disabled or no independent geometry"}
+    independent = robot.calibration_independent_links()
+    if any(surface.link in independent for surface in surfaces):
+        for camera_iteration in range(4):
+            camera = chest_nominal @ se3_exp(layout.camera_correction(x))
+            anchor_matches = []
+            for frame in frames:
+                groups = _match_frame(
+                    robot,
+                    surfaces,
+                    frame,
+                    np.zeros(n),
+                    camera,
+                    correspondence_distance,
+                    matching,
+                    0.0,
+                    surface_distance_normals,
+                    trim_scope,
+                    layout.depth_scale(x),
+                )
+                anchor_matches.append((frame, [g for g in groups if g.link in independent]))
+            count = sum(len(g.observed) for _, groups in anchor_matches for g in groups)
+            if count < 6:
+                break
+            anchor = _UpperObjective(
+                robot,
+                anchor_matches,
+                chest_nominal,
+                sigma=sigma,
+                estimate_camera=True,
+                estimate_depth_scale=estimate_depth_scale,
+                point_noise_model="isotropic",
+                axial_floor_fraction=axial_floor_fraction,
+                axial_range_power=axial_range_power,
+            )
+            anchor.initialize_whitening(x)
+            j = anchor.jac(x)[:, n:]
+            _, s, vt = np.linalg.svd(j, full_matrices=False)
+            rank = int(np.count_nonzero(s > max(s[0] * 1e-5, 1e-8)))
+            if rank == 0:
+                break
+            basis = vt[:rank].T
+            start = x[n:].copy()
+
+            def expand(z, start=start, basis=basis):
+                return np.r_[np.zeros(n), start + basis @ z]
+
+            fit_camera = least_squares(
+                lambda z, anchor=anchor, expand=expand: anchor.fun(expand(z)),
+                np.zeros(rank),
+                jac=lambda z, anchor=anchor, expand=expand, basis=basis: (
+                    anchor.jac(expand(z))[:, n:] @ basis
+                ),
+                loss="huber",
+                f_scale=robust_scale,
+                max_nfev=40,
+                ftol=1e-9,
+                xtol=1e-9,
+                gtol=1e-8,
+            )
+            if not fit_camera.success:
+                break
+            limit = np.nextafter(bounds[n:], 0.0)
+            x[n:] = np.clip(start + basis @ fit_camera.x, -limit, limit)
+            initialization = {
+                "used": True,
+                "reason": "independent model geometry",
+                "anchor_matches": count,
+                "local_rank": rank,
+                "iterations": camera_iteration + 1,
+                "camera_correction": layout.camera_correction(x).tolist(),
+                "nuisance_correction": x[n:].tolist(),
+            }
+            if np.max(np.abs(basis @ fit_camera.x)) < 1e-6:
+                break
+    return initialization
+
+
 def calibrate_upper(
     robot,
     surfaces,
@@ -409,12 +655,22 @@ def calibrate_upper(
     axial_range_power=0.0,
     axial_start_iteration=2,
     max_rejection_fraction=0.2,
-):
-    """Joint zeros and right-composed chest correction, paper (4)-(5).
+) -> UpperResult:
+    """Fit joint zeros and a right-composed camera correction, paper (4)-(5).
 
     Choose sampled points or exact mesh-triangle projections (requires rtree).
     The caller must mask depth to the robot before calling. Full triangle
     matching is independent of the points used to generate observations.
+
+    Joint offsets use radians; points, sigma and distance gates use meters.
+    chest_nominal maps optical camera coordinates into the robot root frame.
+    The camera result is chest_nominal @ Exp([v, w]); depth_scale, if estimated,
+    multiplies raw camera points before applying that transform.
+
+    outer_iterations limits one ICP stage, not the whole workflow. An eligible
+    candidate may continue once, capped by continuation_iterations if supplied;
+    camera retries can each have their own continuation. Convergence checks the
+    full proposed step before relaxation. Failed candidates remain reportable.
     """
     restart_arguments = locals().copy()
     if continuation_iterations is not None and (
@@ -513,80 +769,24 @@ def calibrate_upper(
 
     initialization = {"used": False, "reason": "disabled or no independent geometry"}
     if initialize_camera and estimate_camera and initial is None:
-        independent = robot.calibration_independent_links()
-        if any(surface.link in independent for surface in surfaces):
-            for camera_iteration in range(4):
-                camera = chest_nominal @ se3_exp(correction(x))
-                anchor_matches = []
-                for frame in frames:
-                    groups = _match_frame(
-                        robot,
-                        surfaces,
-                        frame,
-                        np.zeros(n),
-                        camera,
-                        schedule[0],
-                        matching,
-                        0.0,
-                        surface_distance_normals,
-                        trim_scope,
-                        layout.depth_scale(x),
-                    )
-                    anchor_matches.append((frame, [g for g in groups if g.link in independent]))
-                count = sum(len(g.observed) for _, groups in anchor_matches for g in groups)
-                if count < 6:
-                    break
-                anchor = _UpperObjective(
-                    robot,
-                    anchor_matches,
-                    chest_nominal,
-                    sigma,
-                    True,
-                    estimate_depth_scale=estimate_depth_scale,
-                    point_noise_model="isotropic",
-                    axial_floor_fraction=axial_floor_fraction,
-                    axial_range_power=axial_range_power,
-                )
-                anchor.initialize_whitening(x)
-                j = anchor.jac(x)[:, n:]
-                _, s, vt = np.linalg.svd(j, full_matrices=False)
-                rank = int(np.count_nonzero(s > max(s[0] * 1e-5, 1e-8)))
-                if rank == 0:
-                    break
-                basis = vt[:rank].T
-                start = x[n:].copy()
-
-                def expand(z, start=start, basis=basis):
-                    return np.r_[np.zeros(n), start + basis @ z]
-
-                fit_camera = least_squares(
-                    lambda z, anchor=anchor, expand=expand: anchor.fun(expand(z)),
-                    np.zeros(rank),
-                    jac=lambda z, anchor=anchor, expand=expand, basis=basis: (
-                        anchor.jac(expand(z))[:, n:] @ basis
-                    ),
-                    loss="huber",
-                    f_scale=robust_scale,
-                    max_nfev=40,
-                    ftol=1e-9,
-                    xtol=1e-9,
-                    gtol=1e-8,
-                )
-                if not fit_camera.success:
-                    break
-                limit = np.nextafter(bounds[n:], 0.0)
-                x[n:] = np.clip(start + basis @ fit_camera.x, -limit, limit)
-                initialization = {
-                    "used": True,
-                    "reason": "independent model geometry",
-                    "anchor_matches": count,
-                    "local_rank": rank,
-                    "iterations": camera_iteration + 1,
-                    "camera_correction": correction(x).tolist(),
-                    "nuisance_correction": x[n:].tolist(),
-                }
-                if np.max(np.abs(basis @ fit_camera.x)) < 1e-6:
-                    break
+        initialization = _initialize_camera(
+            robot,
+            surfaces,
+            frames,
+            chest_nominal,
+            x,
+            layout,
+            bounds,
+            sigma=sigma,
+            correspondence_distance=schedule[0],
+            matching=matching,
+            surface_distance_normals=surface_distance_normals,
+            trim_scope=trim_scope,
+            robust_scale=robust_scale,
+            estimate_depth_scale=estimate_depth_scale,
+            axial_floor_fraction=axial_floor_fraction,
+            axial_range_power=axial_range_power,
+        )
 
     def correspondences(parameters, iteration, schedule_level):
         camera = chest_nominal @ se3_exp(correction(parameters))
@@ -632,13 +832,15 @@ def calibrate_upper(
             robot,
             matches,
             chest_nominal,
-            sigma,
-            estimate_camera,
-            encoder_sigma_rad,
-            estimate_depth_scale,
-            point_noise_model if iteration >= axial_start_iteration else "isotropic",
-            axial_floor_fraction,
-            axial_range_power,
+            sigma=sigma,
+            estimate_camera=estimate_camera,
+            encoder_sigma_rad=encoder_sigma_rad,
+            estimate_depth_scale=estimate_depth_scale,
+            point_noise_model=point_noise_model
+            if iteration >= axial_start_iteration
+            else "isotropic",
+            axial_floor_fraction=axial_floor_fraction,
+            axial_range_power=axial_range_power,
         )
         objective.initialize_whitening(x)
         initial_residual = objective.fun(x)
@@ -712,13 +914,13 @@ def calibrate_upper(
         robot,
         matches,
         chest_nominal,
-        sigma,
-        estimate_camera,
-        encoder_sigma_rad,
-        estimate_depth_scale,
-        point_noise_model,
-        axial_floor_fraction,
-        axial_range_power,
+        sigma=sigma,
+        estimate_camera=estimate_camera,
+        encoder_sigma_rad=encoder_sigma_rad,
+        estimate_depth_scale=estimate_depth_scale,
+        point_noise_model=point_noise_model,
+        axial_floor_fraction=axial_floor_fraction,
+        axial_range_power=axial_range_power,
     )
     objective.initialize_whitening(x)
     r = objective.fun(x)
@@ -737,23 +939,23 @@ def calibrate_upper(
     rejection_fraction = 1 - len(r) / sum(len(f.points_camera) for f in frames)
     coverage_passed = rejection_fraction <= max_rejection_fraction
     result = UpperResult(
-        x[:n],
-        chest_nominal @ se3_exp(correction(x)),
-        correction(x),
-        diagnostics,
-        float(np.sqrt(np.mean(raw_r**2)) * sigma),
-        len(r),
-        bool(fit.success),
-        iteration + 1,
-        history,
-        converged,
-        rejection_fraction,
-        bool(np.any(np.abs(x) >= bounds * (1 - 1e-6))),
-        frame_matches,
-        link_matches,
-        initialization,
-        normalized_rms <= max_normalized_rms and coverage_passed,
-        {
+        offsets=x[:n],
+        chest_transform=chest_nominal @ se3_exp(correction(x)),
+        correction=correction(x),
+        diagnostics=diagnostics,
+        rms_m=float(np.sqrt(np.mean(raw_r**2)) * sigma),
+        correspondences=len(r),
+        success=bool(fit.success),
+        iterations=iteration + 1,
+        history=history,
+        converged=converged,
+        rejection_fraction=rejection_fraction,
+        at_bounds=bool(np.any(np.abs(x) >= bounds * (1 - 1e-6))),
+        frame_matches=frame_matches,
+        link_matches=link_matches,
+        initialization=initialization,
+        quality_passed=normalized_rms <= max_normalized_rms and coverage_passed,
+        quality={
             "normalized_rms": normalized_rms,
             "limit": max_normalized_rms,
             "basis": f"{point_noise_model} point/plane noise plus optional shared encoder covariance",
@@ -779,55 +981,9 @@ def calibrate_upper(
     ):
         # Continue a noise-consistent local fit before changing its camera basin.
         # The complete proposed step still controls convergence in the child.
-        options = {
-            **restart_arguments,
-            "initial": x.copy(),
-            "outer_iterations": outer_iterations
-            if continuation_iterations is None
-            else continuation_iterations,
-            "allow_restarts": False,
-            "local_continuation": False,
-            "initialize_camera": False,
-            "step_relaxation": min(step_relaxation, 0.25),
-            "trim_start_iteration": 0,
-            "axial_start_iteration": 0,
-        }
-        try:
-            trial = calibrate_upper(**options)
-        except ValueError as error:
-            trial = None
-            initialization["local_continuation"] = {
-                "used": True,
-                "converged": False,
-                "error": str(error),
-                "primary_iterations": result.iterations,
-                "primary_history": result.history,
-            }
-        if trial is not None:
-            initialization["local_continuation"] = {
-                "used": True,
-                "converged": trial.converged,
-                "primary_iterations": result.iterations,
-                "primary_history": result.history,
-                "continuation_history": trial.history,
-                "quality_passed": trial.quality_passed,
-            }
-        if (
-            trial is not None
-            and trial.success
-            and trial.converged
-            and trial.quality_passed
-            and not trial.at_bounds
-            and trial.diagnostics.rank == len(x)
-            and all(trial.diagnostics.supported)
-        ):
-            trial.all_inner_success = result.all_inner_success and trial.all_inner_success
-            trial.history = [dict(row, phase="primary") for row in result.history] + [
-                dict(row, phase="local_continuation") for row in trial.history
-            ]
-            trial.iterations += result.iterations
-            trial.initialization = dict(initialization)
-            return trial
+        continued = _continue_local_fit(result, x, restart_arguments)
+        if continued is not None:
+            return continued
     if (
         allow_restarts
         and estimate_camera
@@ -837,70 +993,7 @@ def calibrate_upper(
         # Rigid CAD geometry can have repeated features (e.g. a long body tube).
         # Retry bounded neighboring camera translations, selecting by measured
         # residual consistency only; no injected offsets or truth enter here.
-        center = np.r_[np.zeros(n), initialization.get("nuisance_correction", x[n:])]
-        attempts = []
-        best = result
-
-        def valid_candidate(candidate):
-            return (
-                candidate.success
-                and candidate.converged
-                and candidate.quality_passed
-                and not candidate.at_bounds
-                and candidate.diagnostics.rank == len(x)
-                and all(candidate.diagnostics.supported)
-            )
-
-        for root_direction in np.eye(3)[[2, 0, 1]]:
-            direction = chest_nominal[:3, :3].T @ root_direction
-            for sign in (1.0, -1.0):
-                candidate = center.copy()
-                candidate[n : n + 3] += sign * restart_translation_m * direction
-                candidate = np.clip(
-                    candidate, -np.nextafter(bounds, 0.0), np.nextafter(bounds, 0.0)
-                )
-                options = {
-                    **restart_arguments,
-                    "initial": candidate,
-                    "allow_restarts": False,
-                    "initialize_camera": False,
-                }
-                try:
-                    trial = calibrate_upper(**options)
-                except ValueError as error:
-                    attempts.append(
-                        {
-                            "root_translation_direction": (root_direction * sign).tolist(),
-                            "error": str(error),
-                        }
-                    )
-                    continue
-                attempts.append(
-                    {
-                        "root_translation_direction": (root_direction * sign).tolist(),
-                        "normalized_rms": trial.quality["normalized_rms"],
-                        "converged": trial.converged,
-                        "quality_passed": trial.quality_passed,
-                    }
-                )
-                trial_valid = valid_candidate(trial)
-                best_valid = valid_candidate(best)
-                if (trial_valid and not best_valid) or (
-                    trial_valid == best_valid
-                    and trial.quality["normalized_rms"] < best.quality["normalized_rms"]
-                ):
-                    best = trial
-                if valid_candidate(best):
-                    break
-            if valid_candidate(best):
-                break
-        primary = dict(initialization)
-        best.initialization = {
-            **best.initialization,
-            "primary_initialization": primary,
-            "restart_attempts": attempts,
-        }
-        result = best
+        return _retry_camera_fit(result, x, bounds, chest_nominal, restart_arguments)
     return result
 
 

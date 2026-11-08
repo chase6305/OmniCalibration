@@ -171,6 +171,27 @@ def correction_proposal(names, fit, base_frame, camera_frame="synthetic_camera",
     }
 
 
+def _fit_evidence(fit):
+    """Keep solver evidence identical in synthetic and observation-only reports."""
+    return {
+        "depth_scale": fit.depth_scale,
+        "point_to_plane_rms_mm": fit.rms_m * 1000,
+        "diagnostics": fit.diagnostics.to_dict(),
+        "success": fit.success,
+        "all_inner_success": fit.all_inner_success,
+        "correspondences": fit.correspondences,
+        "icp_converged": fit.converged,
+        "history": fit.history,
+        "at_bounds": fit.at_bounds,
+        "frame_match_counts": fit.frame_matches,
+        "link_match_counts": fit.link_matches,
+        "initialization": fit.initialization,
+        "quality_passed": fit.quality_passed,
+        "quality": fit.quality,
+        "residual_profile": fit.residual_profile,
+    }
+
+
 def run_asset_demo(
     config_path,
     asset_root=None,
@@ -484,7 +505,7 @@ def run_asset_demo(
         "noise_m": noise_m,
         "estimate_camera": estimate_camera,
         "estimate_depth_scale": estimate_depth_scale,
-        "depth_scale": fit.depth_scale,
+        **_fit_evidence(fit),
         "depth_scale_error_ppm": abs(
             fit.depth_scale * (1 + (depth_noise.scale_bias if rendered else 0.0)) - 1
         )
@@ -543,24 +564,10 @@ def run_asset_demo(
         "chest_rotation_error_deg": rotation_error_deg(
             fit.chest_transform[:3, :3], camera_truth[:3, :3]
         ),
-        "point_to_plane_rms_mm": fit.rms_m * 1000,
-        "diagnostics": fit.diagnostics.to_dict(),
-        "success": fit.success,
-        "all_inner_success": fit.all_inner_success,
-        "correspondences": fit.correspondences,
         "frames": len(frames),
         "candidate_frames": candidate_count,
         "selection": selection_report,
-        "icp_converged": fit.converged,
-        "history": fit.history,
-        "at_bounds": fit.at_bounds,
         "rejection_fraction": fit.rejection_fraction,
-        "frame_match_counts": fit.frame_matches,
-        "link_match_counts": fit.link_matches,
-        "initialization": fit.initialization,
-        "quality_passed": fit.quality_passed,
-        "quality": fit.quality,
-        "residual_profile": fit.residual_profile,
         "proposal": correction_proposal(robot.active_names, fit, robot.root),
         "assumptions": [
             "real URDF and visual meshes; synthetic observations and camera placement",
@@ -675,7 +682,7 @@ def calibrate_dataset(
         "solver_options": {} if solver_options is None else solver_options,
         "estimate_camera": estimate_camera,
         "estimate_depth_scale": estimate_depth_scale,
-        "depth_scale": fit.depth_scale,
+        **_fit_evidence(fit),
         "joint_names": robot.active_names,
         "offsets_rad": fit.offsets.tolist(),
         "offsets_deg": np.rad2deg(fit.offsets).tolist(),
@@ -683,21 +690,7 @@ def calibrate_dataset(
         "camera_correction": fit.correction.tolist(),
         "root_frame": dataset.root_frame,
         "camera_frame": dataset.camera_frame,
-        "diagnostics": fit.diagnostics.to_dict(),
-        "success": fit.success,
-        "all_inner_success": fit.all_inner_success,
-        "icp_converged": fit.converged,
-        "at_bounds": fit.at_bounds,
-        "history": fit.history,
         "frames": len(frames),
-        "correspondences": fit.correspondences,
-        "frame_match_counts": fit.frame_matches,
-        "link_match_counts": fit.link_matches,
-        "initialization": fit.initialization,
-        "quality_passed": fit.quality_passed,
-        "quality": fit.quality,
-        "residual_profile": fit.residual_profile,
-        "point_to_plane_rms_mm": fit.rms_m * 1000,
         "proposal": correction_proposal(
             robot.active_names, fit, robot.root, dataset.camera_frame, synthetic
         ),
