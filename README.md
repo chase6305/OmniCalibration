@@ -78,5 +78,5 @@ remain standalone numerical examples.
 | [Dataset format](docs/DATA_FORMAT.md) | NPZ schema, units, coordinates, real-data requirements |
 | [Method and scope](docs/REPRODUCTION.md) | Paper mapping, assumptions, observability, missing components |
 | [Experiments](docs/EXPERIMENTS.md) | Frozen plans, results, audits, and historical comparisons |
-| [Latest validation](docs/BUDGET_v032.md) | Continuation budgets, fallback behavior, 64 synthetic trials |
-| [Development](docs/DEVELOPMENT.md) | Source map, checks, and preserving experiment provenance |
+| [Continuation validation](docs/BUDGET_v032.md) | Budgets, fallback behavior, 64 synthetic trials |
+| [Development](docs/DEVELOPMENT.md) | Source map, provenance, [refactor checks](docs/READABILITY.md) |

@@ -80,6 +80,12 @@ source refactor changes that fingerprint. Run it into a **new output directory**
 do not resume or merge records from another fingerprint. Historical reports
 remain evidence for their own snapshots, not new results for current code.
 
+Rendered batches can retain substantial mesh memory. Increase concurrent
+processes gradually while checking available RAM; CPU count alone does not
+describe the usable budget. A resource interruption can be resumed from atomic
+per-case checkpoints with the same frozen inputs. An unfinished case is rerun,
+and is never counted as a completed estimate.
+
 [Experiment commands and frozen plans](EXPERIMENTS.md) explain resume, merge,
 and audit. Commit compact summaries and reproducible plans; keep bulky runtime
 artifacts under `outputs/`. A passing internal proposal gate is not a claim of
