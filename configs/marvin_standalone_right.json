@@ -1,0 +1,35 @@
+{
+  "name": "Marvin M6 S CCS 696 V4.0 standalone arm",
+  "mode": "right_standalone",
+  "asset_root": "../HumanoidAssets/Marvin_M6_S_CCS_696_V4.0",
+  "urdf": "right_arm.urdf",
+  "joint_names": [
+    "SHOULDER_PITCH_R_J1",
+    "SHOULDER_ROLL_R_J2",
+    "ELBOW_PITCH_R_J3",
+    "ELBOW_YAW_R_J4",
+    "WRIST_PITCH_R_J5",
+    "WRIST_YAW_R_J6",
+    "WRIST_ROLL_R_J7"
+  ],
+  "surface_links": [
+    "shoulder_pitch_r_j1_link",
+    "shoulder_roll_r_j2_link",
+    "elbow_pitch_r_j3_link",
+    "elbow_yaw_r_j4_link",
+    "wrist_pitch_r_j5_link",
+    "wrist_yaw_r_j6_link",
+    "wrist_roll_r_j7_link"
+  ],
+  "anchor_links": [],
+  "synthetic_camera_translation": [
+    1.2,
+    0.0,
+    0.8
+  ],
+  "synthetic_camera_target": [
+    0.0,
+    -0.35,
+    0.2
+  ]
+}

@@ -1,0 +1,155 @@
+{
+  "seeds": [
+    7,
+    13,
+    29
+  ],
+  "defaults": {
+    "noise_m": 0.0002,
+    "frames_count": 8,
+    "samples_per_link": 100,
+    "matching": "triangle",
+    "rendered": true,
+    "max_points": 2000,
+    "outer_iterations": 25,
+    "solver_options": {
+      "uncertainty_step_fraction": 0.05
+    }
+  },
+  "cases": [
+    {
+      "id": "matched_geometry",
+      "config": "configs/marvin_dual.json",
+      "settings": {}
+    },
+    {
+      "id": "mesh_scale_0p2pct",
+      "config": "configs/marvin_dual.json",
+      "settings": {
+        "observation_mesh_scale": 1.002
+      }
+    },
+    {
+      "id": "mesh_scale_0p5pct",
+      "config": "configs/marvin_dual.json",
+      "settings": {
+        "observation_mesh_scale": 1.005
+      }
+    },
+    {
+      "id": "origin_noise_0p3mm",
+      "config": "configs/marvin_dual.json",
+      "settings": {
+        "origin_translation_sigma_m": 0.0003
+      }
+    },
+    {
+      "id": "origin_noise_1mm",
+      "config": "configs/marvin_dual.json",
+      "settings": {
+        "origin_translation_sigma_m": 0.001
+      }
+    },
+    {
+      "id": "depth_scale_0p1pct",
+      "config": "configs/marvin_dual.json",
+      "settings": {
+        "depth_noise": {
+          "sigma_m": 0.0002,
+          "scale_bias": 0.001
+        }
+      }
+    },
+    {
+      "id": "depth_scale_0p5pct",
+      "config": "configs/marvin_dual.json",
+      "settings": {
+        "depth_noise": {
+          "sigma_m": 0.0002,
+          "scale_bias": 0.005
+        }
+      }
+    },
+    {
+      "id": "front_wide",
+      "config": "configs/marvin_dual.json",
+      "settings": {
+        "camera_position": [
+          1.6,
+          0,
+          1.1
+        ],
+        "camera_target": [
+          0,
+          0,
+          1.0
+        ]
+      }
+    },
+    {
+      "id": "front_clipped",
+      "config": "configs/marvin_dual.json",
+      "settings": {
+        "camera_position": [
+          0.9,
+          0,
+          1.1
+        ],
+        "camera_target": [
+          0,
+          0,
+          1.0
+        ]
+      }
+    },
+    {
+      "id": "oblique_left",
+      "config": "configs/marvin_dual.json",
+      "settings": {
+        "camera_position": [
+          1.3,
+          0.8,
+          1.1
+        ],
+        "camera_target": [
+          0,
+          0,
+          1.0
+        ]
+      }
+    },
+    {
+      "id": "side_view",
+      "config": "configs/marvin_dual.json",
+      "settings": {
+        "camera_position": [
+          0.1,
+          1.6,
+          1.1
+        ],
+        "camera_target": [
+          0,
+          0,
+          1.0
+        ]
+      }
+    },
+    {
+      "id": "low_resolution",
+      "config": "configs/marvin_dual.json",
+      "settings": {
+        "image_size": [
+          80,
+          60
+        ]
+      }
+    },
+    {
+      "id": "encoder_noise_0p01deg",
+      "config": "configs/marvin_dual.json",
+      "settings": {
+        "encoder_noise_deg": 0.01
+      }
+    }
+  ]
+}

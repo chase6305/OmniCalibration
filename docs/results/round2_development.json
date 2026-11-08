@@ -1,0 +1,4158 @@
+{
+  "purpose": "Development only; not pooled with fresh evaluation; all completed estimates retained",
+  "scale": {
+    "source_sha256": "297bd21ec84c8cb4f4647dee31dfb8ff8d6abb8731244bd532ec99257b704212",
+    "plan": {
+      "seeds": [
+        7,
+        13,
+        29,
+        5077
+      ],
+      "defaults": {
+        "noise_m": 0.0002,
+        "residual_sigma_m": 0.0002,
+        "frames_count": 8,
+        "samples_per_link": 100,
+        "matching": "triangle",
+        "rendered": true,
+        "max_points": 2000,
+        "outer_iterations": 35,
+        "camera_position": [
+          1.6,
+          0,
+          1.1
+        ],
+        "camera_target": [
+          0,
+          0,
+          1
+        ],
+        "solver_options": {
+          "step_relaxation": 0.5,
+          "uncertainty_step_fraction": 0.05
+        }
+      },
+      "cases": [
+        {
+          "id": "left_scale005_False",
+          "config": "configs/marvin_left.json",
+          "settings": {
+            "estimate_depth_scale": false,
+            "depth_noise": {
+              "sigma_m": 0.0002,
+              "scale_bias": 0.005
+            }
+          }
+        },
+        {
+          "id": "left_scale005_True",
+          "config": "configs/marvin_left.json",
+          "settings": {
+            "estimate_depth_scale": true,
+            "depth_noise": {
+              "sigma_m": 0.0002,
+              "scale_bias": 0.005
+            }
+          }
+        },
+        {
+          "id": "right_scale005_False",
+          "config": "configs/marvin_right.json",
+          "settings": {
+            "estimate_depth_scale": false,
+            "depth_noise": {
+              "sigma_m": 0.0002,
+              "scale_bias": 0.005
+            }
+          }
+        },
+        {
+          "id": "right_scale005_True",
+          "config": "configs/marvin_right.json",
+          "settings": {
+            "estimate_depth_scale": true,
+            "depth_noise": {
+              "sigma_m": 0.0002,
+              "scale_bias": 0.005
+            }
+          }
+        },
+        {
+          "id": "dual_scale005_False",
+          "config": "configs/marvin_dual.json",
+          "settings": {
+            "estimate_depth_scale": false,
+            "depth_noise": {
+              "sigma_m": 0.0002,
+              "scale_bias": 0.005
+            }
+          }
+        },
+        {
+          "id": "dual_scale005_True",
+          "config": "configs/marvin_dual.json",
+          "settings": {
+            "estimate_depth_scale": true,
+            "depth_noise": {
+              "sigma_m": 0.0002,
+              "scale_bias": 0.005
+            }
+          }
+        },
+        {
+          "id": "dual_scale-0.005_estimated",
+          "config": "configs/marvin_dual.json",
+          "settings": {
+            "estimate_depth_scale": true,
+            "depth_noise": {
+              "sigma_m": 0.0002,
+              "scale_bias": -0.005
+            }
+          }
+        },
+        {
+          "id": "dual_scale+0.001_estimated",
+          "config": "configs/marvin_dual.json",
+          "settings": {
+            "estimate_depth_scale": true,
+            "depth_noise": {
+              "sigma_m": 0.0002,
+              "scale_bias": 0.001
+            }
+          }
+        },
+        {
+          "id": "dual_scale+0.010_estimated",
+          "config": "configs/marvin_dual.json",
+          "settings": {
+            "estimate_depth_scale": true,
+            "depth_noise": {
+              "sigma_m": 0.0002,
+              "scale_bias": 0.01
+            }
+          }
+        },
+        {
+          "id": "dual_scale+0.000_estimated",
+          "config": "configs/marvin_dual.json",
+          "settings": {
+            "estimate_depth_scale": true,
+            "depth_noise": {
+              "sigma_m": 0.0002,
+              "scale_bias": 0.0
+            }
+          }
+        }
+      ]
+    },
+    "seeds": [
+      7,
+      13,
+      29,
+      5077
+    ],
+    "completed_runs": 40,
+    "planned_runs": 40,
+    "groups": {
+      "dual_scale+0.000_estimated": {
+        "runs": 4,
+        "completed": 4,
+        "solver_successes": 4,
+        "converged": 4,
+        "full_rank": 4,
+        "accepted": 4,
+        "within_0p1deg_reference": 4,
+        "marginal_95pct_coverage": 1.0,
+        "rms_standardized_error": 0.7476467326036673,
+        "max_joint_error_deg": {
+          "mean": 0.010737202352972269,
+          "median": 0.010259265118316447,
+          "p95": 0.013235393351957106,
+          "max": 0.013733814133555339
+        },
+        "rms_joint_error_deg": {
+          "mean": 0.004841774840787406,
+          "median": 0.005165661464663416,
+          "p95": 0.0053207905172438135,
+          "max": 0.005328243549710786
+        },
+        "heldout_model_point_rms_mm": {
+          "mean": 0.016971948018732332,
+          "median": 0.017612350565336384,
+          "p95": 0.020610951133901805,
+          "max": 0.020667827448061008
+        },
+        "chest_translation_error_mm": {
+          "mean": 0.02048480805852246,
+          "median": 0.017427321032527344,
+          "p95": 0.03975936668424014,
+          "max": 0.043116947825551116
+        },
+        "chest_rotation_error_deg": {
+          "mean": 0.0006896650753235578,
+          "median": 0.0005177562810823123,
+          "p95": 0.0013953763714142533,
+          "max": 0.0015332535411261379
+        },
+        "elapsed_s": {
+          "mean": 72.80547681328608,
+          "median": 70.39791350753512,
+          "p95": 88.97537933791754,
+          "max": 91.1850032400107
+        },
+        "depth_scale_error_ppm": {
+          "mean": 2.692504140283658,
+          "median": 2.7591386407843643,
+          "p95": 4.032754842503428,
+          "max": 4.1080906488799585
+        },
+        "depth_scale": {
+          "mean": 1.0000006384588158,
+          "median": 1.0000015280369863,
+          "p95": 1.00000335183795,
+          "max": 1.0000036058519397
+        },
+        "heldout_model_point_before_rms_mm": {
+          "mean": 2.414384498228619,
+          "median": 2.433519373219375,
+          "p95": 3.092991553181868,
+          "max": 3.129447019590874
+        },
+        "heldout_camera_point_rms_mm": {
+          "mean": 0.016058901533654333,
+          "median": 0.01618045575351379,
+          "p95": 0.018814663694034343,
+          "max": 0.019054246119693394
+        },
+        "heldout_camera_point_before_rms_mm": {
+          "mean": 16.03427008781115,
+          "median": 16.109950518487217,
+          "p95": 16.413546078390056,
+          "max": 16.43838535089955
+        }
+      },
+      "dual_scale+0.001_estimated": {
+        "runs": 4,
+        "completed": 4,
+        "solver_successes": 4,
+        "converged": 4,
+        "full_rank": 4,
+        "accepted": 4,
+        "within_0p1deg_reference": 4,
+        "marginal_95pct_coverage": 1.0,
+        "rms_standardized_error": 0.7465053110599696,
+        "max_joint_error_deg": {
+          "mean": 0.010702420942139941,
+          "median": 0.010236887023274296,
+          "p95": 0.013161419334437026,
+          "max": 0.013648445739070415
+        },
+        "rms_joint_error_deg": {
+          "mean": 0.004833184334722534,
+          "median": 0.005153164386489512,
+          "p95": 0.005314971505107444,
+          "max": 0.005324884776368418
+        },
+        "heldout_model_point_rms_mm": {
+          "mean": 0.016951418231120327,
+          "median": 0.01759284145432336,
+          "p95": 0.02058356132772663,
+          "max": 0.02063967249828484
+        },
+        "chest_translation_error_mm": {
+          "mean": 0.02046964539045075,
+          "median": 0.017408230436632643,
+          "p95": 0.03971473168583522,
+          "max": 0.04307055927057391
+        },
+        "chest_rotation_error_deg": {
+          "mean": 0.0006891941017821179,
+          "median": 0.0005175436478977812,
+          "p95": 0.0013939006476492806,
+          "max": 0.0015315878851285274
+        },
+        "elapsed_s": {
+          "mean": 63.71720403499785,
+          "median": 64.19702882546699,
+          "p95": 67.47264519173768,
+          "max": 68.00699224299751
+        },
+        "depth_scale_error_ppm": {
+          "mean": 2.687646714211178,
+          "median": 2.750451741140303,
+          "p95": 4.03048697760755,
+          "max": 4.106235839240746
+        },
+        "depth_scale": {
+          "mean": 0.9990016328958988,
+          "median": 0.99900251903476,
+          "p95": 0.9990043416642581,
+          "max": 0.9990045966467818
+        },
+        "heldout_model_point_before_rms_mm": {
+          "mean": 2.414384498228619,
+          "median": 2.433519373219375,
+          "p95": 3.092991553181868,
+          "max": 3.129447019590874
+        },
+        "heldout_camera_point_rms_mm": {
+          "mean": 0.016035576282030044,
+          "median": 0.016156323846495985,
+          "p95": 0.0187887542781997,
+          "max": 0.019028556747164405
+        },
+        "heldout_camera_point_before_rms_mm": {
+          "mean": 16.03427008781115,
+          "median": 16.109950518487217,
+          "p95": 16.413546078390056,
+          "max": 16.43838535089955
+        }
+      },
+      "dual_scale+0.010_estimated": {
+        "runs": 4,
+        "completed": 4,
+        "solver_successes": 4,
+        "converged": 4,
+        "full_rank": 4,
+        "accepted": 4,
+        "within_0p1deg_reference": 4,
+        "marginal_95pct_coverage": 1.0,
+        "rms_standardized_error": 0.7386741212716261,
+        "max_joint_error_deg": {
+          "mean": 0.010574166098836995,
+          "median": 0.010188595743443317,
+          "p95": 0.01286868530897924,
+          "max": 0.013308304917173032
+        },
+        "rms_joint_error_deg": {
+          "mean": 0.0047713290954666115,
+          "median": 0.005048699989158102,
+          "p95": 0.005300728326732508,
+          "max": 0.0053364610243773645
+        },
+        "heldout_model_point_rms_mm": {
+          "mean": 0.016792103639169175,
+          "median": 0.017421603128137543,
+          "p95": 0.020407959071645575,
+          "max": 0.02047322506421941
+        },
+        "chest_translation_error_mm": {
+          "mean": 0.020410515687168444,
+          "median": 0.01763304678701719,
+          "p95": 0.039201879412399845,
+          "max": 0.04244724021478235
+        },
+        "chest_rotation_error_deg": {
+          "mean": 0.000684004242332606,
+          "median": 0.0005194466638328478,
+          "p95": 0.0013786174793381067,
+          "max": 0.0015127971256124735
+        },
+        "elapsed_s": {
+          "mean": 78.35684905853122,
+          "median": 75.57973439252237,
+          "p95": 89.73428644949453,
+          "max": 91.70658414810896
+        },
+        "depth_scale_error_ppm": {
+          "mean": 2.7366250103522116,
+          "median": 2.7415726600032997,
+          "p95": 4.287414939302403,
+          "max": 4.413068058428671
+        },
+        "depth_scale": {
+          "mean": 0.9900995347435457,
+          "median": 0.9901004742828641,
+          "p95": 0.9901023022160557,
+          "max": 0.9901025498817797
+        },
+        "heldout_model_point_before_rms_mm": {
+          "mean": 2.414384498228619,
+          "median": 2.433519373219375,
+          "p95": 3.092991553181868,
+          "max": 3.129447019590874
+        },
+        "heldout_camera_point_rms_mm": {
+          "mean": 0.016006433260333776,
+          "median": 0.015999239463450575,
+          "p95": 0.0190629438007119,
+          "max": 0.01938073946871872
+        },
+        "heldout_camera_point_before_rms_mm": {
+          "mean": 16.03427008781115,
+          "median": 16.109950518487217,
+          "p95": 16.413546078390056,
+          "max": 16.43838535089955
+        }
+      },
+      "dual_scale-0.005_estimated": {
+        "runs": 4,
+        "completed": 4,
+        "solver_successes": 4,
+        "converged": 4,
+        "full_rank": 4,
+        "accepted": 4,
+        "within_0p1deg_reference": 4,
+        "marginal_95pct_coverage": 1.0,
+        "rms_standardized_error": 0.7500579467737284,
+        "max_joint_error_deg": {
+          "mean": 0.0106514482899972,
+          "median": 0.01006367600011361,
+          "p95": 0.013226612018126586,
+          "max": 0.013709136847166091
+        },
+        "rms_joint_error_deg": {
+          "mean": 0.004856964996832719,
+          "median": 0.005166392238530104,
+          "p95": 0.005340251518092755,
+          "max": 0.005353896968655828
+        },
+        "heldout_model_point_rms_mm": {
+          "mean": 0.017079559033084855,
+          "median": 0.01776650890314591,
+          "p95": 0.020748592465330208,
+          "max": 0.020810724221621692
+        },
+        "chest_translation_error_mm": {
+          "mean": 0.020504745985173642,
+          "median": 0.017511075945433247,
+          "p95": 0.03985293477527555,
+          "max": 0.04323723759386955
+        },
+        "chest_rotation_error_deg": {
+          "mean": 0.0006913525649554851,
+          "median": 0.0005231362714918815,
+          "p95": 0.0014010114888571709,
+          "max": 0.0015385872767096906
+        },
+        "elapsed_s": {
+          "mean": 28.950253381743096,
+          "median": 28.87301550450502,
+          "p95": 31.81299922215985,
+          "max": 32.08107660000678
+        },
+        "depth_scale_error_ppm": {
+          "mean": 2.6951756623150303,
+          "median": 2.7067381346279618,
+          "p95": 4.173425868359004,
+          "max": 4.277395212026747
+        },
+        "depth_scale": {
+          "mean": 1.0050256849025692,
+          "median": 1.0050265924830066,
+          "p95": 1.0050284633244406,
+          "max": 1.0050287279057832
+        },
+        "heldout_model_point_before_rms_mm": {
+          "mean": 2.414384498228619,
+          "median": 2.433519373219375,
+          "p95": 3.092991553181868,
+          "max": 3.129447019590874
+        },
+        "heldout_camera_point_rms_mm": {
+          "mean": 0.01623944713740776,
+          "median": 0.016307785928582452,
+          "p95": 0.01927402186285018,
+          "max": 0.019571818070719265
+        },
+        "heldout_camera_point_before_rms_mm": {
+          "mean": 16.03427008781115,
+          "median": 16.109950518487217,
+          "p95": 16.413546078390056,
+          "max": 16.43838535089955
+        }
+      },
+      "dual_scale005_False": {
+        "runs": 4,
+        "completed": 4,
+        "solver_successes": 4,
+        "converged": 4,
+        "full_rank": 4,
+        "accepted": 0,
+        "within_0p1deg_reference": 0,
+        "marginal_95pct_coverage": 0.017857142857142856,
+        "rms_standardized_error": 34.82919790022353,
+        "max_joint_error_deg": {
+          "mean": 0.9797614169792166,
+          "median": 0.768962338888288,
+          "p95": 1.8224885488338305,
+          "max": 1.9662453743945176
+        },
+        "rms_joint_error_deg": {
+          "mean": 0.3901976392740495,
+          "median": 0.31080263389114116,
+          "p95": 0.672357362034728,
+          "max": 0.7302842667807523
+        },
+        "heldout_model_point_rms_mm": {
+          "mean": 0.9455601422084827,
+          "median": 0.7626892126431916,
+          "p95": 1.4793033634207284,
+          "max": 1.5921906335716698
+        },
+        "chest_translation_error_mm": {
+          "mean": 7.904142929789582,
+          "median": 7.798087212968848,
+          "p95": 8.19098400709139,
+          "max": 8.259233946853591
+        },
+        "chest_rotation_error_deg": {
+          "mean": 0.026642627423049153,
+          "median": 0.02384300352647017,
+          "p95": 0.04126986200416603,
+          "max": 0.043342001727707274
+        },
+        "elapsed_s": {
+          "mean": 277.42328193222056,
+          "median": 273.5555456504808,
+          "p95": 295.4724625198287,
+          "max": 298.1381337479688
+        },
+        "depth_scale_error_ppm": {
+          "mean": 4999.999999999894,
+          "median": 4999.999999999894,
+          "p95": 4999.999999999894,
+          "max": 4999.999999999894
+        },
+        "depth_scale": {
+          "mean": 1.0,
+          "median": 1.0,
+          "p95": 1.0,
+          "max": 1.0
+        },
+        "heldout_model_point_before_rms_mm": {
+          "mean": 2.414384498228619,
+          "median": 2.433519373219375,
+          "p95": 3.092991553181868,
+          "max": 3.129447019590874
+        },
+        "heldout_camera_point_rms_mm": {
+          "mean": 7.952276748147348,
+          "median": 7.885176950679666,
+          "p95": 8.262217145072878,
+          "max": 8.314506734030228
+        },
+        "heldout_camera_point_before_rms_mm": {
+          "mean": 16.03427008781115,
+          "median": 16.109950518487217,
+          "p95": 16.413546078390056,
+          "max": 16.43838535089955
+        }
+      },
+      "dual_scale005_True": {
+        "runs": 4,
+        "completed": 4,
+        "solver_successes": 4,
+        "converged": 4,
+        "full_rank": 4,
+        "accepted": 4,
+        "within_0p1deg_reference": 4,
+        "marginal_95pct_coverage": 1.0,
+        "rms_standardized_error": 0.7424978911106455,
+        "max_joint_error_deg": {
+          "mean": 0.010598025770943554,
+          "median": 0.010192645378675026,
+          "p95": 0.012907053485777994,
+          "max": 0.013354138591426678
+        },
+        "rms_joint_error_deg": {
+          "mean": 0.004806006487521632,
+          "median": 0.005098995299739067,
+          "p95": 0.005311318200302311,
+          "max": 0.005336997888702911
+        },
+        "heldout_model_point_rms_mm": {
+          "mean": 0.016841524173407993,
+          "median": 0.017452718520236762,
+          "p95": 0.02050688415901966,
+          "max": 0.020569687476894367
+        },
+        "chest_translation_error_mm": {
+          "mean": 0.02045590392935498,
+          "median": 0.01763109592316963,
+          "p95": 0.03938517418000626,
+          "max": 0.042647074835690135
+        },
+        "chest_rotation_error_deg": {
+          "mean": 0.0006867788630114292,
+          "median": 0.0005210819835164049,
+          "p95": 0.0013845326849591558,
+          "max": 0.001519348471120397
+        },
+        "elapsed_s": {
+          "mean": 78.2781293457374,
+          "median": 80.24670199048705,
+          "p95": 83.81793944493401,
+          "max": 84.07963168399874
+        },
+        "depth_scale_error_ppm": {
+          "mean": 2.7162561230531512,
+          "median": 2.7646964820826625,
+          "p95": 4.173026960402337,
+          "max": 4.274062580189586
+        },
+        "depth_scale": {
+          "mean": 0.995025451965008,
+          "median": 0.9950263634179755,
+          "p95": 0.9950282087096436,
+          "max": 0.9950284582007778
+        },
+        "heldout_model_point_before_rms_mm": {
+          "mean": 2.414384498228619,
+          "median": 2.433519373219375,
+          "p95": 3.092991553181868,
+          "max": 3.129447019590874
+        },
+        "heldout_camera_point_rms_mm": {
+          "mean": 0.015992044502642407,
+          "median": 0.01610430882726277,
+          "p95": 0.01880261597560914,
+          "max": 0.01905870840571052
+        },
+        "heldout_camera_point_before_rms_mm": {
+          "mean": 16.03427008781115,
+          "median": 16.109950518487217,
+          "p95": 16.413546078390056,
+          "max": 16.43838535089955
+        }
+      },
+      "left_scale005_False": {
+        "runs": 4,
+        "completed": 4,
+        "solver_successes": 4,
+        "converged": 4,
+        "full_rank": 4,
+        "accepted": 0,
+        "within_0p1deg_reference": 0,
+        "marginal_95pct_coverage": 0.0,
+        "rms_standardized_error": 95.82860419516066,
+        "max_joint_error_deg": {
+          "mean": 1.0679004276463733,
+          "median": 1.0744775302372007,
+          "p95": 1.130992498049692,
+          "max": 1.1320156177698353
+        },
+        "rms_joint_error_deg": {
+          "mean": 0.6317200338546967,
+          "median": 0.611478967347671,
+          "p95": 0.7461450278343876,
+          "max": 0.7602070261867332
+        },
+        "heldout_model_point_rms_mm": {
+          "mean": 2.8988214396037044,
+          "median": 2.6958941929592863,
+          "p95": 4.055716902326092,
+          "max": 4.230347923762996
+        },
+        "chest_translation_error_mm": {
+          "mean": 9.21780773198532,
+          "median": 9.19617369933896,
+          "p95": 9.345116353089256,
+          "max": 9.37050342657733
+        },
+        "chest_rotation_error_deg": {
+          "mean": 0.05295310801469805,
+          "median": 0.0508401588743423,
+          "p95": 0.06960279973465223,
+          "max": 0.07148285567479318
+        },
+        "elapsed_s": {
+          "mean": 189.3937825235189,
+          "median": 190.641197644989,
+          "p95": 206.70372896149055,
+          "max": 209.21755677799229
+        },
+        "depth_scale_error_ppm": {
+          "mean": 4999.999999999894,
+          "median": 4999.999999999894,
+          "p95": 4999.999999999894,
+          "max": 4999.999999999894
+        },
+        "depth_scale": {
+          "mean": 1.0,
+          "median": 1.0,
+          "p95": 1.0,
+          "max": 1.0
+        },
+        "heldout_model_point_before_rms_mm": {
+          "mean": 1.9725083119003817,
+          "median": 1.9177472396144637,
+          "p95": 2.556294128404277,
+          "max": 2.590895891122783
+        },
+        "heldout_camera_point_rms_mm": {
+          "mean": 9.311774276012091,
+          "median": 9.276914286200594,
+          "p95": 9.960785993174538,
+          "max": 10.074196505587517
+        },
+        "heldout_camera_point_before_rms_mm": {
+          "mean": 15.106829095522011,
+          "median": 15.281414601442464,
+          "p95": 15.610838052547761,
+          "max": 15.613069897591037
+        }
+      },
+      "left_scale005_True": {
+        "runs": 4,
+        "completed": 4,
+        "solver_successes": 4,
+        "converged": 4,
+        "full_rank": 4,
+        "accepted": 4,
+        "within_0p1deg_reference": 4,
+        "marginal_95pct_coverage": 0.9642857142857143,
+        "rms_standardized_error": 0.7969035446441004,
+        "max_joint_error_deg": {
+          "mean": 0.009179876533138094,
+          "median": 0.009102118690516511,
+          "p95": 0.014566452037464957,
+          "max": 0.015198120005350046
+        },
+        "rms_joint_error_deg": {
+          "mean": 0.004966330001930242,
+          "median": 0.004650863686864909,
+          "p95": 0.008068881404127499,
+          "max": 0.008647306504395942
+        },
+        "heldout_model_point_rms_mm": {
+          "mean": 0.013717591262202813,
+          "median": 0.015015066857127876,
+          "p95": 0.019447565576093926,
+          "max": 0.019672784487055985
+        },
+        "chest_translation_error_mm": {
+          "mean": 0.029581232178485975,
+          "median": 0.028986056843492987,
+          "p95": 0.033701030429221096,
+          "max": 0.03432620890439925
+        },
+        "chest_rotation_error_deg": {
+          "mean": 0.001041361809034262,
+          "median": 0.0010894270427093526,
+          "p95": 0.0012810152776489018,
+          "max": 0.001305483469491421
+        },
+        "elapsed_s": {
+          "mean": 46.83546450277208,
+          "median": 46.64551531453617,
+          "p95": 53.51319700794411,
+          "max": 54.04788375203498
+        },
+        "depth_scale_error_ppm": {
+          "mean": 4.752273282976338,
+          "median": 4.3943914099231485,
+          "p95": 8.77099208548282,
+          "max": 9.093083037425842
+        },
+        "depth_scale": {
+          "mean": 0.9950286873501347,
+          "median": 0.9950288920583579,
+          "p95": 0.9950336029771996,
+          "max": 0.995033923465709
+        },
+        "heldout_model_point_before_rms_mm": {
+          "mean": 1.9725083119003817,
+          "median": 1.9177472396144637,
+          "p95": 2.556294128404277,
+          "max": 2.590895891122783
+        },
+        "heldout_camera_point_rms_mm": {
+          "mean": 0.01538028645773062,
+          "median": 0.01605105259975059,
+          "p95": 0.017984759860041794,
+          "max": 0.018312261956339063
+        },
+        "heldout_camera_point_before_rms_mm": {
+          "mean": 15.106829095522011,
+          "median": 15.281414601442464,
+          "p95": 15.610838052547761,
+          "max": 15.613069897591037
+        }
+      },
+      "right_scale005_False": {
+        "runs": 4,
+        "completed": 4,
+        "solver_successes": 4,
+        "converged": 4,
+        "full_rank": 4,
+        "accepted": 0,
+        "within_0p1deg_reference": 0,
+        "marginal_95pct_coverage": 0.0,
+        "rms_standardized_error": 105.02144965052527,
+        "max_joint_error_deg": {
+          "mean": 1.2158988601781582,
+          "median": 1.253044526914224,
+          "p95": 1.3918091656401959,
+          "max": 1.3974239977733331
+        },
+        "rms_joint_error_deg": {
+          "mean": 0.6444681507476967,
+          "median": 0.6453511655110663,
+          "p95": 0.7576987029515766,
+          "max": 0.7588452786560711
+        },
+        "heldout_model_point_rms_mm": {
+          "mean": 3.5374397849829644,
+          "median": 3.075978136660501,
+          "p95": 4.697035075265139,
+          "max": 4.9809906213221975
+        },
+        "chest_translation_error_mm": {
+          "mean": 9.476486419014627,
+          "median": 9.251215691826419,
+          "p95": 10.083995925221108,
+          "max": 10.21968876684701
+        },
+        "chest_rotation_error_deg": {
+          "mean": 0.07191063935803022,
+          "median": 0.0476689705356373,
+          "p95": 0.14615635446868672,
+          "max": 0.1633283582188226
+        },
+        "elapsed_s": {
+          "mean": 188.04235117451753,
+          "median": 173.0838920775568,
+          "p95": 246.81821788166997,
+          "max": 256.0829318759497
+        },
+        "depth_scale_error_ppm": {
+          "mean": 4999.999999999894,
+          "median": 4999.999999999894,
+          "p95": 4999.999999999894,
+          "max": 4999.999999999894
+        },
+        "depth_scale": {
+          "mean": 1.0,
+          "median": 1.0,
+          "p95": 1.0,
+          "max": 1.0
+        },
+        "heldout_model_point_before_rms_mm": {
+          "mean": 1.9710328765624776,
+          "median": 1.9113410482304243,
+          "p95": 2.557363906211724,
+          "max": 2.593966466163728
+        },
+        "heldout_camera_point_rms_mm": {
+          "mean": 9.995506198840111,
+          "median": 9.71557822881869,
+          "p95": 10.922474680208829,
+          "max": 11.133456535203496
+        },
+        "heldout_camera_point_before_rms_mm": {
+          "mean": 16.781447713725527,
+          "median": 16.882740153244583,
+          "p95": 17.136766669430912,
+          "max": 17.13753807861725
+        }
+      },
+      "right_scale005_True": {
+        "runs": 4,
+        "completed": 4,
+        "solver_successes": 4,
+        "converged": 4,
+        "full_rank": 4,
+        "accepted": 4,
+        "within_0p1deg_reference": 4,
+        "marginal_95pct_coverage": 1.0,
+        "rms_standardized_error": 0.7422070231966152,
+        "max_joint_error_deg": {
+          "mean": 0.012895928735947013,
+          "median": 0.013757639513215628,
+          "p95": 0.017025294850493592,
+          "max": 0.017112087017921867
+        },
+        "rms_joint_error_deg": {
+          "mean": 0.006122836436641084,
+          "median": 0.00646987461232657,
+          "p95": 0.007753861735279667,
+          "max": 0.007882550606621299
+        },
+        "heldout_model_point_rms_mm": {
+          "mean": 0.01561893984952725,
+          "median": 0.013458515805968418,
+          "p95": 0.020936639076392254,
+          "max": 0.02225001639661014
+        },
+        "chest_translation_error_mm": {
+          "mean": 0.0309023518072655,
+          "median": 0.023468387161883947,
+          "p95": 0.059203310868977024,
+          "max": 0.06475641092050417
+        },
+        "chest_rotation_error_deg": {
+          "mean": 0.0010851833991528668,
+          "median": 0.0007743522650170176,
+          "p95": 0.002208640260455789,
+          "max": 0.0024357914312301823
+        },
+        "elapsed_s": {
+          "mean": 45.903576374519616,
+          "median": 48.014856343506835,
+          "p95": 51.544443531706925,
+          "max": 51.92557426600251
+        },
+        "depth_scale_error_ppm": {
+          "mean": 4.184033563697787,
+          "median": 2.707653394551368,
+          "p95": 8.740270807777726,
+          "max": 9.695673098608637
+        },
+        "depth_scale": {
+          "mean": 0.9950273839515595,
+          "median": 0.9950267234510763,
+          "p95": 0.9950333877308243,
+          "max": 0.9950345230578097
+        },
+        "heldout_model_point_before_rms_mm": {
+          "mean": 1.9710328765624776,
+          "median": 1.9113410482304243,
+          "p95": 2.557363906211724,
+          "max": 2.593966466163728
+        },
+        "heldout_camera_point_rms_mm": {
+          "mean": 0.01608049066145787,
+          "median": 0.015650649236792713,
+          "p95": 0.020386080734993362,
+          "max": 0.020668558631079116
+        },
+        "heldout_camera_point_before_rms_mm": {
+          "mean": 16.781447713725527,
+          "median": 16.882740153244583,
+          "p95": 17.136766669430912,
+          "max": 17.13753807861725
+        }
+      }
+    }
+  },
+  "noise": {
+    "source_sha256": "2d4fb3ac87f4656ab4e4e928eddcb586ae1312aa19e0bb0ca590240f08c70b1f",
+    "plan": {
+      "seeds": [
+        7,
+        13,
+        29,
+        5077
+      ],
+      "defaults": {
+        "noise_m": 0.0002,
+        "residual_sigma_m": 0.0002,
+        "frames_count": 8,
+        "samples_per_link": 100,
+        "matching": "triangle",
+        "rendered": true,
+        "max_points": 2000,
+        "outer_iterations": 35,
+        "camera_position": [
+          1.6,
+          0,
+          1.1
+        ],
+        "camera_target": [
+          0,
+          0,
+          1
+        ]
+      },
+      "cases": [
+        {
+          "id": "depth_isotropic",
+          "config": "configs/marvin_dual.json",
+          "settings": {
+            "solver_options": {
+              "step_relaxation": 0.5,
+              "uncertainty_step_fraction": 0.05,
+              "loss": "linear",
+              "point_noise_model": "isotropic",
+              "axial_floor_fraction": 0.25,
+              "axial_start_iteration": 2
+            },
+            "encoder_noise_deg": 0.0,
+            "depth_noise": {
+              "sigma_m": 0.0002,
+              "quadratic_range": false
+            }
+          }
+        },
+        {
+          "id": "depth_axial",
+          "config": "configs/marvin_dual.json",
+          "settings": {
+            "solver_options": {
+              "step_relaxation": 0.5,
+              "uncertainty_step_fraction": 0.05,
+              "loss": "linear",
+              "point_noise_model": "axial",
+              "axial_floor_fraction": 0.25,
+              "axial_start_iteration": 2
+            },
+            "encoder_noise_deg": 0.0,
+            "depth_noise": {
+              "sigma_m": 0.0002,
+              "quadratic_range": false
+            }
+          }
+        },
+        {
+          "id": "encoder_isotropic",
+          "config": "configs/marvin_dual.json",
+          "settings": {
+            "solver_options": {
+              "step_relaxation": 0.5,
+              "uncertainty_step_fraction": 0.05,
+              "loss": "linear",
+              "point_noise_model": "isotropic",
+              "encoder_sigma_rad": 0.00017453292519943296,
+              "axial_floor_fraction": 0.25,
+              "axial_start_iteration": 2
+            },
+            "encoder_noise_deg": 0.01,
+            "depth_noise": {
+              "sigma_m": 0.0002,
+              "quadratic_range": false
+            }
+          }
+        },
+        {
+          "id": "encoder_axial",
+          "config": "configs/marvin_dual.json",
+          "settings": {
+            "solver_options": {
+              "step_relaxation": 0.5,
+              "uncertainty_step_fraction": 0.05,
+              "loss": "linear",
+              "point_noise_model": "axial",
+              "encoder_sigma_rad": 0.00017453292519943296,
+              "axial_floor_fraction": 0.25,
+              "axial_start_iteration": 2
+            },
+            "encoder_noise_deg": 0.01,
+            "depth_noise": {
+              "sigma_m": 0.0002,
+              "quadratic_range": false
+            }
+          }
+        },
+        {
+          "id": "quadratic_isotropic",
+          "config": "configs/marvin_dual.json",
+          "settings": {
+            "solver_options": {
+              "step_relaxation": 0.5,
+              "uncertainty_step_fraction": 0.05,
+              "loss": "linear",
+              "point_noise_model": "isotropic",
+              "axial_range_power": 2.0,
+              "axial_floor_fraction": 0.25,
+              "axial_start_iteration": 2
+            },
+            "encoder_noise_deg": 0.0,
+            "depth_noise": {
+              "sigma_m": 0.0002,
+              "quadratic_range": true
+            }
+          }
+        },
+        {
+          "id": "quadratic_axial",
+          "config": "configs/marvin_dual.json",
+          "settings": {
+            "solver_options": {
+              "step_relaxation": 0.5,
+              "uncertainty_step_fraction": 0.05,
+              "loss": "linear",
+              "point_noise_model": "axial",
+              "axial_range_power": 2.0,
+              "axial_floor_fraction": 0.25,
+              "axial_start_iteration": 2
+            },
+            "encoder_noise_deg": 0.0,
+            "depth_noise": {
+              "sigma_m": 0.0002,
+              "quadratic_range": true
+            }
+          }
+        }
+      ]
+    },
+    "seeds": [
+      7,
+      13,
+      29,
+      5077
+    ],
+    "completed_runs": 24,
+    "planned_runs": 24,
+    "groups": {
+      "depth_axial": {
+        "runs": 4,
+        "completed": 4,
+        "solver_successes": 4,
+        "converged": 4,
+        "full_rank": 4,
+        "accepted": 4,
+        "within_0p1deg_reference": 4,
+        "marginal_95pct_coverage": 0.9642857142857143,
+        "rms_standardized_error": 0.9952077134416709,
+        "max_joint_error_deg": {
+          "mean": 0.013330533490924706,
+          "median": 0.012900657289557948,
+          "p95": 0.01852835981751955,
+          "max": 0.019019049531068685
+        },
+        "rms_joint_error_deg": {
+          "mean": 0.00487006948710063,
+          "median": 0.004599348847960716,
+          "p95": 0.006004704681931449,
+          "max": 0.006177697097905812
+        },
+        "heldout_model_point_rms_mm": {
+          "mean": 0.012189720737569333,
+          "median": 0.011690189385971436,
+          "p95": 0.014579322734743293,
+          "max": 0.015041112047955505
+        },
+        "chest_translation_error_mm": {
+          "mean": 0.013396683734466772,
+          "median": 0.01276883895909255,
+          "p95": 0.015885873458635895,
+          "max": 0.016393626505250152
+        },
+        "chest_rotation_error_deg": {
+          "mean": 0.00047047606699470834,
+          "median": 0.00045981857353678346,
+          "p95": 0.0005498571500528202,
+          "max": 0.0005623552550295068
+        },
+        "elapsed_s": {
+          "mean": 36.03947307780618,
+          "median": 36.20234416105086,
+          "p95": 38.13708534322795,
+          "max": 38.373640026082285
+        },
+        "depth_scale_error_ppm": {
+          "mean": 0.0,
+          "median": 0.0,
+          "p95": 0.0,
+          "max": 0.0
+        },
+        "depth_scale": {
+          "mean": 1.0,
+          "median": 1.0,
+          "p95": 1.0,
+          "max": 1.0
+        },
+        "heldout_model_point_before_rms_mm": {
+          "mean": 2.414384498228619,
+          "median": 2.433519373219375,
+          "p95": 3.092991553181868,
+          "max": 3.129447019590874
+        },
+        "heldout_camera_point_rms_mm": {
+          "mean": 0.011899418695927746,
+          "median": 0.011960877164622873,
+          "p95": 0.013203367867677887,
+          "max": 0.013232588253220639
+        },
+        "heldout_camera_point_before_rms_mm": {
+          "mean": 16.03427008781115,
+          "median": 16.109950518487217,
+          "p95": 16.413546078390056,
+          "max": 16.43838535089955
+        }
+      },
+      "depth_isotropic": {
+        "runs": 4,
+        "completed": 4,
+        "solver_successes": 4,
+        "converged": 4,
+        "full_rank": 4,
+        "accepted": 4,
+        "within_0p1deg_reference": 4,
+        "marginal_95pct_coverage": 1.0,
+        "rms_standardized_error": 0.7463668354324157,
+        "max_joint_error_deg": {
+          "mean": 0.009794962885399288,
+          "median": 0.01032401574261335,
+          "p95": 0.010648553968329706,
+          "max": 0.010689057821027354
+        },
+        "rms_joint_error_deg": {
+          "mean": 0.004575355535960198,
+          "median": 0.00465867899244741,
+          "p95": 0.005365374944368639,
+          "max": 0.005432145577787528
+        },
+        "heldout_model_point_rms_mm": {
+          "mean": 0.017157901312072503,
+          "median": 0.01732592537154152,
+          "p95": 0.021020128795568378,
+          "max": 0.02111558936020969
+        },
+        "chest_translation_error_mm": {
+          "mean": 0.019755406139277516,
+          "median": 0.015104689238056105,
+          "p95": 0.03955243938330051,
+          "max": 0.04293478579359652
+        },
+        "chest_rotation_error_deg": {
+          "mean": 0.0007114075891022962,
+          "median": 0.0005318226664535275,
+          "p95": 0.0014084821245965798,
+          "max": 0.001539104930985934
+        },
+        "elapsed_s": {
+          "mean": 33.804208964516874,
+          "median": 33.8147875550203,
+          "p95": 34.952638473530534,
+          "max": 34.98644242703449
+        },
+        "depth_scale_error_ppm": {
+          "mean": 0.0,
+          "median": 0.0,
+          "p95": 0.0,
+          "max": 0.0
+        },
+        "depth_scale": {
+          "mean": 1.0,
+          "median": 1.0,
+          "p95": 1.0,
+          "max": 1.0
+        },
+        "heldout_model_point_before_rms_mm": {
+          "mean": 2.414384498228619,
+          "median": 2.433519373219375,
+          "p95": 3.092991553181868,
+          "max": 3.129447019590874
+        },
+        "heldout_camera_point_rms_mm": {
+          "mean": 0.015390913209701557,
+          "median": 0.015184160280203564,
+          "p95": 0.017546674849501266,
+          "max": 0.01791553416695837
+        },
+        "heldout_camera_point_before_rms_mm": {
+          "mean": 16.03427008781115,
+          "median": 16.109950518487217,
+          "p95": 16.413546078390056,
+          "max": 16.43838535089955
+        }
+      },
+      "encoder_axial": {
+        "runs": 4,
+        "completed": 4,
+        "solver_successes": 4,
+        "converged": 4,
+        "full_rank": 4,
+        "accepted": 4,
+        "within_0p1deg_reference": 4,
+        "marginal_95pct_coverage": 0.9821428571428571,
+        "rms_standardized_error": 0.9701125959714441,
+        "max_joint_error_deg": {
+          "mean": 0.015260367488055138,
+          "median": 0.015294131471463298,
+          "p95": 0.02003690659571686,
+          "max": 0.020251033912672585
+        },
+        "rms_joint_error_deg": {
+          "mean": 0.006594139187084014,
+          "median": 0.007003098570032808,
+          "p95": 0.008290172297739706,
+          "max": 0.00843785540336727
+        },
+        "heldout_model_point_rms_mm": {
+          "mean": 0.0339253225870068,
+          "median": 0.033860662359431276,
+          "p95": 0.05089790483764675,
+          "max": 0.05383134755558444
+        },
+        "chest_translation_error_mm": {
+          "mean": 0.020807798123045167,
+          "median": 0.022521006318674257,
+          "p95": 0.028155420606034664,
+          "max": 0.02892095401435777
+        },
+        "chest_rotation_error_deg": {
+          "mean": 0.0007061051153366217,
+          "median": 0.0007060128281774884,
+          "p95": 0.0009793877324300738,
+          "max": 0.0010048417734219433
+        },
+        "elapsed_s": {
+          "mean": 44.07362099702004,
+          "median": 43.27122053952189,
+          "p95": 48.96259501562454,
+          "max": 49.54325580003206
+        },
+        "depth_scale_error_ppm": {
+          "mean": 0.0,
+          "median": 0.0,
+          "p95": 0.0,
+          "max": 0.0
+        },
+        "depth_scale": {
+          "mean": 1.0,
+          "median": 1.0,
+          "p95": 1.0,
+          "max": 1.0
+        },
+        "heldout_model_point_before_rms_mm": {
+          "mean": 2.414384498228619,
+          "median": 2.433519373219375,
+          "p95": 3.092991553181868,
+          "max": 3.129447019590874
+        },
+        "heldout_camera_point_rms_mm": {
+          "mean": 0.031209441132768176,
+          "median": 0.03026374129997983,
+          "p95": 0.04462543491162808,
+          "max": 0.04677901363970818
+        },
+        "heldout_camera_point_before_rms_mm": {
+          "mean": 16.03427008781115,
+          "median": 16.109950518487217,
+          "p95": 16.413546078390056,
+          "max": 16.43838535089955
+        }
+      },
+      "encoder_isotropic": {
+        "runs": 4,
+        "completed": 4,
+        "solver_successes": 4,
+        "converged": 4,
+        "full_rank": 4,
+        "accepted": 4,
+        "within_0p1deg_reference": 4,
+        "marginal_95pct_coverage": 0.9821428571428571,
+        "rms_standardized_error": 0.8676444530699805,
+        "max_joint_error_deg": {
+          "mean": 0.017140730647913955,
+          "median": 0.017814332351303874,
+          "p95": 0.021629129776717524,
+          "max": 0.022171596862712428
+        },
+        "rms_joint_error_deg": {
+          "mean": 0.007567773224934437,
+          "median": 0.007402475681953256,
+          "p95": 0.009545829691227877,
+          "max": 0.009671766741281111
+        },
+        "heldout_model_point_rms_mm": {
+          "mean": 0.039263621409386835,
+          "median": 0.03767637080530899,
+          "p95": 0.060322827460345785,
+          "max": 0.06388653103540401
+        },
+        "chest_translation_error_mm": {
+          "mean": 0.030957491648540197,
+          "median": 0.03137521689679808,
+          "p95": 0.04973774168718186,
+          "max": 0.051296155264746145
+        },
+        "chest_rotation_error_deg": {
+          "mean": 0.0010535397059280673,
+          "median": 0.0010343044097569413,
+          "p95": 0.001727543034579118,
+          "max": 0.001782052935542135
+        },
+        "elapsed_s": {
+          "mean": 39.00621808998403,
+          "median": 38.36843875347404,
+          "p95": 42.935370928974585,
+          "max": 43.65349881304428
+        },
+        "depth_scale_error_ppm": {
+          "mean": 0.0,
+          "median": 0.0,
+          "p95": 0.0,
+          "max": 0.0
+        },
+        "depth_scale": {
+          "mean": 1.0,
+          "median": 1.0,
+          "p95": 1.0,
+          "max": 1.0
+        },
+        "heldout_model_point_before_rms_mm": {
+          "mean": 2.414384498228619,
+          "median": 2.433519373219375,
+          "p95": 3.092991553181868,
+          "max": 3.129447019590874
+        },
+        "heldout_camera_point_rms_mm": {
+          "mean": 0.03483424579189908,
+          "median": 0.032977889259584794,
+          "p95": 0.050362598991807804,
+          "max": 0.05269429998048374
+        },
+        "heldout_camera_point_before_rms_mm": {
+          "mean": 16.03427008781115,
+          "median": 16.109950518487217,
+          "p95": 16.413546078390056,
+          "max": 16.43838535089955
+        }
+      },
+      "quadratic_axial": {
+        "runs": 4,
+        "completed": 4,
+        "solver_successes": 4,
+        "converged": 3,
+        "full_rank": 4,
+        "accepted": 3,
+        "within_0p1deg_reference": 4,
+        "marginal_95pct_coverage": 0.7857142857142857,
+        "rms_standardized_error": 1.5975069767564452,
+        "max_joint_error_deg": {
+          "mean": 0.03807814219831126,
+          "median": 0.035839925976711096,
+          "p95": 0.06285292435872682,
+          "max": 0.06649376942709892
+        },
+        "rms_joint_error_deg": {
+          "mean": 0.014806044522175476,
+          "median": 0.014305800707676203,
+          "p95": 0.023161923064597773,
+          "max": 0.02394665232016431
+        },
+        "heldout_model_point_rms_mm": {
+          "mean": 0.04640456562615701,
+          "median": 0.046892429178167244,
+          "p95": 0.07229941647521673,
+          "max": 0.07234938259120016
+        },
+        "chest_translation_error_mm": {
+          "mean": 0.07713382736838356,
+          "median": 0.06990894473418933,
+          "p95": 0.14626511194449038,
+          "max": 0.1520228219310308
+        },
+        "chest_rotation_error_deg": {
+          "mean": 0.0025545381500623474,
+          "median": 0.0023980345489030335,
+          "p95": 0.004836202528754348,
+          "max": 0.005017224001416994
+        },
+        "elapsed_s": {
+          "mean": 129.85965638625203,
+          "median": 37.38533506449312,
+          "p95": 353.33137810883915,
+          "max": 408.86589316104073
+        },
+        "depth_scale_error_ppm": {
+          "mean": 0.0,
+          "median": 0.0,
+          "p95": 0.0,
+          "max": 0.0
+        },
+        "depth_scale": {
+          "mean": 1.0,
+          "median": 1.0,
+          "p95": 1.0,
+          "max": 1.0
+        },
+        "heldout_model_point_before_rms_mm": {
+          "mean": 2.414384498228619,
+          "median": 2.433519373219375,
+          "p95": 3.092991553181868,
+          "max": 3.129447019590874
+        },
+        "heldout_camera_point_rms_mm": {
+          "mean": 0.04114809056655126,
+          "median": 0.03891667841596492,
+          "p95": 0.06061269338758104,
+          "max": 0.062036391511437486
+        },
+        "heldout_camera_point_before_rms_mm": {
+          "mean": 16.03427008781115,
+          "median": 16.109950518487217,
+          "p95": 16.413546078390056,
+          "max": 16.43838535089955
+        }
+      },
+      "quadratic_isotropic": {
+        "runs": 4,
+        "completed": 4,
+        "solver_successes": 4,
+        "converged": 4,
+        "full_rank": 4,
+        "accepted": 4,
+        "within_0p1deg_reference": 4,
+        "marginal_95pct_coverage": 0.6785714285714286,
+        "rms_standardized_error": 2.008329023038297,
+        "max_joint_error_deg": {
+          "mean": 0.034335504861271716,
+          "median": 0.033113921799217926,
+          "p95": 0.0420058965650593,
+          "max": 0.043188117089554466
+        },
+        "rms_joint_error_deg": {
+          "mean": 0.014348932419360128,
+          "median": 0.013873431533462412,
+          "p95": 0.01712168936764371,
+          "max": 0.017538768961326
+        },
+        "heldout_model_point_rms_mm": {
+          "mean": 0.04942898374824546,
+          "median": 0.05537736931999406,
+          "p95": 0.059817525049047734,
+          "max": 0.05995173551699452
+        },
+        "chest_translation_error_mm": {
+          "mean": 0.06193035408403408,
+          "median": 0.05659613621959999,
+          "p95": 0.10948527938784335,
+          "max": 0.115725903201231
+        },
+        "chest_rotation_error_deg": {
+          "mean": 0.002288921139584855,
+          "median": 0.002097977010066238,
+          "p95": 0.003929517432726064,
+          "max": 0.004164481225228007
+        },
+        "elapsed_s": {
+          "mean": 39.41108015624923,
+          "median": 39.21715241554193,
+          "p95": 44.16012690651696,
+          "max": 44.79192193294875
+        },
+        "depth_scale_error_ppm": {
+          "mean": 0.0,
+          "median": 0.0,
+          "p95": 0.0,
+          "max": 0.0
+        },
+        "depth_scale": {
+          "mean": 1.0,
+          "median": 1.0,
+          "p95": 1.0,
+          "max": 1.0
+        },
+        "heldout_model_point_before_rms_mm": {
+          "mean": 2.414384498228619,
+          "median": 2.433519373219375,
+          "p95": 3.092991553181868,
+          "max": 3.129447019590874
+        },
+        "heldout_camera_point_rms_mm": {
+          "mean": 0.047145543953214714,
+          "median": 0.05149318139209905,
+          "p95": 0.05676779496506766,
+          "max": 0.05730573446687227
+        },
+        "heldout_camera_point_before_rms_mm": {
+          "mean": 16.03427008781115,
+          "median": 16.109950518487217,
+          "p95": 16.413546078390056,
+          "max": 16.43838535089955
+        }
+      }
+    }
+  },
+  "quadratic_parameter_development": {
+    "source_sha256": "4e38f9a6b89ed195d8eb216fba6d8f198701f8f0231ccb12a25fa64c0d020085",
+    "plan": {
+      "seeds": [
+        7,
+        13,
+        29,
+        5077
+      ],
+      "purpose": "Controlled development follow-up of quadratic-noise instability; no fresh evaluation seeds used; select stable options before any new holdout",
+      "defaults": {
+        "noise_m": 0.0002,
+        "residual_sigma_m": 0.0002,
+        "frames_count": 8,
+        "samples_per_link": 100,
+        "matching": "triangle",
+        "rendered": true,
+        "max_points": 2000,
+        "outer_iterations": 50,
+        "camera_position": [
+          1.6,
+          0,
+          1.1
+        ],
+        "camera_target": [
+          0,
+          0,
+          1
+        ],
+        "depth_noise": {
+          "sigma_m": 0.0002,
+          "quadratic_range": true
+        }
+      },
+      "cases": [
+        {
+          "id": "floor0.25_alpha0.5_gradientTrue",
+          "config": "configs/marvin_dual.json",
+          "settings": {
+            "solver_options": {
+              "step_relaxation": 0.5,
+              "uncertainty_step_fraction": 0.05,
+              "loss": "linear",
+              "point_noise_model": "axial",
+              "axial_floor_fraction": 0.25,
+              "axial_range_power": 2.0,
+              "surface_distance_normals": true,
+              "allow_restarts": false
+            }
+          }
+        },
+        {
+          "id": "floor0.5_alpha0.5_gradientTrue",
+          "config": "configs/marvin_dual.json",
+          "settings": {
+            "solver_options": {
+              "step_relaxation": 0.5,
+              "uncertainty_step_fraction": 0.05,
+              "loss": "linear",
+              "point_noise_model": "axial",
+              "axial_floor_fraction": 0.5,
+              "axial_range_power": 2.0,
+              "surface_distance_normals": true,
+              "allow_restarts": false
+            }
+          }
+        },
+        {
+          "id": "floor0.8_alpha0.5_gradientTrue",
+          "config": "configs/marvin_dual.json",
+          "settings": {
+            "solver_options": {
+              "step_relaxation": 0.5,
+              "uncertainty_step_fraction": 0.05,
+              "loss": "linear",
+              "point_noise_model": "axial",
+              "axial_floor_fraction": 0.8,
+              "axial_range_power": 2.0,
+              "surface_distance_normals": true,
+              "allow_restarts": false
+            }
+          }
+        },
+        {
+          "id": "floor0.25_alpha0.25_gradientTrue",
+          "config": "configs/marvin_dual.json",
+          "settings": {
+            "solver_options": {
+              "step_relaxation": 0.25,
+              "uncertainty_step_fraction": 0.05,
+              "loss": "linear",
+              "point_noise_model": "axial",
+              "axial_floor_fraction": 0.25,
+              "axial_range_power": 2.0,
+              "surface_distance_normals": true,
+              "allow_restarts": false
+            }
+          }
+        },
+        {
+          "id": "floor0.5_alpha0.25_gradientTrue",
+          "config": "configs/marvin_dual.json",
+          "settings": {
+            "solver_options": {
+              "step_relaxation": 0.25,
+              "uncertainty_step_fraction": 0.05,
+              "loss": "linear",
+              "point_noise_model": "axial",
+              "axial_floor_fraction": 0.5,
+              "axial_range_power": 2.0,
+              "surface_distance_normals": true,
+              "allow_restarts": false
+            }
+          }
+        },
+        {
+          "id": "floor0.25_alpha0.5_gradientFalse",
+          "config": "configs/marvin_dual.json",
+          "settings": {
+            "solver_options": {
+              "step_relaxation": 0.5,
+              "uncertainty_step_fraction": 0.05,
+              "loss": "linear",
+              "point_noise_model": "axial",
+              "axial_floor_fraction": 0.25,
+              "axial_range_power": 2.0,
+              "surface_distance_normals": false,
+              "allow_restarts": false
+            }
+          }
+        }
+      ]
+    },
+    "seeds": [
+      7,
+      13,
+      29,
+      5077
+    ],
+    "completed_runs": 24,
+    "planned_runs": 24,
+    "groups": {
+      "floor0.25_alpha0.25_gradientTrue": {
+        "runs": 4,
+        "completed": 4,
+        "solver_successes": 4,
+        "converged": 3,
+        "full_rank": 4,
+        "accepted": 3,
+        "within_0p1deg_reference": 4,
+        "marginal_95pct_coverage": 0.7678571428571429,
+        "rms_standardized_error": 1.6006622065521514,
+        "max_joint_error_deg": {
+          "mean": 0.038024700655853,
+          "median": 0.03590946205973537,
+          "p95": 0.06282384535727188,
+          "max": 0.06643320766444505
+        },
+        "rms_joint_error_deg": {
+          "mean": 0.01493826499124516,
+          "median": 0.01458287844548526,
+          "p95": 0.023242860014119435,
+          "max": 0.023943550820619296
+        },
+        "heldout_model_point_rms_mm": {
+          "mean": 0.0462084696652134,
+          "median": 0.046585285859100795,
+          "p95": 0.07203850875984047,
+          "max": 0.07214830485760845
+        },
+        "chest_translation_error_mm": {
+          "mean": 0.07652381561392102,
+          "median": 0.06978372021379817,
+          "p95": 0.14420549374201325,
+          "max": 0.14966052920432807
+        },
+        "chest_rotation_error_deg": {
+          "mean": 0.0025333069256254954,
+          "median": 0.002390611393212743,
+          "p95": 0.0047748519776430525,
+          "max": 0.004947617415877636
+        },
+        "elapsed_s": {
+          "mean": 84.76917979275458,
+          "median": 67.12854510749457,
+          "p95": 133.91435934294128,
+          "max": 144.70904156798497
+        },
+        "depth_scale_error_ppm": {
+          "mean": 0.0,
+          "median": 0.0,
+          "p95": 0.0,
+          "max": 0.0
+        },
+        "depth_scale": {
+          "mean": 1.0,
+          "median": 1.0,
+          "p95": 1.0,
+          "max": 1.0
+        },
+        "heldout_model_point_before_rms_mm": {
+          "mean": 2.414384498228619,
+          "median": 2.433519373219375,
+          "p95": 3.092991553181868,
+          "max": 3.129447019590874
+        },
+        "heldout_camera_point_rms_mm": {
+          "mean": 0.0415072600735937,
+          "median": 0.03887378193525651,
+          "p95": 0.061860836146298954,
+          "max": 0.06352320130641435
+        },
+        "heldout_camera_point_before_rms_mm": {
+          "mean": 16.03427008781115,
+          "median": 16.109950518487217,
+          "p95": 16.413546078390056,
+          "max": 16.43838535089955
+        }
+      },
+      "floor0.25_alpha0.5_gradientFalse": {
+        "runs": 4,
+        "completed": 4,
+        "solver_successes": 4,
+        "converged": 2,
+        "full_rank": 4,
+        "accepted": 2,
+        "within_0p1deg_reference": 4,
+        "marginal_95pct_coverage": 0.8035714285714286,
+        "rms_standardized_error": 1.6359093835116292,
+        "max_joint_error_deg": {
+          "mean": 0.03639100309216399,
+          "median": 0.0358249805766416,
+          "p95": 0.05500532947106133,
+          "max": 0.05698720665724298
+        },
+        "rms_joint_error_deg": {
+          "mean": 0.014168712346075925,
+          "median": 0.014654778792870318,
+          "p95": 0.019643058463305624,
+          "max": 0.01980435770032967
+        },
+        "heldout_model_point_rms_mm": {
+          "mean": 0.04917133416363847,
+          "median": 0.04948284362034809,
+          "p95": 0.07542667511405575,
+          "max": 0.07664318126384355
+        },
+        "chest_translation_error_mm": {
+          "mean": 0.0927778311275572,
+          "median": 0.08403869747747239,
+          "p95": 0.16428220513699845,
+          "max": 0.17180249979165033
+        },
+        "chest_rotation_error_deg": {
+          "mean": 0.003038598037630121,
+          "median": 0.0028930198410956837,
+          "p95": 0.0053870978519928005,
+          "max": 0.0056275800582431465
+        },
+        "elapsed_s": {
+          "mean": 93.6932493825152,
+          "median": 93.12951332901139,
+          "p95": 133.94839482854584,
+          "max": 135.72295456798747
+        },
+        "depth_scale_error_ppm": {
+          "mean": 0.0,
+          "median": 0.0,
+          "p95": 0.0,
+          "max": 0.0
+        },
+        "depth_scale": {
+          "mean": 1.0,
+          "median": 1.0,
+          "p95": 1.0,
+          "max": 1.0
+        },
+        "heldout_model_point_before_rms_mm": {
+          "mean": 2.414384498228619,
+          "median": 2.433519373219375,
+          "p95": 3.092991553181868,
+          "max": 3.129447019590874
+        },
+        "heldout_camera_point_rms_mm": {
+          "mean": 0.04067388444972557,
+          "median": 0.036987532487472025,
+          "p95": 0.06019566998363081,
+          "max": 0.06255784208789483
+        },
+        "heldout_camera_point_before_rms_mm": {
+          "mean": 16.03427008781115,
+          "median": 16.109950518487217,
+          "p95": 16.413546078390056,
+          "max": 16.43838535089955
+        }
+      },
+      "floor0.25_alpha0.5_gradientTrue": {
+        "runs": 4,
+        "completed": 4,
+        "solver_successes": 4,
+        "converged": 3,
+        "full_rank": 4,
+        "accepted": 3,
+        "within_0p1deg_reference": 4,
+        "marginal_95pct_coverage": 0.7678571428571429,
+        "rms_standardized_error": 1.6021504358312557,
+        "max_joint_error_deg": {
+          "mean": 0.03811547302631267,
+          "median": 0.03591458763271392,
+          "p95": 0.06287532285552767,
+          "max": 0.06649376942709892
+        },
+        "rms_joint_error_deg": {
+          "mean": 0.014945333229067017,
+          "median": 0.014584378121459286,
+          "p95": 0.0232454962887327,
+          "max": 0.02394665232016431
+        },
+        "heldout_model_point_rms_mm": {
+          "mean": 0.0462545795564515,
+          "median": 0.046592457038756224,
+          "p95": 0.07220942483339343,
+          "max": 0.07234938259120016
+        },
+        "chest_translation_error_mm": {
+          "mean": 0.07654325418670788,
+          "median": 0.06990894473418933,
+          "p95": 0.14425716312679307,
+          "max": 0.14966052920432807
+        },
+        "chest_rotation_error_deg": {
+          "mean": 0.0025371365036775074,
+          "median": 0.0023980345489030335,
+          "p95": 0.004777036931045893,
+          "max": 0.004947617415877636
+        },
+        "elapsed_s": {
+          "mean": 81.13379128146335,
+          "median": 61.418780351930764,
+          "p95": 131.32830012756165,
+          "max": 143.31074430502485
+        },
+        "depth_scale_error_ppm": {
+          "mean": 0.0,
+          "median": 0.0,
+          "p95": 0.0,
+          "max": 0.0
+        },
+        "depth_scale": {
+          "mean": 1.0,
+          "median": 1.0,
+          "p95": 1.0,
+          "max": 1.0
+        },
+        "heldout_model_point_before_rms_mm": {
+          "mean": 2.414384498228619,
+          "median": 2.433519373219375,
+          "p95": 3.092991553181868,
+          "max": 3.129447019590874
+        },
+        "heldout_camera_point_rms_mm": {
+          "mean": 0.04151979301529547,
+          "median": 0.03891667841596492,
+          "p95": 0.06187648171331137,
+          "max": 0.06352320130641435
+        },
+        "heldout_camera_point_before_rms_mm": {
+          "mean": 16.03427008781115,
+          "median": 16.109950518487217,
+          "p95": 16.413546078390056,
+          "max": 16.43838535089955
+        }
+      },
+      "floor0.5_alpha0.25_gradientTrue": {
+        "runs": 4,
+        "completed": 4,
+        "solver_successes": 4,
+        "converged": 4,
+        "full_rank": 4,
+        "accepted": 4,
+        "within_0p1deg_reference": 4,
+        "marginal_95pct_coverage": 0.9464285714285714,
+        "rms_standardized_error": 1.011214190673789,
+        "max_joint_error_deg": {
+          "mean": 0.026832870982664177,
+          "median": 0.02450929884295766,
+          "p95": 0.04135093862338032,
+          "max": 0.04322515801249331
+        },
+        "rms_joint_error_deg": {
+          "mean": 0.009857370259436712,
+          "median": 0.009771799315453902,
+          "p95": 0.014363039798917435,
+          "max": 0.01471182092127118
+        },
+        "heldout_model_point_rms_mm": {
+          "mean": 0.025747659967827123,
+          "median": 0.026207166518973132,
+          "p95": 0.03655024684367675,
+          "max": 0.03666249745612832
+        },
+        "chest_translation_error_mm": {
+          "mean": 0.03418947557514024,
+          "median": 0.03348570896040013,
+          "p95": 0.057306081723151575,
+          "max": 0.05954920589810577
+        },
+        "chest_rotation_error_deg": {
+          "mean": 0.0011743886452121699,
+          "median": 0.0011405164382733291,
+          "p95": 0.0020031322163517255,
+          "max": 0.002075846641150964
+        },
+        "elapsed_s": {
+          "mean": 67.89177883547381,
+          "median": 66.56031959847314,
+          "p95": 75.8104752434534,
+          "max": 76.98902509000618
+        },
+        "depth_scale_error_ppm": {
+          "mean": 0.0,
+          "median": 0.0,
+          "p95": 0.0,
+          "max": 0.0
+        },
+        "depth_scale": {
+          "mean": 1.0,
+          "median": 1.0,
+          "p95": 1.0,
+          "max": 1.0
+        },
+        "heldout_model_point_before_rms_mm": {
+          "mean": 2.414384498228619,
+          "median": 2.433519373219375,
+          "p95": 3.092991553181868,
+          "max": 3.129447019590874
+        },
+        "heldout_camera_point_rms_mm": {
+          "mean": 0.025726048491897222,
+          "median": 0.025719060793550352,
+          "p95": 0.035223244300177654,
+          "max": 0.03598835710902255
+        },
+        "heldout_camera_point_before_rms_mm": {
+          "mean": 16.03427008781115,
+          "median": 16.109950518487217,
+          "p95": 16.413546078390056,
+          "max": 16.43838535089955
+        }
+      },
+      "floor0.5_alpha0.5_gradientTrue": {
+        "runs": 4,
+        "completed": 4,
+        "solver_successes": 4,
+        "converged": 4,
+        "full_rank": 4,
+        "accepted": 4,
+        "within_0p1deg_reference": 4,
+        "marginal_95pct_coverage": 0.9464285714285714,
+        "rms_standardized_error": 1.0084504896883988,
+        "max_joint_error_deg": {
+          "mean": 0.026893623541598206,
+          "median": 0.024422847641260514,
+          "p95": 0.0416557096771218,
+          "max": 0.04361195465606745
+        },
+        "rms_joint_error_deg": {
+          "mean": 0.009851970373358183,
+          "median": 0.009734967900798756,
+          "p95": 0.0143985468454879,
+          "max": 0.014765763498688156
+        },
+        "heldout_model_point_rms_mm": {
+          "mean": 0.025655560624912352,
+          "median": 0.026119562668729328,
+          "p95": 0.03637017257790567,
+          "max": 0.036471682201543
+        },
+        "chest_translation_error_mm": {
+          "mean": 0.033892294719017224,
+          "median": 0.03305278766753503,
+          "p95": 0.05685846907585037,
+          "max": 0.05917364880059806
+        },
+        "chest_rotation_error_deg": {
+          "mean": 0.0011658038458016511,
+          "median": 0.0011289862795981816,
+          "p95": 0.00199008224721989,
+          "max": 0.0020646290612327495
+        },
+        "elapsed_s": {
+          "mean": 57.95723195702885,
+          "median": 57.66428645950509,
+          "p95": 60.36118751007016,
+          "max": 60.66393215802964
+        },
+        "depth_scale_error_ppm": {
+          "mean": 0.0,
+          "median": 0.0,
+          "p95": 0.0,
+          "max": 0.0
+        },
+        "depth_scale": {
+          "mean": 1.0,
+          "median": 1.0,
+          "p95": 1.0,
+          "max": 1.0
+        },
+        "heldout_model_point_before_rms_mm": {
+          "mean": 2.414384498228619,
+          "median": 2.433519373219375,
+          "p95": 3.092991553181868,
+          "max": 3.129447019590874
+        },
+        "heldout_camera_point_rms_mm": {
+          "mean": 0.02567857506819103,
+          "median": 0.025709414906174805,
+          "p95": 0.03510063978122448,
+          "max": 0.03584479135606562
+        },
+        "heldout_camera_point_before_rms_mm": {
+          "mean": 16.03427008781115,
+          "median": 16.109950518487217,
+          "p95": 16.413546078390056,
+          "max": 16.43838535089955
+        }
+      },
+      "floor0.8_alpha0.5_gradientTrue": {
+        "runs": 4,
+        "completed": 4,
+        "solver_successes": 4,
+        "converged": 4,
+        "full_rank": 4,
+        "accepted": 4,
+        "within_0p1deg_reference": 4,
+        "marginal_95pct_coverage": 0.9464285714285714,
+        "rms_standardized_error": 0.9059253272257602,
+        "max_joint_error_deg": {
+          "mean": 0.024781431629858203,
+          "median": 0.024709429263638977,
+          "p95": 0.03906141414877023,
+          "max": 0.039719281143921176
+        },
+        "rms_joint_error_deg": {
+          "mean": 0.009567644021741237,
+          "median": 0.009689639981815015,
+          "p95": 0.01383187921394511,
+          "max": 0.014137449363775883
+        },
+        "heldout_model_point_rms_mm": {
+          "mean": 0.02489731589565455,
+          "median": 0.024544059412145342,
+          "p95": 0.034841722242118206,
+          "max": 0.03537876480718527
+        },
+        "chest_translation_error_mm": {
+          "mean": 0.02287515472105129,
+          "median": 0.020622808513964433,
+          "p95": 0.03156671095632308,
+          "max": 0.03324970775607149
+        },
+        "chest_rotation_error_deg": {
+          "mean": 0.0008419724385236203,
+          "median": 0.0007888675901024733,
+          "p95": 0.0012519316154917105,
+          "max": 0.001302119572245574
+        },
+        "elapsed_s": {
+          "mean": 57.29207218499505,
+          "median": 56.24025301798247,
+          "p95": 61.252782633987955,
+          "max": 61.958782100933604
+        },
+        "depth_scale_error_ppm": {
+          "mean": 0.0,
+          "median": 0.0,
+          "p95": 0.0,
+          "max": 0.0
+        },
+        "depth_scale": {
+          "mean": 1.0,
+          "median": 1.0,
+          "p95": 1.0,
+          "max": 1.0
+        },
+        "heldout_model_point_before_rms_mm": {
+          "mean": 2.414384498228619,
+          "median": 2.433519373219375,
+          "p95": 3.092991553181868,
+          "max": 3.129447019590874
+        },
+        "heldout_camera_point_rms_mm": {
+          "mean": 0.026177236936049994,
+          "median": 0.02582796021853715,
+          "p95": 0.03589285163761354,
+          "max": 0.03657259990913017
+        },
+        "heldout_camera_point_before_rms_mm": {
+          "mean": 16.03427008781115,
+          "median": 16.109950518487217,
+          "p95": 16.413546078390056,
+          "max": 16.43838535089955
+        }
+      }
+    }
+  },
+  "quadratic_new_holdout": {
+    "source_sha256": "4e38f9a6b89ed195d8eb216fba6d8f198701f8f0231ccb12a25fa64c0d020085",
+    "plan": {
+      "seeds": [
+        13001,
+        13002,
+        13003,
+        13004,
+        13005,
+        13006,
+        13007,
+        13008,
+        13009,
+        13010,
+        13011,
+        13012,
+        13013,
+        13014,
+        13015,
+        13016,
+        13017,
+        13018,
+        13019,
+        13020
+      ],
+      "purpose": "New paired holdout after choosing floor 0.8 on four development seeds; baseline cases retained; frozen v0.3.0 source; no restarts; no settings changed after this registration",
+      "defaults": {
+        "noise_m": 0.0002,
+        "residual_sigma_m": 0.0002,
+        "frames_count": 8,
+        "samples_per_link": 100,
+        "matching": "triangle",
+        "rendered": true,
+        "max_points": 2000,
+        "outer_iterations": 50,
+        "camera_position": [
+          1.6,
+          0,
+          1.1
+        ],
+        "camera_target": [
+          0,
+          0,
+          1
+        ],
+        "depth_noise": {
+          "sigma_m": 0.0002,
+          "quadratic_range": true
+        }
+      },
+      "registered_utc": "2026-11-07T06:35:13.984323+00:00",
+      "selection_rule": "all four development seeds accepted, then lowest mean maximum joint error; face-normal alternative already failed one seed, so cannot satisfy stability rule",
+      "cases": [
+        {
+          "id": "isotropic",
+          "config": "configs/marvin_dual.json",
+          "settings": {
+            "solver_options": {
+              "step_relaxation": 0.5,
+              "uncertainty_step_fraction": 0.05,
+              "loss": "linear",
+              "point_noise_model": "isotropic",
+              "axial_floor_fraction": 0.25,
+              "axial_range_power": 2.0,
+              "surface_distance_normals": true,
+              "allow_restarts": false
+            }
+          }
+        },
+        {
+          "id": "axial_floor025",
+          "config": "configs/marvin_dual.json",
+          "settings": {
+            "solver_options": {
+              "step_relaxation": 0.5,
+              "uncertainty_step_fraction": 0.05,
+              "loss": "linear",
+              "point_noise_model": "axial",
+              "axial_floor_fraction": 0.25,
+              "axial_range_power": 2.0,
+              "surface_distance_normals": true,
+              "allow_restarts": false
+            }
+          }
+        },
+        {
+          "id": "axial_floor08",
+          "config": "configs/marvin_dual.json",
+          "settings": {
+            "solver_options": {
+              "step_relaxation": 0.5,
+              "uncertainty_step_fraction": 0.05,
+              "loss": "linear",
+              "point_noise_model": "axial",
+              "axial_floor_fraction": 0.8,
+              "axial_range_power": 2.0,
+              "surface_distance_normals": true,
+              "allow_restarts": false
+            }
+          }
+        }
+      ]
+    },
+    "seeds": [
+      13001,
+      13002,
+      13003,
+      13004,
+      13005,
+      13006,
+      13007,
+      13008,
+      13009,
+      13010,
+      13011,
+      13012,
+      13013,
+      13014,
+      13015,
+      13016,
+      13017,
+      13018,
+      13019,
+      13020
+    ],
+    "completed_runs": 60,
+    "planned_runs": 60,
+    "groups": {
+      "axial_floor025": {
+        "runs": 20,
+        "completed": 20,
+        "solver_successes": 20,
+        "converged": 19,
+        "full_rank": 20,
+        "accepted": 19,
+        "within_0p1deg_reference": 19,
+        "marginal_95pct_coverage": 0.675,
+        "rms_standardized_error": 2.3323662469529913,
+        "max_joint_error_deg": {
+          "mean": 0.05207533079645944,
+          "median": 0.04645093967379336,
+          "p95": 0.08704179841697914,
+          "max": 0.15959090310203933
+        },
+        "rms_joint_error_deg": {
+          "mean": 0.020489901990903784,
+          "median": 0.017314512567497962,
+          "p95": 0.029783235925068936,
+          "max": 0.07640820108417015
+        },
+        "heldout_model_point_rms_mm": {
+          "mean": 0.05388143170587133,
+          "median": 0.05256317442570614,
+          "p95": 0.07684778296637064,
+          "max": 0.15871930229283598
+        },
+        "chest_translation_error_mm": {
+          "mean": 0.07241411338376005,
+          "median": 0.06624003971611334,
+          "p95": 0.14455408703004471,
+          "max": 0.18372173375659392
+        },
+        "chest_rotation_error_deg": {
+          "mean": 0.0024400452689836596,
+          "median": 0.002110688824280338,
+          "p95": 0.004608287560781132,
+          "max": 0.006153751383088756
+        },
+        "elapsed_s": {
+          "mean": 59.47362254540785,
+          "median": 56.17664819798665,
+          "p95": 69.72549028742364,
+          "max": 131.750726348022
+        },
+        "depth_scale_error_ppm": {
+          "mean": 0.0,
+          "median": 0.0,
+          "p95": 0.0,
+          "max": 0.0
+        },
+        "depth_scale": {
+          "mean": 1.0,
+          "median": 1.0,
+          "p95": 1.0,
+          "max": 1.0
+        },
+        "heldout_model_point_before_rms_mm": {
+          "mean": 2.816241536454567,
+          "median": 2.9652601632458278,
+          "p95": 3.8554970877958583,
+          "max": 4.702354157280852
+        },
+        "heldout_camera_point_rms_mm": {
+          "mean": 0.052793327385286845,
+          "median": 0.04941327911271612,
+          "p95": 0.0724800932432449,
+          "max": 0.15775875960152466
+        },
+        "heldout_camera_point_before_rms_mm": {
+          "mean": 15.76170590574603,
+          "median": 15.798542529667252,
+          "p95": 16.41664089760502,
+          "max": 16.54915521353136
+        }
+      },
+      "axial_floor08": {
+        "runs": 20,
+        "completed": 20,
+        "solver_successes": 20,
+        "converged": 20,
+        "full_rank": 20,
+        "accepted": 20,
+        "within_0p1deg_reference": 20,
+        "marginal_95pct_coverage": 0.9357142857142857,
+        "rms_standardized_error": 1.0503023132683051,
+        "max_joint_error_deg": {
+          "mean": 0.032432178333193604,
+          "median": 0.03305395877648594,
+          "p95": 0.04233406971389846,
+          "max": 0.043419431681429484
+        },
+        "rms_joint_error_deg": {
+          "mean": 0.01222785631736253,
+          "median": 0.012169913805173842,
+          "p95": 0.016005651252253325,
+          "max": 0.017683828886265674
+        },
+        "heldout_model_point_rms_mm": {
+          "mean": 0.033562434465412766,
+          "median": 0.033170235435444395,
+          "p95": 0.04327494384324363,
+          "max": 0.04575218690927151
+        },
+        "chest_translation_error_mm": {
+          "mean": 0.043654133162195796,
+          "median": 0.039104778592707654,
+          "p95": 0.07933926107236165,
+          "max": 0.10996577224308632
+        },
+        "chest_rotation_error_deg": {
+          "mean": 0.0015790305437086538,
+          "median": 0.0014912680712999482,
+          "p95": 0.002817130606527417,
+          "max": 0.003583307889676333
+        },
+        "elapsed_s": {
+          "mean": 47.77125162654556,
+          "median": 47.85866850649472,
+          "p95": 53.125772755098296,
+          "max": 55.17431382590439
+        },
+        "depth_scale_error_ppm": {
+          "mean": 0.0,
+          "median": 0.0,
+          "p95": 0.0,
+          "max": 0.0
+        },
+        "depth_scale": {
+          "mean": 1.0,
+          "median": 1.0,
+          "p95": 1.0,
+          "max": 1.0
+        },
+        "heldout_model_point_before_rms_mm": {
+          "mean": 2.816241536454567,
+          "median": 2.9652601632458278,
+          "p95": 3.8554970877958583,
+          "max": 4.702354157280852
+        },
+        "heldout_camera_point_rms_mm": {
+          "mean": 0.03343667339935339,
+          "median": 0.03129764307426538,
+          "p95": 0.04233007559085179,
+          "max": 0.046431285474187296
+        },
+        "heldout_camera_point_before_rms_mm": {
+          "mean": 15.76170590574603,
+          "median": 15.798542529667252,
+          "p95": 16.41664089760502,
+          "max": 16.54915521353136
+        }
+      },
+      "isotropic": {
+        "runs": 20,
+        "completed": 20,
+        "solver_successes": 20,
+        "converged": 20,
+        "full_rank": 20,
+        "accepted": 17,
+        "within_0p1deg_reference": 20,
+        "marginal_95pct_coverage": 0.6964285714285714,
+        "rms_standardized_error": 1.8960088038427532,
+        "max_joint_error_deg": {
+          "mean": 0.03585123993367012,
+          "median": 0.0323162073292072,
+          "p95": 0.05657154513335701,
+          "max": 0.0668326696891576
+        },
+        "rms_joint_error_deg": {
+          "mean": 0.015602927328316099,
+          "median": 0.01437718666142078,
+          "p95": 0.02598943795986649,
+          "max": 0.028863878805912097
+        },
+        "heldout_model_point_rms_mm": {
+          "mean": 0.04431206533246176,
+          "median": 0.043208451227777764,
+          "p95": 0.05975548956238743,
+          "max": 0.0722065327699272
+        },
+        "chest_translation_error_mm": {
+          "mean": 0.05613968322637129,
+          "median": 0.055421178887025,
+          "p95": 0.08539637840369317,
+          "max": 0.12233132267402133
+        },
+        "chest_rotation_error_deg": {
+          "mean": 0.0020352076447947252,
+          "median": 0.0019007197331193338,
+          "p95": 0.0035052519553503106,
+          "max": 0.004202433136773973
+        },
+        "elapsed_s": {
+          "mean": 55.208919215592324,
+          "median": 55.839195134467445,
+          "p95": 61.90882124341442,
+          "max": 63.532163143972866
+        },
+        "depth_scale_error_ppm": {
+          "mean": 0.0,
+          "median": 0.0,
+          "p95": 0.0,
+          "max": 0.0
+        },
+        "depth_scale": {
+          "mean": 1.0,
+          "median": 1.0,
+          "p95": 1.0,
+          "max": 1.0
+        },
+        "heldout_model_point_before_rms_mm": {
+          "mean": 2.816241536454567,
+          "median": 2.9652601632458278,
+          "p95": 3.8554970877958583,
+          "max": 4.702354157280852
+        },
+        "heldout_camera_point_rms_mm": {
+          "mean": 0.043405325597916475,
+          "median": 0.04281763883932567,
+          "p95": 0.05729614956206912,
+          "max": 0.06668084026105227
+        },
+        "heldout_camera_point_before_rms_mm": {
+          "mean": 15.76170590574603,
+          "median": 15.798542529667252,
+          "p95": 16.41664089760502,
+          "max": 16.54915521353136
+        }
+      }
+    }
+  },
+  "frame_selection": {
+    "source_sha256": "4e38f9a6b89ed195d8eb216fba6d8f198701f8f0231ccb12a25fa64c0d020085",
+    "plan": {
+      "seeds": [
+        31,
+        37,
+        43,
+        59,
+        61,
+        67,
+        71,
+        79,
+        83,
+        89
+      ],
+      "purpose": "Paired offline frame-budget experiment; nominal geometry ranking, no encoder noise; does not alter the frozen estimator",
+      "defaults": {
+        "noise_m": 0.0002,
+        "residual_sigma_m": 0.0002,
+        "frames_count": 12,
+        "samples_per_link": 100,
+        "matching": "triangle",
+        "rendered": true,
+        "max_points": 2000,
+        "outer_iterations": 35,
+        "camera_position": [
+          1.6,
+          0,
+          1.1
+        ],
+        "camera_target": [
+          0,
+          0,
+          1
+        ],
+        "solver_options": {
+          "trim_start_iteration": 2,
+          "uncertainty_step_fraction": 0.05,
+          "step_relaxation": 0.5,
+          "loss": "linear"
+        }
+      },
+      "cases": [
+        {
+          "id": "left_4_first",
+          "config": "configs/marvin_left.json",
+          "settings": {
+            "selection_count": 4,
+            "selection_strategy": "first"
+          }
+        },
+        {
+          "id": "left_4_random",
+          "config": "configs/marvin_left.json",
+          "settings": {
+            "selection_count": 4,
+            "selection_strategy": "random"
+          }
+        },
+        {
+          "id": "left_4_information",
+          "config": "configs/marvin_left.json",
+          "settings": {
+            "selection_count": 4,
+            "selection_strategy": "information"
+          }
+        },
+        {
+          "id": "left_6_first",
+          "config": "configs/marvin_left.json",
+          "settings": {
+            "selection_count": 6,
+            "selection_strategy": "first"
+          }
+        },
+        {
+          "id": "left_6_random",
+          "config": "configs/marvin_left.json",
+          "settings": {
+            "selection_count": 6,
+            "selection_strategy": "random"
+          }
+        },
+        {
+          "id": "left_6_information",
+          "config": "configs/marvin_left.json",
+          "settings": {
+            "selection_count": 6,
+            "selection_strategy": "information"
+          }
+        },
+        {
+          "id": "dual_4_first",
+          "config": "configs/marvin_dual.json",
+          "settings": {
+            "selection_count": 4,
+            "selection_strategy": "first"
+          }
+        },
+        {
+          "id": "dual_4_random",
+          "config": "configs/marvin_dual.json",
+          "settings": {
+            "selection_count": 4,
+            "selection_strategy": "random"
+          }
+        },
+        {
+          "id": "dual_4_information",
+          "config": "configs/marvin_dual.json",
+          "settings": {
+            "selection_count": 4,
+            "selection_strategy": "information"
+          }
+        },
+        {
+          "id": "dual_6_first",
+          "config": "configs/marvin_dual.json",
+          "settings": {
+            "selection_count": 6,
+            "selection_strategy": "first"
+          }
+        },
+        {
+          "id": "dual_6_random",
+          "config": "configs/marvin_dual.json",
+          "settings": {
+            "selection_count": 6,
+            "selection_strategy": "random"
+          }
+        },
+        {
+          "id": "dual_6_information",
+          "config": "configs/marvin_dual.json",
+          "settings": {
+            "selection_count": 6,
+            "selection_strategy": "information"
+          }
+        }
+      ]
+    },
+    "seeds": [
+      31,
+      37,
+      43,
+      59,
+      61,
+      67,
+      71,
+      79,
+      83,
+      89
+    ],
+    "completed_runs": 120,
+    "planned_runs": 120,
+    "groups": {
+      "dual_4_first": {
+        "runs": 10,
+        "completed": 10,
+        "solver_successes": 10,
+        "converged": 10,
+        "full_rank": 10,
+        "accepted": 10,
+        "within_0p1deg_reference": 10,
+        "marginal_95pct_coverage": 0.9857142857142858,
+        "rms_standardized_error": 0.7123648389384285,
+        "max_joint_error_deg": {
+          "mean": 0.0281298068317695,
+          "median": 0.0292117351242407,
+          "p95": 0.04392893538320999,
+          "max": 0.04638855372291062
+        },
+        "rms_joint_error_deg": {
+          "mean": 0.010604557308685125,
+          "median": 0.009881460236662308,
+          "p95": 0.016636414187507362,
+          "max": 0.01975356832192746
+        },
+        "heldout_model_point_rms_mm": {
+          "mean": 0.0258490580743791,
+          "median": 0.02380969173364616,
+          "p95": 0.034466974644248076,
+          "max": 0.038002137588358284
+        },
+        "chest_translation_error_mm": {
+          "mean": 0.027498433252324574,
+          "median": 0.029305090280400944,
+          "p95": 0.043621488469797784,
+          "max": 0.04747979349620307
+        },
+        "chest_rotation_error_deg": {
+          "mean": 0.0009902162695979867,
+          "median": 0.0009597382699161717,
+          "p95": 0.0015524604126044806,
+          "max": 0.0016968248568143731
+        },
+        "elapsed_s": {
+          "mean": 35.16587858091807,
+          "median": 35.360598993487656,
+          "p95": 38.1300522739999,
+          "max": 38.155083555029705
+        },
+        "depth_scale_error_ppm": {
+          "mean": 0.0,
+          "median": 0.0,
+          "p95": 0.0,
+          "max": 0.0
+        },
+        "depth_scale": {
+          "mean": 1.0,
+          "median": 1.0,
+          "p95": 1.0,
+          "max": 1.0
+        },
+        "heldout_model_point_before_rms_mm": {
+          "mean": 2.3458933322290476,
+          "median": 2.229697705443997,
+          "p95": 3.752589573929932,
+          "max": 4.1288937342399326
+        },
+        "heldout_camera_point_rms_mm": {
+          "mean": 0.024269304970787494,
+          "median": 0.02325244652260873,
+          "p95": 0.03284382377858615,
+          "max": 0.03702051577516251
+        },
+        "heldout_camera_point_before_rms_mm": {
+          "mean": 15.861664037637487,
+          "median": 15.899862429394023,
+          "p95": 16.374715867960504,
+          "max": 16.43191083618855
+        }
+      },
+      "dual_4_information": {
+        "runs": 10,
+        "completed": 10,
+        "solver_successes": 10,
+        "converged": 10,
+        "full_rank": 10,
+        "accepted": 10,
+        "within_0p1deg_reference": 10,
+        "marginal_95pct_coverage": 0.9785714285714285,
+        "rms_standardized_error": 0.8354059814393007,
+        "max_joint_error_deg": {
+          "mean": 0.02237182731962706,
+          "median": 0.022246767711161117,
+          "p95": 0.03382539282959851,
+          "max": 0.034726555954250234
+        },
+        "rms_joint_error_deg": {
+          "mean": 0.009064669712056193,
+          "median": 0.009921530400516352,
+          "p95": 0.011896676166701365,
+          "max": 0.012069170175416187
+        },
+        "heldout_model_point_rms_mm": {
+          "mean": 0.02529928360473179,
+          "median": 0.025243455519345277,
+          "p95": 0.03268040969549486,
+          "max": 0.03429508239831328
+        },
+        "chest_translation_error_mm": {
+          "mean": 0.026011983147220103,
+          "median": 0.01796388230802336,
+          "p95": 0.05630422885650658,
+          "max": 0.05932571634340303
+        },
+        "chest_rotation_error_deg": {
+          "mean": 0.0009848260567580573,
+          "median": 0.0008781690985925612,
+          "p95": 0.001991939498799235,
+          "max": 0.002271762395590524
+        },
+        "elapsed_s": {
+          "mean": 33.81819066790631,
+          "median": 34.12300146149937,
+          "p95": 38.53758892383776,
+          "max": 38.609680299065076
+        },
+        "depth_scale_error_ppm": {
+          "mean": 0.0,
+          "median": 0.0,
+          "p95": 0.0,
+          "max": 0.0
+        },
+        "depth_scale": {
+          "mean": 1.0,
+          "median": 1.0,
+          "p95": 1.0,
+          "max": 1.0
+        },
+        "heldout_model_point_before_rms_mm": {
+          "mean": 2.3458933322290476,
+          "median": 2.229697705443997,
+          "p95": 3.752589573929932,
+          "max": 4.1288937342399326
+        },
+        "heldout_camera_point_rms_mm": {
+          "mean": 0.025329595087432915,
+          "median": 0.023868512970776863,
+          "p95": 0.033721013145960176,
+          "max": 0.03400369188749061
+        },
+        "heldout_camera_point_before_rms_mm": {
+          "mean": 15.861664037637487,
+          "median": 15.899862429394023,
+          "p95": 16.374715867960504,
+          "max": 16.43191083618855
+        }
+      },
+      "dual_4_random": {
+        "runs": 10,
+        "completed": 10,
+        "solver_successes": 10,
+        "converged": 10,
+        "full_rank": 10,
+        "accepted": 10,
+        "within_0p1deg_reference": 10,
+        "marginal_95pct_coverage": 0.9714285714285714,
+        "rms_standardized_error": 0.812010992822219,
+        "max_joint_error_deg": {
+          "mean": 0.026461404969716846,
+          "median": 0.0279322860385048,
+          "p95": 0.03423271830868694,
+          "max": 0.034316969634917295
+        },
+        "rms_joint_error_deg": {
+          "mean": 0.00982103601065221,
+          "median": 0.00926541192809047,
+          "p95": 0.012272626461577103,
+          "max": 0.01273917344422731
+        },
+        "heldout_model_point_rms_mm": {
+          "mean": 0.030779682154631775,
+          "median": 0.02672781170613999,
+          "p95": 0.054996795870273535,
+          "max": 0.07416303777389431
+        },
+        "chest_translation_error_mm": {
+          "mean": 0.03497898501321472,
+          "median": 0.03463712656264873,
+          "p95": 0.05124824856719209,
+          "max": 0.05954574861604458
+        },
+        "chest_rotation_error_deg": {
+          "mean": 0.001193275198680391,
+          "median": 0.001106490692916167,
+          "p95": 0.0018863353387463975,
+          "max": 0.0020951586894845144
+        },
+        "elapsed_s": {
+          "mean": 33.922703372489195,
+          "median": 33.35313064494403,
+          "p95": 37.90866956550744,
+          "max": 39.026411160011776
+        },
+        "depth_scale_error_ppm": {
+          "mean": 0.0,
+          "median": 0.0,
+          "p95": 0.0,
+          "max": 0.0
+        },
+        "depth_scale": {
+          "mean": 1.0,
+          "median": 1.0,
+          "p95": 1.0,
+          "max": 1.0
+        },
+        "heldout_model_point_before_rms_mm": {
+          "mean": 2.3458933322290476,
+          "median": 2.229697705443997,
+          "p95": 3.752589573929932,
+          "max": 4.1288937342399326
+        },
+        "heldout_camera_point_rms_mm": {
+          "mean": 0.028951143501381664,
+          "median": 0.024210874679102216,
+          "p95": 0.05393707839274961,
+          "max": 0.07269287643693213
+        },
+        "heldout_camera_point_before_rms_mm": {
+          "mean": 15.861664037637487,
+          "median": 15.899862429394023,
+          "p95": 16.374715867960504,
+          "max": 16.43191083618855
+        }
+      },
+      "dual_6_first": {
+        "runs": 10,
+        "completed": 10,
+        "solver_successes": 10,
+        "converged": 10,
+        "full_rank": 10,
+        "accepted": 10,
+        "within_0p1deg_reference": 10,
+        "marginal_95pct_coverage": 1.0,
+        "rms_standardized_error": 0.729033439105074,
+        "max_joint_error_deg": {
+          "mean": 0.019416544647639665,
+          "median": 0.019628643158171227,
+          "p95": 0.02397403485669866,
+          "max": 0.024285827864294725
+        },
+        "rms_joint_error_deg": {
+          "mean": 0.00782546376808934,
+          "median": 0.007400983758107297,
+          "p95": 0.010631998229662215,
+          "max": 0.011374621614271765
+        },
+        "heldout_model_point_rms_mm": {
+          "mean": 0.01983295188247734,
+          "median": 0.01986429907443973,
+          "p95": 0.024514232312125274,
+          "max": 0.027013571179573828
+        },
+        "chest_translation_error_mm": {
+          "mean": 0.02388934981438748,
+          "median": 0.021726114012559798,
+          "p95": 0.042529956192717225,
+          "max": 0.053368753997574535
+        },
+        "chest_rotation_error_deg": {
+          "mean": 0.0009178127338484562,
+          "median": 0.0008016391374595794,
+          "p95": 0.0015744516188163726,
+          "max": 0.0017040556997806795
+        },
+        "elapsed_s": {
+          "mean": 41.23758343470981,
+          "median": 41.292157978517935,
+          "p95": 47.1087743403099,
+          "max": 47.96295151801314
+        },
+        "depth_scale_error_ppm": {
+          "mean": 0.0,
+          "median": 0.0,
+          "p95": 0.0,
+          "max": 0.0
+        },
+        "depth_scale": {
+          "mean": 1.0,
+          "median": 1.0,
+          "p95": 1.0,
+          "max": 1.0
+        },
+        "heldout_model_point_before_rms_mm": {
+          "mean": 2.3458933322290476,
+          "median": 2.229697705443997,
+          "p95": 3.752589573929932,
+          "max": 4.1288937342399326
+        },
+        "heldout_camera_point_rms_mm": {
+          "mean": 0.019684913883905558,
+          "median": 0.019922825652984446,
+          "p95": 0.02272479695525028,
+          "max": 0.023822680632877413
+        },
+        "heldout_camera_point_before_rms_mm": {
+          "mean": 15.861664037637487,
+          "median": 15.899862429394023,
+          "p95": 16.374715867960504,
+          "max": 16.43191083618855
+        }
+      },
+      "dual_6_information": {
+        "runs": 10,
+        "completed": 10,
+        "solver_successes": 10,
+        "converged": 10,
+        "full_rank": 10,
+        "accepted": 10,
+        "within_0p1deg_reference": 10,
+        "marginal_95pct_coverage": 0.9642857142857143,
+        "rms_standardized_error": 0.8112061711368403,
+        "max_joint_error_deg": {
+          "mean": 0.018988893090961488,
+          "median": 0.01720960714115192,
+          "p95": 0.026875678051613193,
+          "max": 0.028764840529341508
+        },
+        "rms_joint_error_deg": {
+          "mean": 0.007244714780039086,
+          "median": 0.00665696946255207,
+          "p95": 0.00988752561011079,
+          "max": 0.010735190208999611
+        },
+        "heldout_model_point_rms_mm": {
+          "mean": 0.01873498854574237,
+          "median": 0.019530023457138758,
+          "p95": 0.02280320989712359,
+          "max": 0.024428865837581
+        },
+        "chest_translation_error_mm": {
+          "mean": 0.025869896957468087,
+          "median": 0.025264742098887023,
+          "p95": 0.04196516398873113,
+          "max": 0.04414212155428335
+        },
+        "chest_rotation_error_deg": {
+          "mean": 0.0009301508121907738,
+          "median": 0.0009261348160664084,
+          "p95": 0.0014639500796388733,
+          "max": 0.0016362931689340619
+        },
+        "elapsed_s": {
+          "mean": 47.32728283229517,
+          "median": 47.099697567522526,
+          "p95": 52.806589565629835,
+          "max": 53.0991495429771
+        },
+        "depth_scale_error_ppm": {
+          "mean": 0.0,
+          "median": 0.0,
+          "p95": 0.0,
+          "max": 0.0
+        },
+        "depth_scale": {
+          "mean": 1.0,
+          "median": 1.0,
+          "p95": 1.0,
+          "max": 1.0
+        },
+        "heldout_model_point_before_rms_mm": {
+          "mean": 2.3458933322290476,
+          "median": 2.229697705443997,
+          "p95": 3.752589573929932,
+          "max": 4.1288937342399326
+        },
+        "heldout_camera_point_rms_mm": {
+          "mean": 0.018005272534238552,
+          "median": 0.018132983864060207,
+          "p95": 0.0232318676869334,
+          "max": 0.024809576051829763
+        },
+        "heldout_camera_point_before_rms_mm": {
+          "mean": 15.861664037637487,
+          "median": 15.899862429394023,
+          "p95": 16.374715867960504,
+          "max": 16.43191083618855
+        }
+      },
+      "dual_6_random": {
+        "runs": 10,
+        "completed": 10,
+        "solver_successes": 10,
+        "converged": 10,
+        "full_rank": 10,
+        "accepted": 10,
+        "within_0p1deg_reference": 10,
+        "marginal_95pct_coverage": 0.9857142857142858,
+        "rms_standardized_error": 0.823939941442606,
+        "max_joint_error_deg": {
+          "mean": 0.021775511476902827,
+          "median": 0.020421810439403,
+          "p95": 0.0316950975109221,
+          "max": 0.033522729832696385
+        },
+        "rms_joint_error_deg": {
+          "mean": 0.008513138509161277,
+          "median": 0.00813335085950817,
+          "p95": 0.011326119511349651,
+          "max": 0.011651500645020312
+        },
+        "heldout_model_point_rms_mm": {
+          "mean": 0.021149610128804675,
+          "median": 0.02056791793788932,
+          "p95": 0.02987525362567263,
+          "max": 0.033776089846819256
+        },
+        "chest_translation_error_mm": {
+          "mean": 0.029074795676804478,
+          "median": 0.02409419523103584,
+          "p95": 0.05745892774037137,
+          "max": 0.07546945793636788
+        },
+        "chest_rotation_error_deg": {
+          "mean": 0.0009879738446040862,
+          "median": 0.0008263058371328741,
+          "p95": 0.0019300418021906832,
+          "max": 0.0025821023873120975
+        },
+        "elapsed_s": {
+          "mean": 45.38928229549201,
+          "median": 45.866040061053354,
+          "p95": 50.371432420233035,
+          "max": 50.589338761987165
+        },
+        "depth_scale_error_ppm": {
+          "mean": 0.0,
+          "median": 0.0,
+          "p95": 0.0,
+          "max": 0.0
+        },
+        "depth_scale": {
+          "mean": 1.0,
+          "median": 1.0,
+          "p95": 1.0,
+          "max": 1.0
+        },
+        "heldout_model_point_before_rms_mm": {
+          "mean": 2.3458933322290476,
+          "median": 2.229697705443997,
+          "p95": 3.752589573929932,
+          "max": 4.1288937342399326
+        },
+        "heldout_camera_point_rms_mm": {
+          "mean": 0.019501825319133782,
+          "median": 0.019326021961239177,
+          "p95": 0.023322746237331743,
+          "max": 0.02433098383594129
+        },
+        "heldout_camera_point_before_rms_mm": {
+          "mean": 15.861664037637487,
+          "median": 15.899862429394023,
+          "p95": 16.374715867960504,
+          "max": 16.43191083618855
+        }
+      },
+      "left_4_first": {
+        "runs": 10,
+        "completed": 10,
+        "solver_successes": 10,
+        "converged": 10,
+        "full_rank": 10,
+        "accepted": 10,
+        "within_0p1deg_reference": 10,
+        "marginal_95pct_coverage": 0.9428571428571428,
+        "rms_standardized_error": 0.9100070197781804,
+        "max_joint_error_deg": {
+          "mean": 0.028960523179486414,
+          "median": 0.02311999900701992,
+          "p95": 0.0565895564032875,
+          "max": 0.06043919547920449
+        },
+        "rms_joint_error_deg": {
+          "mean": 0.012755229134819464,
+          "median": 0.011169291922427748,
+          "p95": 0.023652257699446504,
+          "max": 0.024507366221627577
+        },
+        "heldout_model_point_rms_mm": {
+          "mean": 0.02941971555075352,
+          "median": 0.027546709482052886,
+          "p95": 0.042986543548057705,
+          "max": 0.045226164715710636
+        },
+        "chest_translation_error_mm": {
+          "mean": 0.042382904584727696,
+          "median": 0.04268930786020772,
+          "p95": 0.06920348836526737,
+          "max": 0.07587266354230189
+        },
+        "chest_rotation_error_deg": {
+          "mean": 0.0015992891108054699,
+          "median": 0.0014605533146291884,
+          "p95": 0.0025021006366948754,
+          "max": 0.0027111638308295557
+        },
+        "elapsed_s": {
+          "mean": 27.839399024785962,
+          "median": 26.88979697751347,
+          "p95": 33.95047786987852,
+          "max": 36.978612770093605
+        },
+        "depth_scale_error_ppm": {
+          "mean": 0.0,
+          "median": 0.0,
+          "p95": 0.0,
+          "max": 0.0
+        },
+        "depth_scale": {
+          "mean": 1.0,
+          "median": 1.0,
+          "p95": 1.0,
+          "max": 1.0
+        },
+        "heldout_model_point_before_rms_mm": {
+          "mean": 1.933065012741369,
+          "median": 1.6469643394741584,
+          "p95": 3.0781016716747347,
+          "max": 3.4566282464208506
+        },
+        "heldout_camera_point_rms_mm": {
+          "mean": 0.02818804712441069,
+          "median": 0.02455943369779757,
+          "p95": 0.043653541923123144,
+          "max": 0.045973097202834254
+        },
+        "heldout_camera_point_before_rms_mm": {
+          "mean": 15.039442629462318,
+          "median": 14.934423368814915,
+          "p95": 15.956138747498773,
+          "max": 16.078890648581105
+        }
+      },
+      "left_4_information": {
+        "runs": 10,
+        "completed": 10,
+        "solver_successes": 10,
+        "converged": 10,
+        "full_rank": 10,
+        "accepted": 10,
+        "within_0p1deg_reference": 10,
+        "marginal_95pct_coverage": 0.9571428571428572,
+        "rms_standardized_error": 0.9625767595213873,
+        "max_joint_error_deg": {
+          "mean": 0.020243609558121343,
+          "median": 0.017122309819526404,
+          "p95": 0.043163531962991976,
+          "max": 0.05034569142370398
+        },
+        "rms_joint_error_deg": {
+          "mean": 0.009618280484422254,
+          "median": 0.008502277748613266,
+          "p95": 0.017131203343066132,
+          "max": 0.01922309173997929
+        },
+        "heldout_model_point_rms_mm": {
+          "mean": 0.02331026949125331,
+          "median": 0.023561546175369645,
+          "p95": 0.03067633943133021,
+          "max": 0.03372092675290386
+        },
+        "chest_translation_error_mm": {
+          "mean": 0.038466760815582826,
+          "median": 0.0345605723601347,
+          "p95": 0.06288562003886662,
+          "max": 0.06696749378699958
+        },
+        "chest_rotation_error_deg": {
+          "mean": 0.0014817480693553584,
+          "median": 0.001456632137241736,
+          "p95": 0.002342117466081901,
+          "max": 0.002647840129209469
+        },
+        "elapsed_s": {
+          "mean": 29.247185947292017,
+          "median": 28.449323465989437,
+          "p95": 33.85335268506314,
+          "max": 35.25445764197502
+        },
+        "depth_scale_error_ppm": {
+          "mean": 0.0,
+          "median": 0.0,
+          "p95": 0.0,
+          "max": 0.0
+        },
+        "depth_scale": {
+          "mean": 1.0,
+          "median": 1.0,
+          "p95": 1.0,
+          "max": 1.0
+        },
+        "heldout_model_point_before_rms_mm": {
+          "mean": 1.933065012741369,
+          "median": 1.6469643394741584,
+          "p95": 3.0781016716747347,
+          "max": 3.4566282464208506
+        },
+        "heldout_camera_point_rms_mm": {
+          "mean": 0.02453442982430016,
+          "median": 0.02348666968016412,
+          "p95": 0.032643442170112585,
+          "max": 0.03612513548103837
+        },
+        "heldout_camera_point_before_rms_mm": {
+          "mean": 15.039442629462318,
+          "median": 14.934423368814915,
+          "p95": 15.956138747498773,
+          "max": 16.078890648581105
+        }
+      },
+      "left_4_random": {
+        "runs": 10,
+        "completed": 10,
+        "solver_successes": 10,
+        "converged": 10,
+        "full_rank": 10,
+        "accepted": 10,
+        "within_0p1deg_reference": 10,
+        "marginal_95pct_coverage": 0.9857142857142858,
+        "rms_standardized_error": 0.8835461818426705,
+        "max_joint_error_deg": {
+          "mean": 0.018813556403957356,
+          "median": 0.018640282985887085,
+          "p95": 0.03354523865258031,
+          "max": 0.038884611807621976
+        },
+        "rms_joint_error_deg": {
+          "mean": 0.009644774341508608,
+          "median": 0.010206950846311987,
+          "p95": 0.014883986617512966,
+          "max": 0.01638331534632777
+        },
+        "heldout_model_point_rms_mm": {
+          "mean": 0.027523194999423278,
+          "median": 0.026801681487029435,
+          "p95": 0.038371126242852285,
+          "max": 0.040988098506813626
+        },
+        "chest_translation_error_mm": {
+          "mean": 0.04594457779752177,
+          "median": 0.041927142053361524,
+          "p95": 0.07265859030404027,
+          "max": 0.07343822863917379
+        },
+        "chest_rotation_error_deg": {
+          "mean": 0.001715815182530489,
+          "median": 0.0016507537083409753,
+          "p95": 0.002452517865966729,
+          "max": 0.0024544287601830097
+        },
+        "elapsed_s": {
+          "mean": 27.13151337899035,
+          "median": 25.5403069514432,
+          "p95": 33.55033235900337,
+          "max": 34.25777511799242
+        },
+        "depth_scale_error_ppm": {
+          "mean": 0.0,
+          "median": 0.0,
+          "p95": 0.0,
+          "max": 0.0
+        },
+        "depth_scale": {
+          "mean": 1.0,
+          "median": 1.0,
+          "p95": 1.0,
+          "max": 1.0
+        },
+        "heldout_model_point_before_rms_mm": {
+          "mean": 1.933065012741369,
+          "median": 1.6469643394741584,
+          "p95": 3.0781016716747347,
+          "max": 3.4566282464208506
+        },
+        "heldout_camera_point_rms_mm": {
+          "mean": 0.025507498598212226,
+          "median": 0.024738347605301497,
+          "p95": 0.035111589284890346,
+          "max": 0.03854080611795663
+        },
+        "heldout_camera_point_before_rms_mm": {
+          "mean": 15.039442629462318,
+          "median": 14.934423368814915,
+          "p95": 15.956138747498773,
+          "max": 16.078890648581105
+        }
+      },
+      "left_6_first": {
+        "runs": 10,
+        "completed": 10,
+        "solver_successes": 10,
+        "converged": 10,
+        "full_rank": 10,
+        "accepted": 10,
+        "within_0p1deg_reference": 10,
+        "marginal_95pct_coverage": 0.9714285714285714,
+        "rms_standardized_error": 0.9905071248887017,
+        "max_joint_error_deg": {
+          "mean": 0.0207222103518526,
+          "median": 0.02103051364637872,
+          "p95": 0.032150718051387445,
+          "max": 0.03347946058256275
+        },
+        "rms_joint_error_deg": {
+          "mean": 0.009819087655405885,
+          "median": 0.009881050102000681,
+          "p95": 0.014473442069403014,
+          "max": 0.01475235672929213
+        },
+        "heldout_model_point_rms_mm": {
+          "mean": 0.023389677624359773,
+          "median": 0.0239264682395277,
+          "p95": 0.030356665881418277,
+          "max": 0.031505433469974295
+        },
+        "chest_translation_error_mm": {
+          "mean": 0.0382764927331629,
+          "median": 0.03612823094833578,
+          "p95": 0.06725109893626913,
+          "max": 0.08205710134252982
+        },
+        "chest_rotation_error_deg": {
+          "mean": 0.0014296565506494903,
+          "median": 0.0013282985923352385,
+          "p95": 0.0025018895967930713,
+          "max": 0.0029433302276525904
+        },
+        "elapsed_s": {
+          "mean": 33.647842839511576,
+          "median": 31.94566464505624,
+          "p95": 43.47813404711777,
+          "max": 48.599297938053496
+        },
+        "depth_scale_error_ppm": {
+          "mean": 0.0,
+          "median": 0.0,
+          "p95": 0.0,
+          "max": 0.0
+        },
+        "depth_scale": {
+          "mean": 1.0,
+          "median": 1.0,
+          "p95": 1.0,
+          "max": 1.0
+        },
+        "heldout_model_point_before_rms_mm": {
+          "mean": 1.933065012741369,
+          "median": 1.6469643394741584,
+          "p95": 3.0781016716747347,
+          "max": 3.4566282464208506
+        },
+        "heldout_camera_point_rms_mm": {
+          "mean": 0.023041090573012745,
+          "median": 0.023309234010388355,
+          "p95": 0.029512060319037213,
+          "max": 0.0316698468108538
+        },
+        "heldout_camera_point_before_rms_mm": {
+          "mean": 15.039442629462318,
+          "median": 14.934423368814915,
+          "p95": 15.956138747498773,
+          "max": 16.078890648581105
+        }
+      },
+      "left_6_information": {
+        "runs": 10,
+        "completed": 10,
+        "solver_successes": 10,
+        "converged": 10,
+        "full_rank": 10,
+        "accepted": 10,
+        "within_0p1deg_reference": 10,
+        "marginal_95pct_coverage": 0.9571428571428572,
+        "rms_standardized_error": 1.0085435791843909,
+        "max_joint_error_deg": {
+          "mean": 0.015978196947774893,
+          "median": 0.014985333500189718,
+          "p95": 0.027325968146073062,
+          "max": 0.03316295402132684
+        },
+        "rms_joint_error_deg": {
+          "mean": 0.007923514143334632,
+          "median": 0.00787169645665983,
+          "p95": 0.01152097361174123,
+          "max": 0.01257866292940263
+        },
+        "heldout_model_point_rms_mm": {
+          "mean": 0.020278368022200406,
+          "median": 0.021406195549000938,
+          "p95": 0.025947136174064273,
+          "max": 0.027073180090099097
+        },
+        "chest_translation_error_mm": {
+          "mean": 0.035275652629014775,
+          "median": 0.030773446903110502,
+          "p95": 0.05635549144638318,
+          "max": 0.060530177090231216
+        },
+        "chest_rotation_error_deg": {
+          "mean": 0.001432622499055854,
+          "median": 0.0013804735095352722,
+          "p95": 0.0020979453011681893,
+          "max": 0.0021872461685369616
+        },
+        "elapsed_s": {
+          "mean": 36.219586348196025,
+          "median": 35.61620289599523,
+          "p95": 39.38086122504901,
+          "max": 39.80952437198721
+        },
+        "depth_scale_error_ppm": {
+          "mean": 0.0,
+          "median": 0.0,
+          "p95": 0.0,
+          "max": 0.0
+        },
+        "depth_scale": {
+          "mean": 1.0,
+          "median": 1.0,
+          "p95": 1.0,
+          "max": 1.0
+        },
+        "heldout_model_point_before_rms_mm": {
+          "mean": 1.933065012741369,
+          "median": 1.6469643394741584,
+          "p95": 3.0781016716747347,
+          "max": 3.4566282464208506
+        },
+        "heldout_camera_point_rms_mm": {
+          "mean": 0.02099965572334653,
+          "median": 0.021513872632700597,
+          "p95": 0.025045022245926318,
+          "max": 0.026452337222995535
+        },
+        "heldout_camera_point_before_rms_mm": {
+          "mean": 15.039442629462318,
+          "median": 14.934423368814915,
+          "p95": 15.956138747498773,
+          "max": 16.078890648581105
+        }
+      },
+      "left_6_random": {
+        "runs": 10,
+        "completed": 10,
+        "solver_successes": 10,
+        "converged": 10,
+        "full_rank": 10,
+        "accepted": 10,
+        "within_0p1deg_reference": 10,
+        "marginal_95pct_coverage": 0.9571428571428572,
+        "rms_standardized_error": 0.9712281376266602,
+        "max_joint_error_deg": {
+          "mean": 0.02120393067500375,
+          "median": 0.018107347151208424,
+          "p95": 0.03937031769033076,
+          "max": 0.040751488186905056
+        },
+        "rms_joint_error_deg": {
+          "mean": 0.009585974622721436,
+          "median": 0.00875084042942849,
+          "p95": 0.01566544125555626,
+          "max": 0.016192678124221413
+        },
+        "heldout_model_point_rms_mm": {
+          "mean": 0.024029265180284247,
+          "median": 0.022043913357116106,
+          "p95": 0.0316935038918311,
+          "max": 0.032670059442696235
+        },
+        "chest_translation_error_mm": {
+          "mean": 0.032668520721095905,
+          "median": 0.032549450133165625,
+          "p95": 0.05707827580210034,
+          "max": 0.06678712738863331
+        },
+        "chest_rotation_error_deg": {
+          "mean": 0.0012980904788218771,
+          "median": 0.0013284839310337467,
+          "p95": 0.0019843394131493696,
+          "max": 0.0022923862222933317
+        },
+        "elapsed_s": {
+          "mean": 36.34474830499384,
+          "median": 36.824392749986146,
+          "p95": 40.2730872464308,
+          "max": 42.133739299024455
+        },
+        "depth_scale_error_ppm": {
+          "mean": 0.0,
+          "median": 0.0,
+          "p95": 0.0,
+          "max": 0.0
+        },
+        "depth_scale": {
+          "mean": 1.0,
+          "median": 1.0,
+          "p95": 1.0,
+          "max": 1.0
+        },
+        "heldout_model_point_before_rms_mm": {
+          "mean": 1.933065012741369,
+          "median": 1.6469643394741584,
+          "p95": 3.0781016716747347,
+          "max": 3.4566282464208506
+        },
+        "heldout_camera_point_rms_mm": {
+          "mean": 0.02394992478791539,
+          "median": 0.023107361636612304,
+          "p95": 0.03136892816278473,
+          "max": 0.03319533858541716
+        },
+        "heldout_camera_point_before_rms_mm": {
+          "mean": 15.039442629462318,
+          "median": 14.934423368814915,
+          "p95": 15.956138747498773,
+          "max": 16.078890648581105
+        }
+      }
+    }
+  },
+  "initialization_development": {
+    "source_sha256": "b65e27be9374bd85452046756603ca9212f55c8752b25ae0d0e593ac1da58655",
+    "plan": {
+      "seeds": [
+        13,
+        29
+      ],
+      "defaults": {
+        "noise_m": 0.0002,
+        "residual_sigma_m": 0.0002,
+        "frames_count": 8,
+        "samples_per_link": 100,
+        "matching": "triangle",
+        "rendered": true,
+        "max_points": 2000,
+        "outer_iterations": 40,
+        "camera_position": [
+          1.6,
+          0,
+          1.1
+        ],
+        "camera_target": [
+          0,
+          0,
+          1
+        ]
+      },
+      "cases": [
+        {
+          "id": "camera_10mm_1deg_fixed",
+          "config": "configs/marvin_dual.json",
+          "settings": {
+            "camera_perturbation": [
+              0.01,
+              -0.01,
+              0.01,
+              0.017453292519943295,
+              -0.017453292519943295,
+              0.017453292519943295
+            ],
+            "solver_options": {
+              "step_relaxation": 0.5,
+              "uncertainty_step_fraction": 0.05
+            }
+          }
+        },
+        {
+          "id": "camera_10mm_1deg_stable_schedule",
+          "config": "configs/marvin_dual.json",
+          "settings": {
+            "camera_perturbation": [
+              0.01,
+              -0.01,
+              0.01,
+              0.017453292519943295,
+              -0.017453292519943295,
+              0.017453292519943295
+            ],
+            "solver_options": {
+              "step_relaxation": 0.5,
+              "uncertainty_step_fraction": 0.05,
+              "distance_schedule": [
+                0.08,
+                0.04,
+                0.02
+              ]
+            }
+          }
+        },
+        {
+          "id": "camera_30mm_3deg_fixed",
+          "config": "configs/marvin_dual.json",
+          "settings": {
+            "camera_perturbation": [
+              0.03,
+              -0.03,
+              0.03,
+              0.05235987755982989,
+              -0.05235987755982989,
+              0.05235987755982989
+            ],
+            "solver_options": {
+              "step_relaxation": 0.5,
+              "uncertainty_step_fraction": 0.05
+            }
+          }
+        },
+        {
+          "id": "camera_30mm_3deg_stable_schedule",
+          "config": "configs/marvin_dual.json",
+          "settings": {
+            "camera_perturbation": [
+              0.03,
+              -0.03,
+              0.03,
+              0.05235987755982989,
+              -0.05235987755982989,
+              0.05235987755982989
+            ],
+            "solver_options": {
+              "step_relaxation": 0.5,
+              "uncertainty_step_fraction": 0.05,
+              "distance_schedule": [
+                0.08,
+                0.04,
+                0.02
+              ]
+            }
+          }
+        },
+        {
+          "id": "camera_50mm_5deg_fixed",
+          "config": "configs/marvin_dual.json",
+          "settings": {
+            "camera_perturbation": [
+              0.05,
+              -0.05,
+              0.05,
+              0.08726646259971647,
+              -0.08726646259971647,
+              0.08726646259971647
+            ],
+            "solver_options": {
+              "step_relaxation": 0.5,
+              "uncertainty_step_fraction": 0.05
+            }
+          }
+        },
+        {
+          "id": "camera_50mm_5deg_stable_schedule",
+          "config": "configs/marvin_dual.json",
+          "settings": {
+            "camera_perturbation": [
+              0.05,
+              -0.05,
+              0.05,
+              0.08726646259971647,
+              -0.08726646259971647,
+              0.08726646259971647
+            ],
+            "solver_options": {
+              "step_relaxation": 0.5,
+              "uncertainty_step_fraction": 0.05,
+              "distance_schedule": [
+                0.08,
+                0.04,
+                0.02
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "seeds": [
+      13,
+      29
+    ],
+    "completed_runs": 12,
+    "planned_runs": 12,
+    "groups": {
+      "camera_10mm_1deg_fixed": {
+        "runs": 2,
+        "completed": 2,
+        "solver_successes": 2,
+        "converged": 2,
+        "full_rank": 2,
+        "accepted": 2,
+        "within_0p1deg_reference": 2,
+        "marginal_95pct_coverage": 1.0,
+        "rms_standardized_error": 0.8082298800834647,
+        "max_joint_error_deg": {
+          "mean": 0.01590376294399804,
+          "median": 0.01590376294399804,
+          "p95": 0.016091290646215412,
+          "max": 0.016112127057572898
+        },
+        "rms_joint_error_deg": {
+          "mean": 0.006648340228249106,
+          "median": 0.006648340228249106,
+          "p95": 0.006863068807465897,
+          "max": 0.006886927538489985
+        },
+        "heldout_model_point_rms_mm": {
+          "mean": 0.016698086039425315,
+          "median": 0.016698086039425315,
+          "p95": 0.01720154014608437,
+          "max": 0.017257479491268712
+        },
+        "chest_translation_error_mm": {
+          "mean": 0.007898038160009342,
+          "median": 0.007898038160009342,
+          "p95": 0.008227069448107997,
+          "max": 0.008263628480118959
+        },
+        "chest_rotation_error_deg": {
+          "mean": 0.0004901289590565217,
+          "median": 0.0004901289590565217,
+          "p95": 0.0005293756084446996,
+          "max": 0.0005337363472656082
+        },
+        "elapsed_s": {
+          "mean": 34.71466966252774,
+          "median": 34.71466966252774,
+          "p95": 36.46005998410983,
+          "max": 36.653992242063396
+        },
+        "depth_scale_error_ppm": {
+          "mean": 0.0,
+          "median": 0.0,
+          "p95": 0.0,
+          "max": 0.0
+        },
+        "depth_scale": {
+          "mean": 1.0,
+          "median": 1.0,
+          "p95": 1.0,
+          "max": 1.0
+        },
+        "heldout_model_point_before_rms_mm": {
+          "mean": 1.820840198229718,
+          "median": 1.820840198229718,
+          "p95": 1.9646493724400975,
+          "max": 1.9806281695745842
+        },
+        "heldout_camera_point_rms_mm": {
+          "mean": 0.016963246327625667,
+          "median": 0.016963246327625667,
+          "p95": 0.017410495104952888,
+          "max": 0.0174601894135448
+        },
+        "heldout_camera_point_before_rms_mm": {
+          "mean": 45.21514820118601,
+          "median": 45.21514820118601,
+          "p95": 45.25530019027328,
+          "max": 45.259761522394086
+        }
+      },
+      "camera_10mm_1deg_stable_schedule": {
+        "runs": 2,
+        "completed": 2,
+        "solver_successes": 2,
+        "converged": 2,
+        "full_rank": 2,
+        "accepted": 2,
+        "within_0p1deg_reference": 2,
+        "marginal_95pct_coverage": 1.0,
+        "rms_standardized_error": 0.80901638934985,
+        "max_joint_error_deg": {
+          "mean": 0.015890208351538634,
+          "median": 0.015890208351538634,
+          "p95": 0.016128308076265772,
+          "max": 0.016154763601235456
+        },
+        "rms_joint_error_deg": {
+          "mean": 0.006653045698530859,
+          "median": 0.006653045698530859,
+          "p95": 0.006876426735477961,
+          "max": 0.006901246850694306
+        },
+        "heldout_model_point_rms_mm": {
+          "mean": 0.016703328752505513,
+          "median": 0.016703328752505513,
+          "p95": 0.017192027279475667,
+          "max": 0.017246327115805683
+        },
+        "chest_translation_error_mm": {
+          "mean": 0.007893235644904517,
+          "median": 0.007893235644904517,
+          "p95": 0.008219528199366779,
+          "max": 0.008255782927640364
+        },
+        "chest_rotation_error_deg": {
+          "mean": 0.0004904907219926487,
+          "median": 0.0004904907219926487,
+          "p95": 0.0005302115018804786,
+          "max": 0.0005346249218680153
+        },
+        "elapsed_s": {
+          "mean": 99.53830763557926,
+          "median": 99.53830763557926,
+          "p95": 99.56335153284017,
+          "max": 99.56613418809138
+        },
+        "depth_scale_error_ppm": {
+          "mean": 0.0,
+          "median": 0.0,
+          "p95": 0.0,
+          "max": 0.0
+        },
+        "depth_scale": {
+          "mean": 1.0,
+          "median": 1.0,
+          "p95": 1.0,
+          "max": 1.0
+        },
+        "heldout_model_point_before_rms_mm": {
+          "mean": 1.820840198229718,
+          "median": 1.820840198229718,
+          "p95": 1.9646493724400975,
+          "max": 1.9806281695745842
+        },
+        "heldout_camera_point_rms_mm": {
+          "mean": 0.01695883969060944,
+          "median": 0.01695883969060944,
+          "p95": 0.01739411723708364,
+          "max": 0.01744248140891411
+        },
+        "heldout_camera_point_before_rms_mm": {
+          "mean": 45.21514820118601,
+          "median": 45.21514820118601,
+          "p95": 45.25530019027328,
+          "max": 45.259761522394086
+        }
+      },
+      "camera_30mm_3deg_fixed": {
+        "runs": 2,
+        "completed": 2,
+        "solver_successes": 0,
+        "converged": 2,
+        "full_rank": 2,
+        "accepted": 0,
+        "within_0p1deg_reference": 2,
+        "marginal_95pct_coverage": 1.0,
+        "rms_standardized_error": 0.7876132867900988,
+        "max_joint_error_deg": {
+          "mean": 0.016582070934777704,
+          "median": 0.016582070934777704,
+          "p95": 0.026024998382201195,
+          "max": 0.027074212543026027
+        },
+        "rms_joint_error_deg": {
+          "mean": 0.006493621528160288,
+          "median": 0.006493621528160288,
+          "p95": 0.009935854203794666,
+          "max": 0.010318324501087375
+        },
+        "heldout_model_point_rms_mm": {
+          "mean": 0.017139021397460166,
+          "median": 0.017139021397460166,
+          "p95": 0.01941410209427283,
+          "max": 0.01966688883836313
+        },
+        "chest_translation_error_mm": {
+          "mean": 0.015235176809121297,
+          "median": 0.015235176809121297,
+          "p95": 0.016419298031043018,
+          "max": 0.016550867055700986
+        },
+        "chest_rotation_error_deg": {
+          "mean": 0.0003802818382896465,
+          "median": 0.0003802818382896465,
+          "p95": 0.00042155939387890774,
+          "max": 0.00042614578894438124
+        },
+        "elapsed_s": {
+          "mean": 43.10274943400873,
+          "median": 43.10274943400873,
+          "p95": 43.895990955276645,
+          "max": 43.984128902084194
+        },
+        "depth_scale_error_ppm": {
+          "mean": 0.0,
+          "median": 0.0,
+          "p95": 0.0,
+          "max": 0.0
+        },
+        "depth_scale": {
+          "mean": 1.0,
+          "median": 1.0,
+          "p95": 1.0,
+          "max": 1.0
+        },
+        "heldout_model_point_before_rms_mm": {
+          "mean": 1.820840198229718,
+          "median": 1.820840198229718,
+          "p95": 1.9646493724400975,
+          "max": 1.9806281695745842
+        },
+        "heldout_camera_point_rms_mm": {
+          "mean": 0.017725203316050417,
+          "median": 0.017725203316050417,
+          "p95": 0.02160236698559132,
+          "max": 0.022033162948873645
+        },
+        "heldout_camera_point_before_rms_mm": {
+          "mean": 135.32366903866318,
+          "median": 135.32366903866318,
+          "p95": 135.95320849145045,
+          "max": 136.02315731953792
+        }
+      },
+      "camera_30mm_3deg_stable_schedule": {
+        "runs": 2,
+        "completed": 2,
+        "solver_successes": 1,
+        "converged": 2,
+        "full_rank": 2,
+        "accepted": 1,
+        "within_0p1deg_reference": 2,
+        "marginal_95pct_coverage": 1.0,
+        "rms_standardized_error": 0.7897239452938539,
+        "max_joint_error_deg": {
+          "mean": 0.016620732085374002,
+          "median": 0.016620732085374002,
+          "p95": 0.026020596113240518,
+          "max": 0.02706502544967013
+        },
+        "rms_joint_error_deg": {
+          "mean": 0.006497257516452883,
+          "median": 0.006497257516452883,
+          "p95": 0.009936437801160231,
+          "max": 0.010318568943905492
+        },
+        "heldout_model_point_rms_mm": {
+          "mean": 0.017152529641730203,
+          "median": 0.017152529641730203,
+          "p95": 0.019414154076139247,
+          "max": 0.019665445679962475
+        },
+        "chest_translation_error_mm": {
+          "mean": 0.015328821921737583,
+          "median": 0.015328821921737583,
+          "p95": 0.016588439648995774,
+          "max": 0.016728397174246682
+        },
+        "chest_rotation_error_deg": {
+          "mean": 0.000384125240214021,
+          "median": 0.000384125240214021,
+          "p95": 0.00042864854425165303,
+          "max": 0.00043359557803361213
+        },
+        "elapsed_s": {
+          "mean": 113.26156596199144,
+          "median": 113.26156596199144,
+          "p95": 113.93897704849951,
+          "max": 114.0142449470004
+        },
+        "depth_scale_error_ppm": {
+          "mean": 0.0,
+          "median": 0.0,
+          "p95": 0.0,
+          "max": 0.0
+        },
+        "depth_scale": {
+          "mean": 1.0,
+          "median": 1.0,
+          "p95": 1.0,
+          "max": 1.0
+        },
+        "heldout_model_point_before_rms_mm": {
+          "mean": 1.820840198229718,
+          "median": 1.820840198229718,
+          "p95": 1.9646493724400975,
+          "max": 1.9806281695745842
+        },
+        "heldout_camera_point_rms_mm": {
+          "mean": 0.017721351360785793,
+          "median": 0.017721351360785793,
+          "p95": 0.021600531133067393,
+          "max": 0.02203155110776535
+        },
+        "heldout_camera_point_before_rms_mm": {
+          "mean": 135.32366903866318,
+          "median": 135.32366903866318,
+          "p95": 135.95320849145045,
+          "max": 136.02315731953792
+        }
+      },
+      "camera_50mm_5deg_fixed": {
+        "runs": 2,
+        "completed": 2,
+        "solver_successes": 2,
+        "converged": 2,
+        "full_rank": 2,
+        "accepted": 0,
+        "within_0p1deg_reference": 0,
+        "marginal_95pct_coverage": 0.8214285714285714,
+        "rms_standardized_error": 250.95073321239832,
+        "max_joint_error_deg": {
+          "mean": 2.076601189263265,
+          "median": 2.076601189263265,
+          "p95": 2.0792486423935013,
+          "max": 2.079542803852416
+        },
+        "rms_joint_error_deg": {
+          "mean": 0.7846327559789295,
+          "median": 0.7846327559789295,
+          "p95": 0.7854676988728894,
+          "max": 0.7855604703055515
+        },
+        "heldout_model_point_rms_mm": {
+          "mean": 7.353694784767676,
+          "median": 7.353694784767676,
+          "p95": 7.388710585658455,
+          "max": 7.392601230201874
+        },
+        "chest_translation_error_mm": {
+          "mean": 56.071153376582174,
+          "median": 56.071153376582174,
+          "p95": 56.1188120024202,
+          "max": 56.12410740529109
+        },
+        "chest_rotation_error_deg": {
+          "mean": 2.0765461994261463,
+          "median": 2.0765461994261463,
+          "p95": 2.0782210377744117,
+          "max": 2.078407130924219
+        },
+        "elapsed_s": {
+          "mean": 331.2797308379668,
+          "median": 331.2797308379668,
+          "p95": 332.0640776123561,
+          "max": 332.15122725395486
+        },
+        "depth_scale_error_ppm": {
+          "mean": 0.0,
+          "median": 0.0,
+          "p95": 0.0,
+          "max": 0.0
+        },
+        "depth_scale": {
+          "mean": 1.0,
+          "median": 1.0,
+          "p95": 1.0,
+          "max": 1.0
+        },
+        "heldout_model_point_before_rms_mm": {
+          "mean": 1.820840198229718,
+          "median": 1.820840198229718,
+          "p95": 1.9646493724400975,
+          "max": 1.9806281695745842
+        },
+        "heldout_camera_point_rms_mm": {
+          "mean": 7.972076473024691,
+          "median": 7.972076473024691,
+          "p95": 8.182865545816641,
+          "max": 8.206286553904636
+        },
+        "heldout_camera_point_before_rms_mm": {
+          "mean": 225.3460992308337,
+          "median": 225.3460992308337,
+          "p95": 226.56150608313197,
+          "max": 226.69655128894289
+        }
+      },
+      "camera_50mm_5deg_stable_schedule": {
+        "runs": 2,
+        "completed": 0,
+        "solver_successes": 0,
+        "converged": 0,
+        "full_rank": 0,
+        "accepted": 0,
+        "within_0p1deg_reference": 0
+      }
+    }
+  }
+}

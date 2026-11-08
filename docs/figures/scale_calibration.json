@@ -1,0 +1,102 @@
+{
+  "truth_used": false,
+  "frames": [
+    {
+      "frame": 0,
+      "observed_pixels": 1786,
+      "nominal": {
+        "overlap_pixels": 1563,
+        "median_abs_axial_mm": 7.033566977566741
+      },
+      "candidate": {
+        "overlap_pixels": 1786,
+        "median_abs_axial_mm": 0.13016621814199159
+      }
+    },
+    {
+      "frame": 1,
+      "observed_pixels": 1763,
+      "nominal": {
+        "overlap_pixels": 1527,
+        "median_abs_axial_mm": 6.88062921724697
+      },
+      "candidate": {
+        "overlap_pixels": 1763,
+        "median_abs_axial_mm": 0.13295457426387713
+      }
+    },
+    {
+      "frame": 2,
+      "observed_pixels": 1744,
+      "nominal": {
+        "overlap_pixels": 1545,
+        "median_abs_axial_mm": 6.899286587182196
+      },
+      "candidate": {
+        "overlap_pixels": 1744,
+        "median_abs_axial_mm": 0.13000968518417366
+      }
+    },
+    {
+      "frame": 3,
+      "observed_pixels": 1593,
+      "nominal": {
+        "overlap_pixels": 1391,
+        "median_abs_axial_mm": 7.4978475472922135
+      },
+      "candidate": {
+        "overlap_pixels": 1593,
+        "median_abs_axial_mm": 0.1301515810292475
+      }
+    },
+    {
+      "frame": 4,
+      "observed_pixels": 1305,
+      "nominal": {
+        "overlap_pixels": 1154,
+        "median_abs_axial_mm": 9.280639054360718
+      },
+      "candidate": {
+        "overlap_pixels": 1305,
+        "median_abs_axial_mm": 0.13460274976617725
+      }
+    },
+    {
+      "frame": 5,
+      "observed_pixels": 1743,
+      "nominal": {
+        "overlap_pixels": 1560,
+        "median_abs_axial_mm": 7.035516794378527
+      },
+      "candidate": {
+        "overlap_pixels": 1743,
+        "median_abs_axial_mm": 0.1285283046930097
+      }
+    },
+    {
+      "frame": 6,
+      "observed_pixels": 1642,
+      "nominal": {
+        "overlap_pixels": 1464,
+        "median_abs_axial_mm": 7.65799258584976
+      },
+      "candidate": {
+        "overlap_pixels": 1642,
+        "median_abs_axial_mm": 0.13761775428500211
+      }
+    },
+    {
+      "frame": 7,
+      "observed_pixels": 1593,
+      "nominal": {
+        "overlap_pixels": 1409,
+        "median_abs_axial_mm": 7.315935297415477
+      },
+      "candidate": {
+        "overlap_pixels": 1593,
+        "median_abs_axial_mm": 0.1335095935890429
+      }
+    }
+  ],
+  "note": "Descriptive axial depth differences at overlapping pixels; silhouette changes and occlusion are included. This is not the ICP point/plane residual or a hardware accuracy measure."
+}

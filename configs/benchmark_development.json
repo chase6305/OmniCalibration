@@ -1,0 +1,27 @@
+{
+  "seeds": [7, 13, 29],
+  "defaults": {
+    "noise_m": 0.0002,
+    "frames_count": 8,
+    "samples_per_link": 100,
+    "matching": "triangle",
+    "rendered": true,
+    "max_points": 2000,
+    "outer_iterations": 20
+  },
+  "cases": [
+    {"id": "left_paired_sampled", "config": "configs/marvin_left.json", "settings": {"matching": "sampled", "rendered": false}},
+    {"id": "left_independent_sampled", "config": "configs/marvin_left.json", "settings": {"matching": "sampled", "rendered": false, "independent_sampling": true}},
+    {"id": "left_independent_triangle", "config": "configs/marvin_left.json", "settings": {"rendered": false, "independent_sampling": true}},
+    {"id": "left_visible", "config": "configs/marvin_left.json"},
+    {"id": "right_visible", "config": "configs/marvin_right.json"},
+    {"id": "dual_visible", "config": "configs/marvin_dual.json"},
+    {"id": "dual_dropout", "config": "configs/marvin_dual.json", "settings": {"depth_noise": {"sigma_m": 0.0002, "dropout": 0.3}}},
+    {"id": "dual_outliers", "config": "configs/marvin_dual.json", "settings": {"trim_fraction": 0.1, "depth_noise": {"sigma_m": 0.0002, "outlier_fraction": 0.05, "outlier_sigma_m": 0.03}}},
+    {"id": "dual_quantized", "config": "configs/marvin_dual.json", "settings": {"depth_noise": {"sigma_m": 0.0002, "quantization_m": 0.001}}},
+    {"id": "dual_large_offsets", "config": "configs/marvin_dual.json", "settings": {"offset_amplitude_deg": 2.0}},
+    {"id": "dual_noise_1mm", "config": "configs/marvin_dual.json", "settings": {"noise_m": 0.001}},
+    {"id": "standalone_known_camera", "config": "configs/marvin_standalone_left.json", "settings": {"estimate_camera": false}},
+    {"id": "left_unanchored", "config": "configs/marvin_left.json", "expected_observable": false, "settings": {"include_anchor": false}}
+  ]
+}

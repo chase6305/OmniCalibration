@@ -1,0 +1,60 @@
+{
+  "seeds": [
+    7,
+    13,
+    29,
+    7008
+  ],
+  "defaults": {
+    "noise_m": 0.0002,
+    "encoder_noise_deg": 0.01,
+    "residual_sigma_m": 0.0002,
+    "frames_count": 8,
+    "samples_per_link": 100,
+    "matching": "triangle",
+    "rendered": true,
+    "max_points": 2000,
+    "outer_iterations": 35
+  },
+  "cases": [
+    {
+      "id": "alpha_1.0",
+      "config": "configs/marvin_dual.json",
+      "settings": {
+        "solver_options": {
+          "loss": "linear",
+          "encoder_sigma_rad": 0.00017453292519943296,
+          "allow_restarts": false,
+          "uncertainty_step_fraction": 0.05,
+          "step_relaxation": 1.0
+        }
+      }
+    },
+    {
+      "id": "alpha_0.5",
+      "config": "configs/marvin_dual.json",
+      "settings": {
+        "solver_options": {
+          "loss": "linear",
+          "encoder_sigma_rad": 0.00017453292519943296,
+          "allow_restarts": false,
+          "uncertainty_step_fraction": 0.05,
+          "step_relaxation": 0.5
+        }
+      }
+    },
+    {
+      "id": "alpha_0.25",
+      "config": "configs/marvin_dual.json",
+      "settings": {
+        "solver_options": {
+          "loss": "linear",
+          "encoder_sigma_rad": 0.00017453292519943296,
+          "allow_restarts": false,
+          "uncertainty_step_fraction": 0.05,
+          "step_relaxation": 0.25
+        }
+      }
+    }
+  ]
+}

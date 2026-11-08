@@ -1,0 +1,56 @@
+{
+  "seeds": [
+    12101,
+    12102,
+    12103,
+    12104,
+    12105,
+    12106,
+    12107,
+    12108,
+    12109,
+    12110,
+    12111,
+    12112,
+    12113,
+    12114,
+    12115,
+    12116,
+    12117,
+    12118,
+    12119,
+    12120
+  ],
+  "purpose": "Right standalone arm integration extension, frozen v0.3.0 estimator",
+  "defaults": {
+    "noise_m": 0.0002,
+    "residual_sigma_m": 0.0002,
+    "frames_count": 8,
+    "samples_per_link": 100,
+    "matching": "triangle",
+    "rendered": true,
+    "max_points": 2000,
+    "outer_iterations": 35,
+    "solver_options": {
+      "step_relaxation": 0.5,
+      "uncertainty_step_fraction": 0.05
+    }
+  },
+  "cases": [
+    {
+      "id": "right_standalone_known_camera",
+      "config": "configs/marvin_standalone_right.json",
+      "settings": {
+        "estimate_camera": false
+      }
+    },
+    {
+      "id": "right_standalone_unknown_camera",
+      "config": "configs/marvin_standalone_right.json",
+      "settings": {
+        "estimate_camera": true
+      },
+      "expected_observable": false
+    }
+  ]
+}

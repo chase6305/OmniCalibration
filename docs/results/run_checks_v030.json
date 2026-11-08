@@ -1,0 +1,71 @@
+{
+  "version": "0.3.0",
+  "source_sha256": "4e38f9a6b89ed195d8eb216fba6d8f198701f8f0231ccb12a25fa64c0d020085",
+  "tests_passed": 80,
+  "primary": {
+    "expected": 400,
+    "recorded": 400,
+    "completed": 400,
+    "accepted": 374,
+    "working_source_matches_snapshot": true
+  },
+  "supplementary": {
+    "selection_complete": {
+      "expected": 120,
+      "recorded": 120,
+      "completed": 120,
+      "accepted": 120
+    },
+    "quadratic_holdout_complete": {
+      "expected": 60,
+      "recorded": 60,
+      "completed": 60,
+      "accepted": 56
+    },
+    "point_budget_complete": {
+      "expected": 48,
+      "recorded": 48,
+      "completed": 48,
+      "accepted": 48
+    },
+    "right_standalone_complete": {
+      "expected": 40,
+      "recorded": 40,
+      "completed": 40,
+      "accepted": 20
+    },
+    "gauges_complete": {
+      "expected": 30,
+      "recorded": 30,
+      "completed": 30,
+      "accepted": 0
+    }
+  },
+  "verified_asset_files": 20,
+  "scale_replay": {
+    "max_joint_difference_deg": 0.0,
+    "scale_difference": 0.0,
+    "truth_used": false
+  },
+  "core_wheel": {
+    "version": "0.3.0",
+    "installed_path": "/tmp/omnicalib-v030-core/lib/python3.10/site-packages/omnicalib",
+    "source_sha256": "4e38f9a6b89ed195d8eb216fba6d8f198701f8f0231ccb12a25fa64c0d020085",
+    "optional_modules_present": {
+      "trimesh": false,
+      "matplotlib": false,
+      "pytest": false
+    }
+  },
+  "documentation_links": "passed",
+  "strict_portable_json": "passed",
+  "extracted_bundle_replay": {
+    "source_sha256": "4e38f9a6b89ed195d8eb216fba6d8f198701f8f0231ccb12a25fa64c0d020085",
+    "dataset_sha256": "015f39b04de83698bccabfbc68d2535f84511ba8362e36e949bf587ea7fbb9ac",
+    "config_sha256": "adbc8328209e6281fca0b1dfea79be6b591f171fe56d3db7a931e6aec14abdda",
+    "max_offset_difference_rad": 0.0,
+    "scale_difference": 0.0,
+    "truth_used_for_estimation": false,
+    "proposal_supported": true
+  }
+}

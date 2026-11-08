@@ -1,0 +1,151 @@
+{
+  "seeds": [
+    13,
+    29
+  ],
+  "defaults": {
+    "noise_m": 0.0002,
+    "residual_sigma_m": 0.0002,
+    "frames_count": 8,
+    "samples_per_link": 100,
+    "matching": "triangle",
+    "rendered": true,
+    "max_points": 2000,
+    "outer_iterations": 40,
+    "camera_position": [
+      1.6,
+      0,
+      1.1
+    ],
+    "camera_target": [
+      0,
+      0,
+      1
+    ]
+  },
+  "cases": [
+    {
+      "id": "camera_10mm_1deg_fixed",
+      "config": "configs/marvin_dual.json",
+      "settings": {
+        "camera_perturbation": [
+          0.01,
+          -0.01,
+          0.01,
+          0.017453292519943295,
+          -0.017453292519943295,
+          0.017453292519943295
+        ],
+        "solver_options": {
+          "step_relaxation": 0.5,
+          "uncertainty_step_fraction": 0.05
+        }
+      }
+    },
+    {
+      "id": "camera_10mm_1deg_stable_schedule",
+      "config": "configs/marvin_dual.json",
+      "settings": {
+        "camera_perturbation": [
+          0.01,
+          -0.01,
+          0.01,
+          0.017453292519943295,
+          -0.017453292519943295,
+          0.017453292519943295
+        ],
+        "solver_options": {
+          "step_relaxation": 0.5,
+          "uncertainty_step_fraction": 0.05,
+          "distance_schedule": [
+            0.08,
+            0.04,
+            0.02
+          ]
+        }
+      }
+    },
+    {
+      "id": "camera_30mm_3deg_fixed",
+      "config": "configs/marvin_dual.json",
+      "settings": {
+        "camera_perturbation": [
+          0.03,
+          -0.03,
+          0.03,
+          0.05235987755982989,
+          -0.05235987755982989,
+          0.05235987755982989
+        ],
+        "solver_options": {
+          "step_relaxation": 0.5,
+          "uncertainty_step_fraction": 0.05
+        }
+      }
+    },
+    {
+      "id": "camera_30mm_3deg_stable_schedule",
+      "config": "configs/marvin_dual.json",
+      "settings": {
+        "camera_perturbation": [
+          0.03,
+          -0.03,
+          0.03,
+          0.05235987755982989,
+          -0.05235987755982989,
+          0.05235987755982989
+        ],
+        "solver_options": {
+          "step_relaxation": 0.5,
+          "uncertainty_step_fraction": 0.05,
+          "distance_schedule": [
+            0.08,
+            0.04,
+            0.02
+          ]
+        }
+      }
+    },
+    {
+      "id": "camera_50mm_5deg_fixed",
+      "config": "configs/marvin_dual.json",
+      "settings": {
+        "camera_perturbation": [
+          0.05,
+          -0.05,
+          0.05,
+          0.08726646259971647,
+          -0.08726646259971647,
+          0.08726646259971647
+        ],
+        "solver_options": {
+          "step_relaxation": 0.5,
+          "uncertainty_step_fraction": 0.05
+        }
+      }
+    },
+    {
+      "id": "camera_50mm_5deg_stable_schedule",
+      "config": "configs/marvin_dual.json",
+      "settings": {
+        "camera_perturbation": [
+          0.05,
+          -0.05,
+          0.05,
+          0.08726646259971647,
+          -0.08726646259971647,
+          0.08726646259971647
+        ],
+        "solver_options": {
+          "step_relaxation": 0.5,
+          "uncertainty_step_fraction": 0.05,
+          "distance_schedule": [
+            0.08,
+            0.04,
+            0.02
+          ]
+        }
+      }
+    }
+  ]
+}

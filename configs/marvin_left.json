@@ -1,0 +1,44 @@
+{
+  "name": "Marvin M6 S CCS 696 V4.0",
+  "mode": "left",
+  "asset_root": "../HumanoidAssets/Marvin_M6_S_CCS_696_V4.0",
+  "urdf": "robot_with_ee.urdf",
+  "joint_names": [
+    "SHOULDER_PITCH_L_J1",
+    "SHOULDER_ROLL_L_J2",
+    "ELBOW_PITCH_L_J3",
+    "ELBOW_YAW_L_J4",
+    "WRIST_PITCH_L_J5",
+    "WRIST_YAW_L_J6",
+    "WRIST_ROLL_L_J7"
+  ],
+  "surface_links": [
+    "shoulder_pitch_l_j1_link",
+    "shoulder_roll_l_j2_link",
+    "elbow_pitch_l_j3_link",
+    "elbow_yaw_l_j4_link",
+    "wrist_pitch_l_j5_link",
+    "wrist_yaw_l_j6_link",
+    "wrist_roll_l_j7_link",
+    "left_hand_base_link"
+  ],
+  "anchor_links": [
+    "base_link"
+  ],
+  "synthetic_camera_translation": [
+    1.2,
+    0.0,
+    0.8
+  ],
+  "reaching_targets": [
+    {
+      "link": "left_ee",
+      "position": [
+        0.45,
+        0.22,
+        0.9
+      ],
+      "orientation_z_delta_deg": -90
+    }
+  ]
+}

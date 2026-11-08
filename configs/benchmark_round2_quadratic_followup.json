@@ -1,0 +1,131 @@
+{
+  "seeds": [
+    7,
+    13,
+    29,
+    5077
+  ],
+  "purpose": "Controlled development follow-up of quadratic-noise instability; no fresh evaluation seeds used; select stable options before any new holdout",
+  "defaults": {
+    "noise_m": 0.0002,
+    "residual_sigma_m": 0.0002,
+    "frames_count": 8,
+    "samples_per_link": 100,
+    "matching": "triangle",
+    "rendered": true,
+    "max_points": 2000,
+    "outer_iterations": 50,
+    "camera_position": [
+      1.6,
+      0,
+      1.1
+    ],
+    "camera_target": [
+      0,
+      0,
+      1
+    ],
+    "depth_noise": {
+      "sigma_m": 0.0002,
+      "quadratic_range": true
+    }
+  },
+  "cases": [
+    {
+      "id": "floor0.25_alpha0.5_gradientTrue",
+      "config": "configs/marvin_dual.json",
+      "settings": {
+        "solver_options": {
+          "step_relaxation": 0.5,
+          "uncertainty_step_fraction": 0.05,
+          "loss": "linear",
+          "point_noise_model": "axial",
+          "axial_floor_fraction": 0.25,
+          "axial_range_power": 2.0,
+          "surface_distance_normals": true,
+          "allow_restarts": false
+        }
+      }
+    },
+    {
+      "id": "floor0.5_alpha0.5_gradientTrue",
+      "config": "configs/marvin_dual.json",
+      "settings": {
+        "solver_options": {
+          "step_relaxation": 0.5,
+          "uncertainty_step_fraction": 0.05,
+          "loss": "linear",
+          "point_noise_model": "axial",
+          "axial_floor_fraction": 0.5,
+          "axial_range_power": 2.0,
+          "surface_distance_normals": true,
+          "allow_restarts": false
+        }
+      }
+    },
+    {
+      "id": "floor0.8_alpha0.5_gradientTrue",
+      "config": "configs/marvin_dual.json",
+      "settings": {
+        "solver_options": {
+          "step_relaxation": 0.5,
+          "uncertainty_step_fraction": 0.05,
+          "loss": "linear",
+          "point_noise_model": "axial",
+          "axial_floor_fraction": 0.8,
+          "axial_range_power": 2.0,
+          "surface_distance_normals": true,
+          "allow_restarts": false
+        }
+      }
+    },
+    {
+      "id": "floor0.25_alpha0.25_gradientTrue",
+      "config": "configs/marvin_dual.json",
+      "settings": {
+        "solver_options": {
+          "step_relaxation": 0.25,
+          "uncertainty_step_fraction": 0.05,
+          "loss": "linear",
+          "point_noise_model": "axial",
+          "axial_floor_fraction": 0.25,
+          "axial_range_power": 2.0,
+          "surface_distance_normals": true,
+          "allow_restarts": false
+        }
+      }
+    },
+    {
+      "id": "floor0.5_alpha0.25_gradientTrue",
+      "config": "configs/marvin_dual.json",
+      "settings": {
+        "solver_options": {
+          "step_relaxation": 0.25,
+          "uncertainty_step_fraction": 0.05,
+          "loss": "linear",
+          "point_noise_model": "axial",
+          "axial_floor_fraction": 0.5,
+          "axial_range_power": 2.0,
+          "surface_distance_normals": true,
+          "allow_restarts": false
+        }
+      }
+    },
+    {
+      "id": "floor0.25_alpha0.5_gradientFalse",
+      "config": "configs/marvin_dual.json",
+      "settings": {
+        "solver_options": {
+          "step_relaxation": 0.5,
+          "uncertainty_step_fraction": 0.05,
+          "loss": "linear",
+          "point_noise_model": "axial",
+          "axial_floor_fraction": 0.25,
+          "axial_range_power": 2.0,
+          "surface_distance_normals": false,
+          "allow_restarts": false
+        }
+      }
+    }
+  ]
+}
