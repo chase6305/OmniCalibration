@@ -1,0 +1,85 @@
+{
+  "baseline_commit": "3933a7d1a2dd339c7964d61320c2f3156b35bba3",
+  "implementation_commit": "2c0649847f89db97f6f372cd7447333c62e6b11a",
+  "version": "0.3.2",
+  "candidate_source_sha256": "df055c34d88108257065c1f6876f5a42b330d3f98b8f45e90b2be94e9aaac8da",
+  "tests_passed": 105,
+  "full_reproduction_passed": true,
+  "extracted_source_full_reproduction_passed": true,
+  "ruff_passed": true,
+  "cli_help_unchanged": true,
+  "documented_cli_commands_checked": 15,
+  "readme_lines": {
+    "before": 184,
+    "after": 82
+  },
+  "minimal_wheel_demo_passed": true,
+  "baseline_cli_vs_wheel_exact": true,
+  "moving_root_wrist_demo_passed": true,
+  "complete_batch_comparison": {
+    "baseline_source_sha256": "38727de98918d836ef638aea227095986229d8e2f0879bd51590c491bfa7c98c",
+    "candidate_source_sha256": "df055c34d88108257065c1f6876f5a42b330d3f98b8f45e90b2be94e9aaac8da",
+    "compared_runs": 64,
+    "exception_records": 0,
+    "exact_data_match": true,
+    "passed": true,
+    "difference_count": 0,
+    "first_differences": [],
+    "excluded_paths": [
+      [
+        "result",
+        "elapsed_s"
+      ],
+      [
+        "result",
+        "render_seconds"
+      ],
+      [
+        "source_sha256"
+      ]
+    ],
+    "validation": "Synthetic regression comparison; not hardware accuracy"
+  },
+  "extended_replay": {
+    "status": "incomplete_at_one_hour_budget",
+    "planned_pairs": 240,
+    "baseline_completed": 239,
+    "candidate_completed": 240,
+    "matched_completed_pairs": 239,
+    "exact_match_of_completed_pairs": true,
+    "difference_count": 0,
+    "missing_or_unpaired": [
+      {
+        "case": "dual_quadratic_axial",
+        "seed": 12003
+      }
+    ],
+    "complete_batch_passed": false,
+    "note": "Unfinished cases stopped at the optimization time budget; no convergence or accuracy claim for them"
+  },
+  "wide_replay_seeds": [
+    12001,
+    12002,
+    12003,
+    12004,
+    12005,
+    12006,
+    12007,
+    12008,
+    12009,
+    12010,
+    12012,
+    12014
+  ],
+  "paired_not_fresh_holdout": true,
+  "resource_interruptions": {
+    "exit_code": 137,
+    "affected": [
+      "one early benchmark worker",
+      "depth preview in one full-workflow rerun"
+    ],
+    "action": "reduced concurrency to eight; resumed checkpoints and reran full workflow successfully",
+    "interrupted_log_retained": "outputs/readability/reproduce_interrupted.log"
+  },
+  "validation": "Synthetic regression only; not hardware accuracy"
+}

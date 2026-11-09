@@ -9,11 +9,27 @@ from pathlib import Path
 import numpy as np
 import scipy
 
+from .profiles import solver_profile
 from .reporting import write_json
 from .synthetic import run_head, run_lower, run_upper
 
 
-def _main():
+def _solver_options(args):
+    """Apply a named recipe, then explicit CLI overrides for both entry points."""
+    return {
+        **solver_profile(args.profile),
+        "loss": args.loss,
+        "encoder_sigma_rad": float(np.deg2rad(args.assumed_encoder_sigma_deg)),
+        **({"step_relaxation": args.step_relaxation} if args.step_relaxation is not None else {}),
+        "depth_scale_log_bound": args.depth_scale_log_bound,
+        "point_noise_model": args.point_noise_model,
+        "axial_floor_fraction": args.axial_floor_fraction,
+        "axial_range_power": args.axial_range_power,
+        "max_rejection_fraction": args.max_rejection_fraction,
+    }
+
+
+def _build_parser():
     parser = argparse.ArgumentParser(description=__doc__)
     sub = parser.add_subparsers(dest="command", required=True)
     demo = sub.add_parser("demo", help="synthetic numerical validation, not paper metrics")
@@ -124,163 +140,142 @@ def _main():
     staged.add_argument("--wrist-rotation-noise-deg", type=float, default=0.01)
     staged.add_argument("--moving-root", action="store_true")
     staged.add_argument("--output", type=Path, default=Path("outputs/staged.json"))
-    args = parser.parse_args()
-    if args.command == "staged-demo":
-        from .staged import run_staged_demo
+    return parser
 
-        started = time.perf_counter()
-        result = run_staged_demo(
-            args.config,
-            args.output.with_suffix(".npz"),
-            seed=args.seed,
-            asset_root=args.asset_root,
-            frames_count=args.frames,
-            noise_m=args.noise_m,
-            matching="triangle",
-            rendered=True,
-            outer_iterations=25,
-            pose_translation_noise_m=args.wrist_translation_noise_m,
-            pose_rotation_noise_deg=args.wrist_rotation_noise_deg,
-            moving_root=args.moving_root,
-            solver_options={"uncertainty_step_fraction": 0.05},
-        )
-        result["elapsed_s"] = time.perf_counter() - started
-        write_json(args.output, result)
-        print(f"Arm max error: {result['arm']['max_joint_error_deg']:.6g}deg")
-        for wrist in result["wrists"]:
-            print(
-                f"{wrist['mount_link']}: {wrist['translation_error_mm']:.4g}mm, {wrist['rotation_error_deg']:.4g}deg, rank={wrist['diagnostics']['rank']}/6"
-            )
-        print(f"Report: {args.output}")
-        return
-    if args.command == "calibrate":
-        from .assets import calibrate_dataset
-        from .profiles import solver_profile
 
-        started = time.perf_counter()
-        result = calibrate_dataset(
-            args.config,
-            args.input,
-            asset_root=args.asset_root,
-            matching=args.matching,
-            samples_per_link=args.samples_per_link,
-            estimate_camera=not args.fixed_camera,
-            estimate_depth_scale=args.estimate_depth_scale,
-            include_anchor=not args.no_anchor,
-            residual_sigma_m=args.residual_sigma_m,
-            outer_iterations=args.iterations,
-            trim_fraction=args.trim_fraction,
-            solver_options={
-                **solver_profile(args.profile),
-                "loss": args.loss,
-                "encoder_sigma_rad": float(np.deg2rad(args.assumed_encoder_sigma_deg)),
-                **(
-                    {"step_relaxation": args.step_relaxation}
-                    if args.step_relaxation is not None
-                    else {}
-                ),
-                "depth_scale_log_bound": args.depth_scale_log_bound,
-                "point_noise_model": args.point_noise_model,
-                "axial_floor_fraction": args.axial_floor_fraction,
-                "axial_range_power": args.axial_range_power,
-                "max_rejection_fraction": args.max_rejection_fraction,
-            },
-            joint_sigma_limit_deg=args.max_joint_sigma_deg,
-            camera_translation_sigma_limit_m=None
-            if args.max_camera_translation_sigma_mm is None
-            else args.max_camera_translation_sigma_mm / 1000,
-            camera_rotation_sigma_limit_deg=args.max_camera_rotation_sigma_deg,
-            depth_scale_sigma_limit_pct=args.max_depth_scale_sigma_pct,
-        )
-        result["elapsed_s"] = time.perf_counter() - started
-        write_json(args.output, result)
-        diag = result["diagnostics"]
+def _run_staged(args):
+    from .staged import run_staged_demo
+
+    started = time.perf_counter()
+    result = run_staged_demo(
+        args.config,
+        args.output.with_suffix(".npz"),
+        seed=args.seed,
+        asset_root=args.asset_root,
+        frames_count=args.frames,
+        noise_m=args.noise_m,
+        matching="triangle",
+        rendered=True,
+        outer_iterations=25,
+        pose_translation_noise_m=args.wrist_translation_noise_m,
+        pose_rotation_noise_deg=args.wrist_rotation_noise_deg,
+        moving_root=args.moving_root,
+        solver_options={"uncertainty_step_fraction": 0.05},
+    )
+    result["elapsed_s"] = time.perf_counter() - started
+    write_json(args.output, result)
+    print(f"Arm max error: {result['arm']['max_joint_error_deg']:.6g}deg")
+    for wrist in result["wrists"]:
         print(
-            f"success={result['success']}, converged={result['icp_converged']}, rank={diag['rank']}/{diag['parameters']}"
+            f"{wrist['mount_link']}: {wrist['translation_error_mm']:.4g}mm, {wrist['rotation_error_deg']:.4g}deg, rank={wrist['diagnostics']['rank']}/6"
         )
-        print(f"Report: {args.output}")
-        print(
-            f"proposal_supported={result['proposal']['block_supported']}, reasons={result['proposal']['block_reasons']}"
-        )
-        if args.estimate_depth_scale:
-            print(f"Depth correction multiplier: {result['depth_scale']:.9g}")
-        if not result["success"]:
-            raise SystemExit(1)
-        return
-    if args.command == "asset-demo":
-        from .assets import run_asset_demo
-        from .profiles import solver_profile
-        from .render import DepthNoise
+    print(f"Report: {args.output}")
+    return
 
-        started = time.perf_counter()
-        print(f"Running asset experiment: {args.config}", flush=True)
-        result = run_asset_demo(
-            args.config,
-            args.asset_root,
-            args.seed,
+
+def _run_calibration(args):
+    from .assets import calibrate_dataset
+
+    started = time.perf_counter()
+    result = calibrate_dataset(
+        args.config,
+        args.input,
+        asset_root=args.asset_root,
+        matching=args.matching,
+        samples_per_link=args.samples_per_link,
+        estimate_camera=not args.fixed_camera,
+        estimate_depth_scale=args.estimate_depth_scale,
+        include_anchor=not args.no_anchor,
+        residual_sigma_m=args.residual_sigma_m,
+        outer_iterations=args.iterations,
+        trim_fraction=args.trim_fraction,
+        solver_options=_solver_options(args),
+        joint_sigma_limit_deg=args.max_joint_sigma_deg,
+        camera_translation_sigma_limit_m=None
+        if args.max_camera_translation_sigma_mm is None
+        else args.max_camera_translation_sigma_mm / 1000,
+        camera_rotation_sigma_limit_deg=args.max_camera_rotation_sigma_deg,
+        depth_scale_sigma_limit_pct=args.max_depth_scale_sigma_pct,
+    )
+    result["elapsed_s"] = time.perf_counter() - started
+    write_json(args.output, result)
+    diag = result["diagnostics"]
+    print(
+        f"success={result['success']}, converged={result['icp_converged']}, rank={diag['rank']}/{diag['parameters']}"
+    )
+    print(f"Report: {args.output}")
+    print(
+        f"proposal_supported={result['proposal']['block_supported']}, reasons={result['proposal']['block_reasons']}"
+    )
+    if args.estimate_depth_scale:
+        print(f"Depth correction multiplier: {result['depth_scale']:.9g}")
+    if not result["success"]:
+        raise SystemExit(1)
+    return
+
+
+def _run_asset(args):
+    from .assets import run_asset_demo
+    from .render import DepthNoise
+
+    started = time.perf_counter()
+    print(f"Running asset experiment: {args.config}", flush=True)
+    result = run_asset_demo(
+        config_path=args.config,
+        asset_root=args.asset_root,
+        seed=args.seed,
+        noise_m=args.noise_m,
+        frames_count=args.frames,
+        samples_per_link=args.samples_per_link,
+        include_anchor=not args.no_anchor,
+        estimate_camera=not args.fixed_camera,
+        matching=args.matching,
+        independent_sampling=args.independent_sampling,
+        observation_samples=args.observation_samples,
+        rendered=args.render_depth,
+        image_size=(args.width, args.height),
+        max_points=args.max_points,
+        trim_fraction=args.trim_fraction,
+        outer_iterations=args.iterations,
+        dataset_path=args.save_dataset,
+        offset_amplitude_deg=args.offset_amplitude_deg,
+        residual_sigma_m=args.residual_sigma_m,
+        encoder_noise_deg=args.encoder_noise_deg,
+        selection_count=args.select_frames,
+        selection_strategy=args.selection_strategy,
+        solver_options=_solver_options(args),
+        camera_position=args.camera_position,
+        camera_target=args.camera_target,
+        observation_mesh_scale=args.observation_mesh_scale,
+        origin_translation_sigma_m=args.origin_translation_sigma_m,
+        posture_mode=args.posture_mode,
+        estimate_depth_scale=args.estimate_depth_scale,
+        depth_noise=DepthNoise(
             args.noise_m,
-            args.frames,
-            args.samples_per_link,
-            not args.no_anchor,
-            not args.fixed_camera,
-            args.matching,
-            args.independent_sampling,
-            args.observation_samples,
-            rendered=args.render_depth,
-            image_size=(args.width, args.height),
-            max_points=args.max_points,
-            trim_fraction=args.trim_fraction,
-            outer_iterations=args.iterations,
-            dataset_path=args.save_dataset,
-            offset_amplitude_deg=args.offset_amplitude_deg,
-            residual_sigma_m=args.residual_sigma_m,
-            encoder_noise_deg=args.encoder_noise_deg,
-            selection_count=args.select_frames,
-            selection_strategy=args.selection_strategy,
-            solver_options={
-                **solver_profile(args.profile),
-                "loss": args.loss,
-                "encoder_sigma_rad": float(np.deg2rad(args.assumed_encoder_sigma_deg)),
-                **(
-                    {"step_relaxation": args.step_relaxation}
-                    if args.step_relaxation is not None
-                    else {}
-                ),
-                "depth_scale_log_bound": args.depth_scale_log_bound,
-                "point_noise_model": args.point_noise_model,
-                "axial_floor_fraction": args.axial_floor_fraction,
-                "axial_range_power": args.axial_range_power,
-                "max_rejection_fraction": args.max_rejection_fraction,
-            },
-            camera_position=args.camera_position,
-            camera_target=args.camera_target,
-            observation_mesh_scale=args.observation_mesh_scale,
-            origin_translation_sigma_m=args.origin_translation_sigma_m,
-            posture_mode=args.posture_mode,
-            estimate_depth_scale=args.estimate_depth_scale,
-            depth_noise=DepthNoise(
-                args.noise_m,
-                args.dropout,
-                args.outliers,
-                quantization_m=args.quantization_m,
-                scale_bias=args.depth_scale_bias,
-            ),
-        )
-        result["elapsed_s"] = time.perf_counter() - started
-        write_json(args.output, result)
-        diag = result["diagnostics"]
-        print(
-            f"success={result['success']}, rank={diag['rank']}/{diag['parameters']}, max_joint_error_deg={result['max_joint_error_deg']:.6g}"
-        )
-        print(f"Report: {args.output}")
-        print(
-            f"proposal_supported={result['proposal']['block_supported']}, reasons={result['proposal']['block_reasons']}"
-        )
-        if args.estimate_depth_scale:
-            print(f"Depth correction multiplier: {result['depth_scale']:.9g}")
-        if not result["success"]:
-            raise SystemExit(1)
-        return
+            args.dropout,
+            args.outliers,
+            quantization_m=args.quantization_m,
+            scale_bias=args.depth_scale_bias,
+        ),
+    )
+    result["elapsed_s"] = time.perf_counter() - started
+    write_json(args.output, result)
+    diag = result["diagnostics"]
+    print(
+        f"success={result['success']}, rank={diag['rank']}/{diag['parameters']}, max_joint_error_deg={result['max_joint_error_deg']:.6g}"
+    )
+    print(f"Report: {args.output}")
+    print(
+        f"proposal_supported={result['proposal']['block_supported']}, reasons={result['proposal']['block_reasons']}"
+    )
+    if args.estimate_depth_scale:
+        print(f"Depth correction multiplier: {result['depth_scale']:.9g}")
+    if not result["success"]:
+        raise SystemExit(1)
+    return
+
+
+def _run_demo(args):
     report = {
         "paper": "arXiv:2609.19582v2",
         "validation": "synthetic baseline only",
@@ -311,6 +306,17 @@ def _main():
     print(f"Report: {args.output}")
     if not all(r["success"] for r in report["results"]):
         raise SystemExit(1)
+
+
+def _main():
+    args = _build_parser().parse_args()
+    handlers = {
+        "demo": _run_demo,
+        "asset-demo": _run_asset,
+        "calibrate": _run_calibration,
+        "staged-demo": _run_staged,
+    }
+    handlers[args.command](args)
 
 
 def main():
