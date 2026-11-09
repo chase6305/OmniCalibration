@@ -1,0 +1,62 @@
+{
+  "baseline_commit": "8775c98b71eee92fd0d9bd37831ab6fdf3e1fb15",
+  "seed": 20261109,
+  "repeats": 7,
+  "results": [
+    {
+      "faces": 320,
+      "points": 2000,
+      "max_distance": null,
+      "exact_match": true,
+      "baseline_seconds": 0.03611128591001034,
+      "optimized_seconds": 0.029500514967367053,
+      "speedup": 1.2240900184270005
+    },
+    {
+      "faces": 320,
+      "points": 2000,
+      "max_distance": 0.02,
+      "exact_match": true,
+      "baseline_seconds": 0.010829954990185797,
+      "optimized_seconds": 0.010743391001597047,
+      "speedup": 1.0080574176790067
+    },
+    {
+      "faces": 1280,
+      "points": 2000,
+      "max_distance": null,
+      "exact_match": true,
+      "baseline_seconds": 0.07827697705943137,
+      "optimized_seconds": 0.06630901305470616,
+      "speedup": 1.1804877414605979
+    },
+    {
+      "faces": 1280,
+      "points": 2000,
+      "max_distance": 0.02,
+      "exact_match": true,
+      "baseline_seconds": 0.012451391085051,
+      "optimized_seconds": 0.01228388398885727,
+      "speedup": 1.0136363300358158
+    },
+    {
+      "faces": 1280,
+      "points": 10000,
+      "max_distance": null,
+      "exact_match": true,
+      "baseline_seconds": 0.453567897900939,
+      "optimized_seconds": 0.466807420947589,
+      "speedup": 0.9716381478688265
+    },
+    {
+      "faces": 1280,
+      "points": 10000,
+      "max_distance": 0.02,
+      "exact_match": true,
+      "baseline_seconds": 0.07155823707580566,
+      "optimized_seconds": 0.06204150395933539,
+      "speedup": 1.1533930112769017
+    }
+  ],
+  "scope": "Synthetic triangle queries; seven alternating-order timings, medians; not full solver speed or hardware accuracy."
+}

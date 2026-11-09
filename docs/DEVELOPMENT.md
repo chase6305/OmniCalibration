@@ -107,3 +107,7 @@ hashes, except the source fingerprint and the result's `elapsed_s` and
 `render_seconds`. A numerical change, missing record, changed schema, or exception
 record prevents a passing comparison. Matching these runs is regression evidence
 for the chosen inputs, not a proof for all possible data.
+
+For exact triangle query performance, see the [linear candidate selection
+benchmark](PROXIMITY_OPTIMIZATION.md), including baseline revision, exact output
+checks, and workload-dependent timing results.
