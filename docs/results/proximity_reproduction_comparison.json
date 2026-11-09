@@ -1,0 +1,21 @@
+{
+  "baseline_artifacts": "Existing outputs/ reproduction reports from before the change",
+  "candidate_artifacts": "outputs/proximity_optimization",
+  "excluded_fields_recursive": [
+    "elapsed_s",
+    "render_seconds"
+  ],
+  "normalized_path": "Replay dataset path moved under outputs/proximity_optimization/; all three NPZ datasets have identical arrays",
+  "exact_matching_reports": [
+    "marvin_dual_visible.json",
+    "marvin_left_no_anchor.json",
+    "marvin_left_replayed.json",
+    "marvin_left_visible.json",
+    "marvin_right_visible.json",
+    "marvin_standalone_left.json",
+    "marvin_standalone_right.json",
+    "synthetic.json",
+    "synthetic_noisy.json"
+  ],
+  "count": 9
+}

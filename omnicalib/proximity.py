@@ -44,9 +44,20 @@ class TriangleIndex:
         rows = np.repeat(np.arange(len(points)), counts)
         projected = closest_point(self.triangles[faces], points[rows])
         squared = np.sum((projected - points[rows]) ** 2, axis=1)
-        order = np.lexsort((faces, squared, rows))
-        first = np.r_[True, np.diff(rows[order]) != 0]
-        best = order[first]
+        # Candidates are already grouped by query point. Reduce each group in
+        # linear time instead of sorting all candidates by (row, distance, face).
+        # Keep the smallest face ID on exact distance ties, independent of the
+        # order returned by the spatial index.
+        populated_counts = counts[counts > 0]
+        starts = np.r_[0, np.cumsum(populated_counts)[:-1]]
+        minimum_squared = np.minimum.reduceat(squared, starts)
+        nearest = squared == np.repeat(minimum_squared, populated_counts)
+        minimum_faces = np.minimum.reduceat(
+            np.where(nearest, faces, np.iinfo(faces.dtype).max), starts
+        )
+        winners = nearest & (faces == np.repeat(minimum_faces, populated_counts))
+        positions = np.arange(len(faces))
+        best = np.minimum.reduceat(np.where(winners, positions, len(faces)), starts)
         result[rows[best]] = projected[best]
         distances[rows[best]] = np.sqrt(squared[best])
         triangle_ids[rows[best]] = faces[best]
