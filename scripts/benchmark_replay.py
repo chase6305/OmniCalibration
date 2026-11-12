@@ -6,15 +6,28 @@ import hashlib
 import importlib
 import json
 import subprocess
+import tempfile
 import time
 from pathlib import Path
 from statistics import median
 
-from benchmark_proximity import baseline_module, source_fingerprint
-from compare_benchmarks import differences
-
 from omnicalib import assets
 from omnicalib.reporting import write_json
+
+if __package__:
+    from .benchmark_proximity import baseline_module, source_fingerprint
+    from .compare_benchmarks import differences
+else:
+    from benchmark_proximity import baseline_module, source_fingerprint
+    from compare_benchmarks import differences
+
+
+def _replay_artifacts(output, manifest):
+    """Keep each attempt's reports and inputs, including interrupted attempts."""
+    output.parent.mkdir(parents=True, exist_ok=True)
+    directory = Path(tempfile.mkdtemp(prefix=f"{output.stem}_", dir=output.parent))
+    write_json(directory / "manifest.json", manifest)
+    return directory
 
 
 def main():
@@ -41,12 +54,17 @@ def main():
     dataset = (args.datasets / f"marvin_{args.mode}.npz").resolve()
     dataset_hash = hashlib.sha256(dataset.read_bytes()).hexdigest()
     fingerprint = source_fingerprint(root / "omnicalib")
-    artifact_root = args.output.with_suffix("")
-    artifact_root.mkdir(parents=True, exist_ok=True)
     options = {"trim_start_iteration": 2, "uncertainty_step_fraction": 0.05, "step_relaxation": 0.5}
     timings = {"baseline": [], "optimized": []}
     with baseline_module(revision) as (baseline, baseline_hash):
         old_assets = importlib.import_module(f"{baseline.__package__}.assets")
+        artifact_root = _replay_artifacts(args.output, {
+            "baseline_commit": revision, "baseline_source_sha256": baseline_hash,
+            "candidate_source_sha256": fingerprint, "dataset_sha256": dataset_hash,
+            "config_sha256": hashlib.sha256(config_bytes).hexdigest(),
+            "solver_options": options, "repeats": args.repeats,
+        })
+        print(f"Replay artifacts: {artifact_root}", flush=True)
         for repeat in range(args.repeats):
             implementations = [("baseline", old_assets), ("optimized", assets)]
             if repeat % 2:
@@ -65,7 +83,10 @@ def main():
                 print(f"{args.mode} repeat={repeat + 1} {name}: {elapsed:.3f}s", flush=True)
             changed = list(differences({"result": reports["baseline"]}, {"result": reports["optimized"]}))
             if changed:
-                write_json(args.output, {"exact_match": False, "changed_paths": changed[:20]})
+                error = {"exact_match": False, "changed_paths": changed[:20],
+                         "artifact_directory": str(artifact_root)}
+                write_json(artifact_root / "summary.json", error)
+                write_json(args.output, error)
                 raise SystemExit("Replay outputs differ; full reports retained for inspection")
     if source_fingerprint(root / "omnicalib") != fingerprint:
         raise RuntimeError("Numerical source changed during benchmark")
@@ -82,7 +103,9 @@ def main():
         "optimized_median_seconds": after, "speedup": before / after,
         "timed_region": "calibrate_dataset including model loading, indexing, solving and reporting",
         "validation": "Saved synthetic observations; not hardware accuracy",
+        "artifact_directory": str(artifact_root),
     }
+    write_json(artifact_root / "summary.json", report)
     write_json(args.output, report)
     print(json.dumps(report, indent=2))
 

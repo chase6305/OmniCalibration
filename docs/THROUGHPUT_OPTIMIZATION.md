@@ -64,6 +64,9 @@ source changes during measurement. The optional Unix memory measurement uses
 fresh processes so each peak RSS is independent. Saved-observation end-to-end
 timing is available through `scripts/benchmark_replay.py`; its alternating runs
 require exact complete-report agreement before reporting any speedup.
+Every replay attempt receives a distinct report directory and input manifest.
+Interrupted attempts remain separate, and each completed attempt retains its
+own summary even when the requested summary filename is reused.
 
 ## Saved-observation replay
 
