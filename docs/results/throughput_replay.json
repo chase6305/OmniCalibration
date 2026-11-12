@@ -1,7 +1,7 @@
 {
   "baseline_commit": "2ebf11c9d2c7bc97d39ad706b1a0466e89902d3d",
   "baseline_source_sha256": "c3d3fa82a2809fceff57ff8a9f6555544c9bc20fe41a3a6aec6dbd5df8f0fd7e",
-  "candidate_source_sha256": "847c7988265035601395683884a52cbbee783a06972a40c0b7dd9cef33131a57",
+  "candidate_source_sha256": "6b34f4cb149fd6e9ea1739913612e35746f7c00e461130ff1a7ae91a55e7945f",
   "environment": {
     "python": "3.10.0",
     "numpy": "1.26.4",
@@ -10,11 +10,23 @@
     "rtree": "1.4.1",
     "embreex": "4.4.0.post1"
   },
+  "execution_policy": {
+    "thread_variables": {
+      "OMP_NUM_THREADS": "1",
+      "OPENBLAS_NUM_THREADS": "1",
+      "MKL_NUM_THREADS": "1",
+      "NUMEXPR_NUM_THREADS": "1"
+    },
+    "cpu_affinity": [
+      31
+    ],
+    "libspatialindex": "2.1.0"
+  },
   "results": [
     {
       "baseline_commit": "2ebf11c9d2c7bc97d39ad706b1a0466e89902d3d",
       "baseline_source_sha256": "c3d3fa82a2809fceff57ff8a9f6555544c9bc20fe41a3a6aec6dbd5df8f0fd7e",
-      "candidate_source_sha256": "847c7988265035601395683884a52cbbee783a06972a40c0b7dd9cef33131a57",
+      "candidate_source_sha256": "6b34f4cb149fd6e9ea1739913612e35746f7c00e461130ff1a7ae91a55e7945f",
       "mode": "left",
       "dataset_sha256": "1645c7d37b239d1955239842d036669708bf37420a9d5dfd9e545c0b038917bc",
       "config_sha256": "18b4ef11ebddc7eddead5bbc9cc943c77619cddb5937995bc7a630cb91fd88a9",
@@ -31,26 +43,38 @@
       "exact_match": true,
       "timings_seconds": {
         "baseline": [
-          37.158052798000426,
-          38.40427392499987,
-          38.44589573399935
+          30.997037924003962,
+          31.3811506619968,
+          31.447211532002257
         ],
         "optimized": [
-          27.39138176099732,
-          27.291830596997897,
-          27.24275289900106
+          23.243852692001383,
+          23.35654978099774,
+          23.569707897993794
         ]
       },
-      "baseline_median_seconds": 38.40427392499987,
-      "optimized_median_seconds": 27.291830596997897,
-      "speedup": 1.4071710502711512,
+      "baseline_median_seconds": 31.3811506619968,
+      "optimized_median_seconds": 23.35654978099774,
+      "speedup": 1.3435696177835161,
       "timed_region": "calibrate_dataset including model loading, indexing, solving and reporting",
-      "validation": "Saved synthetic observations; not hardware accuracy"
+      "validation": "Saved synthetic observations; not hardware accuracy",
+      "execution_policy": {
+        "thread_variables": {
+          "OMP_NUM_THREADS": "1",
+          "OPENBLAS_NUM_THREADS": "1",
+          "MKL_NUM_THREADS": "1",
+          "NUMEXPR_NUM_THREADS": "1"
+        },
+        "cpu_affinity": [
+          31
+        ],
+        "libspatialindex": "2.1.0"
+      }
     },
     {
       "baseline_commit": "2ebf11c9d2c7bc97d39ad706b1a0466e89902d3d",
       "baseline_source_sha256": "c3d3fa82a2809fceff57ff8a9f6555544c9bc20fe41a3a6aec6dbd5df8f0fd7e",
-      "candidate_source_sha256": "847c7988265035601395683884a52cbbee783a06972a40c0b7dd9cef33131a57",
+      "candidate_source_sha256": "6b34f4cb149fd6e9ea1739913612e35746f7c00e461130ff1a7ae91a55e7945f",
       "mode": "right",
       "dataset_sha256": "45b0d54f43084b94a3bd9d43b48770e89941c4bb17b3ed1c0b9cef442cd27137",
       "config_sha256": "b40b97aec94874c8cbb099dfdf65436066c1bc33f85474cbbb471a2fdecdca4b",
@@ -67,26 +91,38 @@
       "exact_match": true,
       "timings_seconds": {
         "baseline": [
-          25.82055726999897,
-          26.174979257000814,
-          26.334566366000217
+          21.13718460700329,
+          21.205762444995344,
+          21.250538359992788
         ],
         "optimized": [
-          19.064710761998867,
-          18.899983273000544,
-          19.13442904600015
+          16.167817143999855,
+          16.155320739999297,
+          16.64843665799708
         ]
       },
-      "baseline_median_seconds": 26.174979257000814,
-      "optimized_median_seconds": 19.064710761998867,
-      "speedup": 1.37295443837389,
+      "baseline_median_seconds": 21.205762444995344,
+      "optimized_median_seconds": 16.167817143999855,
+      "speedup": 1.31160330773936,
       "timed_region": "calibrate_dataset including model loading, indexing, solving and reporting",
-      "validation": "Saved synthetic observations; not hardware accuracy"
+      "validation": "Saved synthetic observations; not hardware accuracy",
+      "execution_policy": {
+        "thread_variables": {
+          "OMP_NUM_THREADS": "1",
+          "OPENBLAS_NUM_THREADS": "1",
+          "MKL_NUM_THREADS": "1",
+          "NUMEXPR_NUM_THREADS": "1"
+        },
+        "cpu_affinity": [
+          31
+        ],
+        "libspatialindex": "2.1.0"
+      }
     },
     {
       "baseline_commit": "2ebf11c9d2c7bc97d39ad706b1a0466e89902d3d",
       "baseline_source_sha256": "c3d3fa82a2809fceff57ff8a9f6555544c9bc20fe41a3a6aec6dbd5df8f0fd7e",
-      "candidate_source_sha256": "847c7988265035601395683884a52cbbee783a06972a40c0b7dd9cef33131a57",
+      "candidate_source_sha256": "6b34f4cb149fd6e9ea1739913612e35746f7c00e461130ff1a7ae91a55e7945f",
       "mode": "dual",
       "dataset_sha256": "eb685894cf21865a0ad3ba185e6d9318705fa934fd7bc4a9a3dffc88ee8308d7",
       "config_sha256": "adbc8328209e6281fca0b1dfea79be6b591f171fe56d3db7a931e6aec14abdda",
@@ -103,22 +139,34 @@
       "exact_match": true,
       "timings_seconds": {
         "baseline": [
-          20.70494231200064,
-          20.99145763100023,
-          21.081954863002466
+          16.639929195996956,
+          16.827877137999167,
+          16.915951982999104
         ],
         "optimized": [
-          15.227996599998733,
-          15.221509225997579,
-          15.250901341998542
+          12.810581277997699,
+          12.810068448998209,
+          13.038357074998203
         ]
       },
-      "baseline_median_seconds": 20.99145763100023,
-      "optimized_median_seconds": 15.227996599998733,
-      "speedup": 1.3784779562534166,
+      "baseline_median_seconds": 16.827877137999167,
+      "optimized_median_seconds": 12.810581277997699,
+      "speedup": 1.3135920043613645,
       "timed_region": "calibrate_dataset including model loading, indexing, solving and reporting",
-      "validation": "Saved synthetic observations; not hardware accuracy"
+      "validation": "Saved synthetic observations; not hardware accuracy",
+      "execution_policy": {
+        "thread_variables": {
+          "OMP_NUM_THREADS": "1",
+          "OPENBLAS_NUM_THREADS": "1",
+          "MKL_NUM_THREADS": "1",
+          "NUMEXPR_NUM_THREADS": "1"
+        },
+        "cpu_affinity": [
+          31
+        ],
+        "libspatialindex": "2.1.0"
+      }
     }
   ],
-  "validation": "Three alternating-order repeats per mode; complete saved-observation reports match exactly; no hardware accuracy claim"
+  "validation": "Saved synthetic observations; complete report equality excluding known timing fields; not hardware calibration accuracy"
 }

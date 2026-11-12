@@ -79,5 +79,27 @@
   "relative_peak_reduction": {
     "baseline_to_stream": 0.8963483984702654,
     "projection_to_stream": 0.24145554804140867
+  },
+  "superseded_measurement": {
+    "readings": {
+      "baseline": {
+        "points": 40000,
+        "faces": 1280,
+        "elapsed_seconds": 1.7317628929995408,
+        "result_sha256": "466b6befd6b5beb150d00574450ab0d148854d33073386c459b0274a2d3fd369",
+        "peak_rss_bytes": 1148743680
+      },
+      "optimized": {
+        "points": 40000,
+        "faces": 1280,
+        "elapsed_seconds": 0.901845570999285,
+        "result_sha256": "466b6befd6b5beb150d00574450ab0d148854d33073386c459b0274a2d3fd369",
+        "peak_rss_bytes": 359911424
+      }
+    },
+    "status": "superseded; do not use for memory reduction estimates",
+    "reason": "Direct fork/exec from a loaded parent could include the pre-exec image in ru_maxrss. The lightweight-launcher measurements in this report replace these readings.",
+    "baseline_source_sha256": "c3d3fa82a2809fceff57ff8a9f6555544c9bc20fe41a3a6aec6dbd5df8f0fd7e",
+    "candidate_source_sha256": "847c7988265035601395683884a52cbbee783a06972a40c0b7dd9cef33131a57"
   }
 }

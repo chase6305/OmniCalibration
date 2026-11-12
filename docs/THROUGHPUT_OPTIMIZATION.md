@@ -3,7 +3,8 @@
 This work starts from main commit
 `2ebf11c9d2c7bc97d39ad706b1a0466e89902d3d`. The requested investigation window is
 2026-11-12 10:50:40–19:50:40 UTC. Validation below is an intermediate
-checkpoint; final measurements and paired regression are pending.
+checkpoint; final query/replay measurements are verified and paired regression
+is pending.
 
 ## Bulk triangle candidates
 
@@ -22,17 +23,17 @@ notice in its source.
 
 At this checkpoint:
 
-- 124 tests, Ruff, and whitespace checks pass, including dense buffer growth,
+- 128 tests, Ruff, and whitespace checks pass, including dense buffer growth,
   strided boxes, empty groups, duplicate-face ties and scalar fallback paths.
 - Six paired synthetic query cases match all projection, distance and face-ID
-  arrays exactly. Seven alternating-order repeats show 1.69–3.79 times faster
+  arrays exactly. Seven alternating-order repeats show 1.80–3.76 times faster
   median queries on this shared workstation. This is a query measurement, not
   an end-to-end calibration speedup.
-- Saved left- and dual-arm observation replay matches every report field
-  exactly after excluding timing fields, including diagnostics, decisions,
+- All three saved-observation replay modes match every non-timing report field
+  exactly over three alternating repeats, including diagnostics, decisions,
   retries and full solver histories.
-- Rtree 1.3.0 with NumPy 1.26.4 passes 21 related tests; NumPy 2.2.6 with
-  Rtree 1.4.1 passes 22. Logs identify the actual imported versions and paths.
+- Rtree 1.3.0 with NumPy 1.26.4 passes 23 related tests; NumPy 2.2.6 with
+  Rtree 1.4.1 passes 24. Logs identify the actual imported versions and paths.
 
 The implementation now streams complete query groups in batches targeting
 65,536 candidate pairs. Both candidate storage and projection temporaries are
@@ -42,12 +43,11 @@ call because libspatialindex leaves that count unchanged when the first query
 does not fit. Forced budgets of 1, 7, 64 and 513 preserve exact outputs, including
 empty groups, dense groups, duplicate-face ties and per-point distance limits.
 
-The exact streaming source passes 24 focused tests in the default environment,
-23 with Rtree 1.3.0 and 24 with NumPy 2.2.6. The two benchmark-tool tests also
-pass in a core-only environment without trimesh or Rtree. The full suite and
-timing refresh are queued. The timings above and below are from the preceding
-projection-only source `847c7988265035601395683884a52cbbee783a06972a40c0b7dd9cef33131a57`;
-they are retained separately until the final source has been measured.
+The full suite also works without trimesh or Rtree: 95 tests pass and 33
+simulation tests skip. This includes both new benchmark-tool regression tests.
+Both query and replay timings use the final streaming source, one logical CPU
+and explicit one-thread numerical settings. Each baseline/candidate pair uses
+the same execution conditions.
 
 ## Isolated query memory
 
@@ -69,13 +69,14 @@ relative to projection batches. The current numerical source fingerprint is
 
 The initial memory figures were withdrawn: directly launching a worker from a
 loaded benchmark could count the parent's pre-exec image in `ru_maxrss`.
-Raw readings remain marked as superseded in the earlier query report.
+Raw readings and their original source fingerprints remain marked as superseded
+in the memory report.
 The corrected launcher starts the measured worker from a small stdlib-only
 interpreter. Startup peak was 11.25 MiB in all three workers, and Linux `VmHWM`
 matched each reported query peak. A regression test touches a 64 MiB parent-only
 allocation and verifies that the worker does not inherit it into its peak.
 
-The [preceding query measurements](results/throughput_query.json) include the source
+The [query measurements](results/throughput_query.json) include the source
 fingerprint. Reproduce with the locked simulation environment:
 
 ```bash
@@ -104,14 +105,14 @@ own summary even when the requested summary filename is reused.
 Three alternating-order repeats for each mode include model loading, index
 construction, calibration and report generation. Each pair's complete report
 matches exactly; only timing fields are excluded. The [recorded timings and
-input hashes](results/throughput_replay.json) use the same numerical source
-fingerprint as the query measurement.
+input hashes](results/throughput_replay.json) identify the same final numerical
+source fingerprint as the query measurement.
 
 | Mode | Baseline median (s) | Optimized median (s) | Speed ratio |
 |---|---:|---:|---:|
-| Left arm | 38.40 | 27.29 | 1.407 |
-| Right arm | 26.17 | 19.06 | 1.373 |
-| Dual arm | 20.99 | 15.23 | 1.378 |
+| Left arm | 31.38 | 23.36 | 1.344 |
+| Right arm | 21.21 | 16.17 | 1.312 |
+| Dual arm | 16.83 | 12.81 | 1.314 |
 
 These saved synthetic datasets are available after the ordinary reproduction
 run. For example, under the same resource checks and shared lock:
@@ -143,7 +144,10 @@ The initial 224-run development plan was reduced after the shared-workstation
 resource policy was supplied. The first four seeds by ordinal were selected
 uniformly across all scenarios, without using accuracy metrics. Eight unchanged
 baseline checkpoints were reused with their original source/input hashes; the
-larger incomplete development batch remains separate. Subsequent heavy jobs
+larger incomplete development batch remains separate. Reused baseline elapsed
+times are not used for speedup claims; the paired regression compares non-timing
+fields, while query and replay timings use matched execution conditions.
+Subsequent heavy jobs
 hold `/home/ubuntu/.cache/codex-heavy-work.lock`, run serially with one numerical
 thread, and defer when available memory or load fails the resource checks.
 New rendering checkpoints also receive a process-local affinity mask containing
