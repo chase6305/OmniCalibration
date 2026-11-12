@@ -3,8 +3,8 @@
 This work starts from main commit
 `2ebf11c9d2c7bc97d39ad706b1a0466e89902d3d`. The requested investigation window is
 2026-11-12 10:50:40–19:50:40 UTC. Validation below is an intermediate
-checkpoint; final query/replay measurements are verified and paired regression
-is pending.
+checkpoint includes verified query/replay measurements, paired regression and
+the standard artifact workflow. The investigation window is still in progress.
 
 ## Bulk triangle candidates
 
@@ -129,16 +129,25 @@ flock -n -E 75 /home/ubuntu/.cache/codex-heavy-work.lock env \
 The speed ratios apply to these inputs and this workstation. They do not
 establish a uniform speedup across all meshes, datasets or environments.
 
-## Paired regression in progress
+## Paired regression
 
 The [frozen plan](../configs/benchmark_throughput.json) has four new seeds across
 14 cases (56 pairs): left/right/dual visible depth, shared encoder noise, depth scale with
 outliers, bounded continuation, quadratic axial noise, unanchored degeneracy,
 both standalone arms, frame selection, dropout/quantization, large offsets and
 sampled matching. Baseline and candidate run in isolated source snapshots.
-All non-timing record fields must agree exactly; different source fingerprints
-are compared, never merged. The local artifacts are isolated under
+All non-timing record fields agree exactly; different source fingerprints
+were compared, never merged. The local artifacts are isolated under
 `outputs/throughput_20261112/`.
+
+The [completed comparison and audits](results/throughput_regression.json) contain
+56 pairs, zero changed fields, zero exceptions and 20 unchanged asset files.
+Both versions accept 52 cases and retain all four rank-deficient unanchored
+cases. The accepted quadratic-axial case at seed 22003 has a maximum joint error
+of 0.13039 degrees in both versions, above the 0.1-degree reporting reference.
+This existing reference exceedance remains visible in the result. The paired
+check establishes preserved estimates, diagnostics and decisions across these
+inputs; it does not imply a uniform accuracy bound for accepted estimates.
 
 The initial 224-run development plan was reduced after the shared-workstation
 resource policy was supplied. The first four seeds by ordinal were selected
@@ -154,6 +163,19 @@ New rendering checkpoints also receive a process-local affinity mask containing
 one logical CPU before numerical libraries load. This bounds native concurrency
 without changing other processes or global settings; [oneTBB's concurrency
 queries respect process affinity](https://oneapi-src.github.io/oneTBB/main/tbb_userguide/Guiding_Task_Scheduler_Execution.html).
+
+## Artifact reproduction
+
+The [standard artifact sequence](../scripts/reproduce.sh) ran to a separate
+output directory with the same numerical source throughout. It reused the
+already passing 128-test result, then completed noiseless/noisy synthetic demos,
+left/right/dual visible-depth recovery, saved-dataset replay, both standalone
+arms and the unanchored gauge check. The preview image was also generated.
+
+The [retained artifact checks](results/throughput_reproduction.json) show all
+three visible-depth modes supported with maximum joint errors below 0.1 degree,
+identical saved-replay offsets, supported standalone estimates and a retained
+rank-12/13 unanchored result. Original reproduction outputs were preserved.
 
 All accuracy checks use synthetic observations. This investigation does not
 establish hardware calibration accuracy.

@@ -1,0 +1,221 @@
+{
+  "baseline_source_sha256": "c3d3fa82a2809fceff57ff8a9f6555544c9bc20fe41a3a6aec6dbd5df8f0fd7e",
+  "candidate_source_sha256": "6b34f4cb149fd6e9ea1739913612e35746f7c00e461130ff1a7ae91a55e7945f",
+  "compared_runs": 56,
+  "exception_records": 0,
+  "exact_data_match": true,
+  "passed": true,
+  "difference_count": 0,
+  "first_differences": [],
+  "excluded_paths": [
+    [
+      "result",
+      "elapsed_s"
+    ],
+    [
+      "result",
+      "render_seconds"
+    ],
+    [
+      "source_sha256"
+    ]
+  ],
+  "validation": "Synthetic regression comparison; not hardware accuracy",
+  "plan": "configs/benchmark_throughput.json",
+  "plan_sha256": "f0ef7ac322d09a1bcaf9573e2a72d111251fe24285fff246c4daa44433aa2903",
+  "seeds": [
+    22001,
+    22002,
+    22003,
+    22004
+  ],
+  "cases": [
+    "left_visible",
+    "right_visible",
+    "dual_visible",
+    "dual_encoder_noise",
+    "left_unanchored",
+    "dual_scale_outliers",
+    "dual_quadratic_axial",
+    "dual_scale_outliers_budget10",
+    "standalone_left",
+    "standalone_right",
+    "dual_frame_selection",
+    "dual_dropout_quantized",
+    "left_large_offsets",
+    "left_sampled"
+  ],
+  "environment": {
+    "python": "3.10.0",
+    "numpy": "1.26.4",
+    "scipy": "1.15.3",
+    "trimesh": "4.12.2",
+    "rtree": "1.4.1",
+    "embreex": "4.4.0.post1"
+  },
+  "audits": {
+    "baseline": {
+      "source_sha256": "c3d3fa82a2809fceff57ff8a9f6555544c9bc20fe41a3a6aec6dbd5df8f0fd7e",
+      "expected": 56,
+      "recorded": 56,
+      "completed": 56,
+      "accepted": 52,
+      "missing": [],
+      "exceptional": [],
+      "rejected": [
+        {
+          "case": "left_unanchored",
+          "seed": 22001,
+          "reasons": [
+            "rank_deficient"
+          ]
+        },
+        {
+          "case": "left_unanchored",
+          "seed": 22002,
+          "reasons": [
+            "rank_deficient"
+          ]
+        },
+        {
+          "case": "left_unanchored",
+          "seed": 22003,
+          "reasons": [
+            "rank_deficient"
+          ]
+        },
+        {
+          "case": "left_unanchored",
+          "seed": 22004,
+          "reasons": [
+            "rank_deficient"
+          ]
+        }
+      ],
+      "above_0p1deg_reference": [
+        {
+          "case": "dual_quadratic_axial",
+          "seed": 22003,
+          "error_deg": 0.13038985299635103,
+          "accepted": true
+        }
+      ],
+      "checked": [
+        "strict JSON",
+        "unique expected keys",
+        "frozen source/config/URDF/mesh hashes",
+        "parameter layout",
+        "covariance units",
+        "residual aggregation",
+        "terminal solver stability",
+        "retained continuation iteration caps and exception status",
+        "whole-block acceptance decisions"
+      ]
+    },
+    "candidate": {
+      "source_sha256": "6b34f4cb149fd6e9ea1739913612e35746f7c00e461130ff1a7ae91a55e7945f",
+      "expected": 56,
+      "recorded": 56,
+      "completed": 56,
+      "accepted": 52,
+      "missing": [],
+      "exceptional": [],
+      "rejected": [
+        {
+          "case": "left_unanchored",
+          "seed": 22001,
+          "reasons": [
+            "rank_deficient"
+          ]
+        },
+        {
+          "case": "left_unanchored",
+          "seed": 22002,
+          "reasons": [
+            "rank_deficient"
+          ]
+        },
+        {
+          "case": "left_unanchored",
+          "seed": 22003,
+          "reasons": [
+            "rank_deficient"
+          ]
+        },
+        {
+          "case": "left_unanchored",
+          "seed": 22004,
+          "reasons": [
+            "rank_deficient"
+          ]
+        }
+      ],
+      "above_0p1deg_reference": [
+        {
+          "case": "dual_quadratic_axial",
+          "seed": 22003,
+          "error_deg": 0.13038985299635103,
+          "accepted": true
+        }
+      ],
+      "checked": [
+        "strict JSON",
+        "unique expected keys",
+        "frozen source/config/URDF/mesh hashes",
+        "parameter layout",
+        "covariance units",
+        "residual aggregation",
+        "terminal solver stability",
+        "retained continuation iteration caps and exception status",
+        "whole-block acceptance decisions"
+      ]
+    }
+  },
+  "input_configs": {
+    "configs/marvin_left.json": {
+      "sha256": "18b4ef11ebddc7eddead5bbc9cc943c77619cddb5937995bc7a630cb91fd88a9",
+      "urdf_sha256": "c1dec0dad56bf3cfbf5a193f7623ef22d513ecc354e4b0ce90f1ccf05a432972"
+    },
+    "configs/marvin_right.json": {
+      "sha256": "b40b97aec94874c8cbb099dfdf65436066c1bc33f85474cbbb471a2fdecdca4b",
+      "urdf_sha256": "c1dec0dad56bf3cfbf5a193f7623ef22d513ecc354e4b0ce90f1ccf05a432972"
+    },
+    "configs/marvin_dual.json": {
+      "sha256": "adbc8328209e6281fca0b1dfea79be6b591f171fe56d3db7a931e6aec14abdda",
+      "urdf_sha256": "c1dec0dad56bf3cfbf5a193f7623ef22d513ecc354e4b0ce90f1ccf05a432972"
+    },
+    "configs/marvin_standalone_left.json": {
+      "sha256": "f56f352026dec190e7773612c3287aa8aed39e14d1767dd56170266b6e19e8fe",
+      "urdf_sha256": "8436c3ef0193903394d2f0a3e0f3dcfa67ee9859e4d5f302659824036c9bba62"
+    },
+    "configs/marvin_standalone_right.json": {
+      "sha256": "d15371a74cdbd71364538c270c7c678c7132dde337d4af1747a5ada97f507de0",
+      "urdf_sha256": "fc9130c78597c89d6551cb0f464652942351101f784b6dff603b558c1cb9fcc2"
+    }
+  },
+  "asset_path_prefix": "Marvin_M6_S_CCS_696_V4.0",
+  "verified_asset_files": {
+    "visual/glb/shoulder_pitch_l_j1_link.glb": "bd865f100baaf110c7880a9af67c7d5b9c7d2ff350798737b9f9568ad65027a2",
+    "visual/glb/shoulder_roll_l_j2_link.glb": "019e64f7eb65183487ae6412c4c986155cf052b311b6cdcf093d876b1ee5e43f",
+    "visual/glb/elbow_pitch_l_j3_link.glb": "77180cbe7eeba2d6eeccd56f2116a20bb6df6cce622418df51d7d0a96d1be4ca",
+    "visual/glb/elbow_yaw_l_j4_link.glb": "5f130970611070c0725feb6554b3ff238a6a0c253377aa07ca4250e5c12585a4",
+    "visual/glb/wrist_pitch_l_j5_link.glb": "a836b1968f625e03ca98e0cf28ee51d3ec71961688eb37c0abe3725842d71826",
+    "visual/glb/wrist_yaw_l_j6_link.glb": "fce23247689b6b2ed27da0f2c327049d4fd3be1a290c884e47a7fba912affb51",
+    "visual/glb/wrist_roll_l_j7_link.glb": "67eec9b4a6c7bed80af1a6cbecaa9fa9ac3648fd1613f7ba7b07d30839061d70",
+    "visual/glb/left_hand_base_link.glb": "99ee4633c79981d86762a1092a33f98be6569ac2a669c5546bd811ff8f706977",
+    "visual/glb/shoulder_pitch_r_j1_link.glb": "29991b925c990886830b45384deaa3b9a99bc88786e7f98decbdfaa173395ec3",
+    "visual/glb/shoulder_roll_r_j2_link.glb": "e9f91830346793741be150dd465a8afbc8b10ff70fb22efd4759c53ea1316c46",
+    "visual/glb/elbow_pitch_r_j3_link.glb": "03822946a08c626c1f2b881512ee0d4732f6e489c1ff0649b6e3a7a695adee00",
+    "visual/glb/elbow_yaw_r_j4_link.glb": "de5890a953a952eaf8dbc2a0c4a4fa2bda887a6ceefbaa5561b7f7c13ae9bdd2",
+    "visual/glb/wrist_pitch_r_j5_link.glb": "ddd8208f944a59071f236719107bba9f80a6715754ba0df9b56c8c85508ff334",
+    "visual/glb/wrist_yaw_r_j6_link.glb": "adc693aca71cf359d09501771f70a281b44a12b2cb004bac6cad79c1f944ad02",
+    "visual/glb/wrist_roll_r_j7_link.glb": "0a13d35a58db5bbe677424f4c90039843eca265d55470b23744f88f576662ce1",
+    "visual/glb/right_hand_base_link.glb": "6d2b6a5c2eb95a575eb6678c1ee74d7cde644a49491fe2c89784605ec8279ee9",
+    "visual/glb/base_link.glb": "f9ad51e6bf3fb0242ea2b90188270043bb602ab06abc7723459e571fa37c3e90",
+    "robot_with_ee.urdf": "c1dec0dad56bf3cfbf5a193f7623ef22d513ecc354e4b0ce90f1ccf05a432972",
+    "left_arm.urdf": "8436c3ef0193903394d2f0a3e0f3dcfa67ee9859e4d5f302659824036c9bba62",
+    "right_arm.urdf": "fc9130c78597c89d6551cb0f464652942351101f784b6dff603b558c1cb9fcc2"
+  },
+  "performance_policy": "Eight pre-affinity baseline checkpoints reused only for exact non-timing comparison. Performance claims use the matched query/replay measurements, not mixed elapsed times.",
+  "accuracy_reference": "Both sources retain one accepted quadratic-axial case above0.1deg (seed22003,error0.13038985299635103deg); this is a behavior-preserving regression, not a guarantee that every accepted estimate meets that reference."
+}

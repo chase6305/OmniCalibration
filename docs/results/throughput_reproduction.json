@@ -1,0 +1,72 @@
+{
+  "source_sha256": "6b34f4cb149fd6e9ea1739913612e35746f7c00e461130ff1a7ae91a55e7945f",
+  "version": "0.3.2",
+  "unit_suite_reused": {
+    "passed": 128,
+    "reason": "Same numerical source already validated; repeated suite omitted from the artifact workflow"
+  },
+  "artifacts": [
+    {
+      "artifact": "marvin_left_visible.json",
+      "sha256": "e20717cbd6c8b1702af6cfd72b24933b67589cf756dff34e353f351bba33c2c3",
+      "max_joint_error_deg": 0.010955740325225883,
+      "rank": 13,
+      "parameters": 13,
+      "proposal_supported": true,
+      "block_reasons": []
+    },
+    {
+      "artifact": "marvin_right_visible.json",
+      "sha256": "4b35aae89d100c66849729270c0ea8f29b07d7383b16657c0a6b85f89a7fb3ed",
+      "max_joint_error_deg": 0.01636948302293638,
+      "rank": 13,
+      "parameters": 13,
+      "proposal_supported": true,
+      "block_reasons": []
+    },
+    {
+      "artifact": "marvin_dual_visible.json",
+      "sha256": "0b99f316d45087349d1e4a70c5882ca9de3f7925ba24bc67837b480907ba3104",
+      "max_joint_error_deg": 0.01077200377741442,
+      "rank": 20,
+      "parameters": 20,
+      "proposal_supported": true,
+      "block_reasons": []
+    },
+    {
+      "artifact": "marvin_standalone_left.json",
+      "sha256": "692d9bc6752706c4b53a3f57674205df390058ee4f579993c7f4af3c7f704a78",
+      "max_joint_error_deg": 0.0029885118588167878,
+      "rank": 7,
+      "parameters": 7,
+      "proposal_supported": true,
+      "block_reasons": []
+    },
+    {
+      "artifact": "marvin_standalone_right.json",
+      "sha256": "8f514876a59c1483e482d4da28cd34fb2f3ca3fc671864c8af1588453399616c",
+      "max_joint_error_deg": 0.0029794305780667905,
+      "rank": 7,
+      "parameters": 7,
+      "proposal_supported": true,
+      "block_reasons": []
+    },
+    {
+      "artifact": "marvin_left_no_anchor.json",
+      "sha256": "9341c6b52661fb4cbb7bce65c9a5623845d79103e94a0ae75c83fa5675fb94a8",
+      "max_joint_error_deg": 0.0453562727545883,
+      "rank": 12,
+      "parameters": 13,
+      "proposal_supported": false,
+      "block_reasons": [
+        "rank_deficient"
+      ]
+    }
+  ],
+  "saved_observation_replay_max_abs_offset_delta_deg": 0.0,
+  "preview_sha256": "95dfb3b9dc02d51e91d2232357f8864226dcd6aa8e7a6e412e35549fc51b51ad",
+  "source_unchanged_throughout": true,
+  "artifact_checks_passed": true,
+  "workflow": "Standard scripts/reproduce.sh artifact sequence, preserving original outputs in a separate directory; source-level tests were validated once before artifact generation",
+  "validation": "Synthetic artifact checks, not hardware calibration accuracy"
+}
