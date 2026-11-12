@@ -1,5 +1,12 @@
 {
   "baseline_commit": "2ebf11c9d2c7bc97d39ad706b1a0466e89902d3d",
+  "baseline_source_sha256": "c3d3fa82a2809fceff57ff8a9f6555544c9bc20fe41a3a6aec6dbd5df8f0fd7e",
+  "candidate_source_sha256": "847c7988265035601395683884a52cbbee783a06972a40c0b7dd9cef33131a57",
+  "environment": {
+    "python": "3.10.0",
+    "numpy": "1.26.4",
+    "trimesh": "4.12.2"
+  },
   "seed": 20261109,
   "repeats": 7,
   "results": [
@@ -8,68 +15,203 @@
       "points": 2000,
       "max_distance": null,
       "exact_match": true,
-      "baseline_seconds": 0.04305957700125873,
-      "optimized_seconds": 0.023320427997532533,
-      "speedup": 1.8464316780899022
+      "baseline_seconds": 0.033277021000685636,
+      "optimized_seconds": 0.019726894002815243,
+      "speedup": 1.6868859839737893,
+      "timings_seconds": {
+        "baseline": [
+          0.03403509999770904,
+          0.033678753999993205,
+          0.0318407640006626,
+          0.03371672600042075,
+          0.033277021000685636,
+          0.03312241700041341,
+          0.03325730399956228
+        ],
+        "optimized": [
+          0.020280484997783788,
+          0.01925856600064435,
+          0.020449807001568843,
+          0.020685945000877837,
+          0.019726894002815243,
+          0.01953581199995824,
+          0.017941212998266565
+        ]
+      }
     },
     {
       "faces": 320,
       "points": 2000,
       "max_distance": 0.02,
       "exact_match": true,
-      "baseline_seconds": 0.016065337000327418,
-      "optimized_seconds": 0.004670652000640985,
-      "speedup": 3.4396347657934405
+      "baseline_seconds": 0.0108651890004694,
+      "optimized_seconds": 0.002863065998099046,
+      "speedup": 3.7949488442402037,
+      "timings_seconds": {
+        "baseline": [
+          0.02507382600015262,
+          0.010880568999709794,
+          0.010518120001506759,
+          0.010526897000090685,
+          0.010481090001121629,
+          0.011110495001048548,
+          0.0108651890004694
+        ],
+        "optimized": [
+          0.003118060001725098,
+          0.0029066989991406444,
+          0.0028157060005469248,
+          0.002863065998099046,
+          0.00281386200003908,
+          0.0027655109988700133,
+          0.003006767998158466
+        ]
+      }
     },
     {
       "faces": 1280,
       "points": 2000,
       "max_distance": null,
       "exact_match": true,
-      "baseline_seconds": 0.0940275440007099,
-      "optimized_seconds": 0.059434913000586675,
-      "speedup": 1.5820254334313868
+      "baseline_seconds": 0.08186673499949393,
+      "optimized_seconds": 0.043440326997369993,
+      "speedup": 1.884579160844033,
+      "timings_seconds": {
+        "baseline": [
+          0.08716958300283295,
+          0.08015267100199708,
+          0.07560665999699268,
+          0.112095959000726,
+          0.08186673499949393,
+          0.08584068100026343,
+          0.07846167100069579
+        ],
+        "optimized": [
+          0.043490512998687336,
+          0.04556089399920893,
+          0.040110315996571444,
+          0.04251899900191347,
+          0.044558229001268046,
+          0.043440326997369993,
+          0.033721615000104066
+        ]
+      }
     },
     {
       "faces": 1280,
       "points": 2000,
       "max_distance": 0.02,
       "exact_match": true,
-      "baseline_seconds": 0.01698740500069107,
-      "optimized_seconds": 0.004484549001062987,
-      "speedup": 3.787985145588662
+      "baseline_seconds": 0.013043034003203502,
+      "optimized_seconds": 0.004272761998436181,
+      "speedup": 3.052600170095413,
+      "timings_seconds": {
+        "baseline": [
+          0.013194020997616462,
+          0.013173511997592868,
+          0.012904390998301096,
+          0.012836731999414042,
+          0.01293154200175195,
+          0.013043034003203502,
+          0.03146065200053272
+        ],
+        "optimized": [
+          0.004520523001701804,
+          0.004140020999329863,
+          0.004284834998543374,
+          0.004096337001101347,
+          0.004272761998436181,
+          0.004207979000057094,
+          0.004317145998356864
+        ]
+      }
     },
     {
       "faces": 1280,
       "points": 10000,
       "max_distance": null,
       "exact_match": true,
-      "baseline_seconds": 0.4765615219985193,
-      "optimized_seconds": 0.31234796999706305,
-      "speedup": 1.5257391363965014
+      "baseline_seconds": 0.4057866000002832,
+      "optimized_seconds": 0.1914238839999598,
+      "speedup": 2.1198326536952328,
+      "timings_seconds": {
+        "baseline": [
+          0.4192253359979077,
+          0.4057866000002832,
+          0.3962926239983062,
+          0.42291618099989137,
+          0.39510251300089294,
+          0.40795215899925097,
+          0.3982430750002095
+        ],
+        "optimized": [
+          0.1914238839999598,
+          0.19696613700216403,
+          0.19087662500169245,
+          0.19615067800259567,
+          0.1899936580011854,
+          0.1997395910002524,
+          0.1867365529978997
+        ]
+      }
     },
     {
       "faces": 1280,
       "points": 10000,
       "max_distance": 0.02,
       "exact_match": true,
-      "baseline_seconds": 0.0860638710000785,
-      "optimized_seconds": 0.02393842899982701,
-      "speedup": 3.5952180070254585
+      "baseline_seconds": 0.06708641200020793,
+      "optimized_seconds": 0.02087830100208521,
+      "speedup": 3.2132122241894927,
+      "timings_seconds": {
+        "baseline": [
+          0.06438861999777146,
+          0.08265354800096247,
+          0.06644639600199298,
+          0.08383633400080726,
+          0.06512014899999485,
+          0.08564852400013478,
+          0.06708641200020793
+        ],
+        "optimized": [
+          0.020746649999637157,
+          0.021198517999437172,
+          0.01990434099934646,
+          0.02037191799900029,
+          0.021970343001157744,
+          0.02152559900059714,
+          0.02087830100208521
+        ]
+      }
     }
   ],
-  "candidate_source_sha256": "da8504f75f4d062cdf6b4ef7f25d4ce00450f8a065bbd2b3c73c2b3ec656f0c2",
-  "replay_comparison": {
-    "left": {
-      "exact_match": true,
-      "changed_fields": 0,
-      "first_differences": []
+  "memory": {
+    "baseline": {
+      "points": 40000,
+      "faces": 1280,
+      "elapsed_seconds": 1.7317628929995408,
+      "result_sha256": "466b6befd6b5beb150d00574450ab0d148854d33073386c459b0274a2d3fd369",
+      "peak_rss_bytes": 1148743680
     },
-    "dual": {
-      "exact_match": true,
-      "changed_fields": 0,
-      "first_differences": []
+    "optimized": {
+      "points": 40000,
+      "faces": 1280,
+      "elapsed_seconds": 0.901845570999285,
+      "result_sha256": "466b6befd6b5beb150d00574450ab0d148854d33073386c459b0274a2d3fd369",
+      "peak_rss_bytes": 359911424
     }
   },
-  "validation": "Synthetic geometry and saved synthetic observation replay; no hardware accuracy claim"
+  "validation": "Synthetic geometry queries; all six result arrays match exactly; independent memory-run result hashes match",
+  "compatibility_checks": [
+    {
+      "numpy": "1.26.4",
+      "rtree": "1.3.0",
+      "related_tests_passed": 21
+    },
+    {
+      "numpy": "2.2.6",
+      "rtree": "1.4.1",
+      "related_tests_passed": 22
+    }
+  ]
 }

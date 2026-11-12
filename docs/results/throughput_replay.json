@@ -1,0 +1,124 @@
+{
+  "baseline_commit": "2ebf11c9d2c7bc97d39ad706b1a0466e89902d3d",
+  "baseline_source_sha256": "c3d3fa82a2809fceff57ff8a9f6555544c9bc20fe41a3a6aec6dbd5df8f0fd7e",
+  "candidate_source_sha256": "847c7988265035601395683884a52cbbee783a06972a40c0b7dd9cef33131a57",
+  "environment": {
+    "python": "3.10.0",
+    "numpy": "1.26.4",
+    "scipy": "1.15.3",
+    "trimesh": "4.12.2",
+    "rtree": "1.4.1",
+    "embreex": "4.4.0.post1"
+  },
+  "results": [
+    {
+      "baseline_commit": "2ebf11c9d2c7bc97d39ad706b1a0466e89902d3d",
+      "baseline_source_sha256": "c3d3fa82a2809fceff57ff8a9f6555544c9bc20fe41a3a6aec6dbd5df8f0fd7e",
+      "candidate_source_sha256": "847c7988265035601395683884a52cbbee783a06972a40c0b7dd9cef33131a57",
+      "mode": "left",
+      "dataset_sha256": "1645c7d37b239d1955239842d036669708bf37420a9d5dfd9e545c0b038917bc",
+      "config_sha256": "18b4ef11ebddc7eddead5bbc9cc943c77619cddb5937995bc7a630cb91fd88a9",
+      "environment": {
+        "python": "3.10.0",
+        "numpy": "1.26.4",
+        "scipy": "1.15.3",
+        "trimesh": "4.12.2",
+        "rtree": "1.4.1",
+        "embreex": "4.4.0.post1"
+      },
+      "repeats": 3,
+      "alternating_order": true,
+      "exact_match": true,
+      "timings_seconds": {
+        "baseline": [
+          37.158052798000426,
+          38.40427392499987,
+          38.44589573399935
+        ],
+        "optimized": [
+          27.39138176099732,
+          27.291830596997897,
+          27.24275289900106
+        ]
+      },
+      "baseline_median_seconds": 38.40427392499987,
+      "optimized_median_seconds": 27.291830596997897,
+      "speedup": 1.4071710502711512,
+      "timed_region": "calibrate_dataset including model loading, indexing, solving and reporting",
+      "validation": "Saved synthetic observations; not hardware accuracy"
+    },
+    {
+      "baseline_commit": "2ebf11c9d2c7bc97d39ad706b1a0466e89902d3d",
+      "baseline_source_sha256": "c3d3fa82a2809fceff57ff8a9f6555544c9bc20fe41a3a6aec6dbd5df8f0fd7e",
+      "candidate_source_sha256": "847c7988265035601395683884a52cbbee783a06972a40c0b7dd9cef33131a57",
+      "mode": "right",
+      "dataset_sha256": "45b0d54f43084b94a3bd9d43b48770e89941c4bb17b3ed1c0b9cef442cd27137",
+      "config_sha256": "b40b97aec94874c8cbb099dfdf65436066c1bc33f85474cbbb471a2fdecdca4b",
+      "environment": {
+        "python": "3.10.0",
+        "numpy": "1.26.4",
+        "scipy": "1.15.3",
+        "trimesh": "4.12.2",
+        "rtree": "1.4.1",
+        "embreex": "4.4.0.post1"
+      },
+      "repeats": 3,
+      "alternating_order": true,
+      "exact_match": true,
+      "timings_seconds": {
+        "baseline": [
+          25.82055726999897,
+          26.174979257000814,
+          26.334566366000217
+        ],
+        "optimized": [
+          19.064710761998867,
+          18.899983273000544,
+          19.13442904600015
+        ]
+      },
+      "baseline_median_seconds": 26.174979257000814,
+      "optimized_median_seconds": 19.064710761998867,
+      "speedup": 1.37295443837389,
+      "timed_region": "calibrate_dataset including model loading, indexing, solving and reporting",
+      "validation": "Saved synthetic observations; not hardware accuracy"
+    },
+    {
+      "baseline_commit": "2ebf11c9d2c7bc97d39ad706b1a0466e89902d3d",
+      "baseline_source_sha256": "c3d3fa82a2809fceff57ff8a9f6555544c9bc20fe41a3a6aec6dbd5df8f0fd7e",
+      "candidate_source_sha256": "847c7988265035601395683884a52cbbee783a06972a40c0b7dd9cef33131a57",
+      "mode": "dual",
+      "dataset_sha256": "eb685894cf21865a0ad3ba185e6d9318705fa934fd7bc4a9a3dffc88ee8308d7",
+      "config_sha256": "adbc8328209e6281fca0b1dfea79be6b591f171fe56d3db7a931e6aec14abdda",
+      "environment": {
+        "python": "3.10.0",
+        "numpy": "1.26.4",
+        "scipy": "1.15.3",
+        "trimesh": "4.12.2",
+        "rtree": "1.4.1",
+        "embreex": "4.4.0.post1"
+      },
+      "repeats": 3,
+      "alternating_order": true,
+      "exact_match": true,
+      "timings_seconds": {
+        "baseline": [
+          20.70494231200064,
+          20.99145763100023,
+          21.081954863002466
+        ],
+        "optimized": [
+          15.227996599998733,
+          15.221509225997579,
+          15.250901341998542
+        ]
+      },
+      "baseline_median_seconds": 20.99145763100023,
+      "optimized_median_seconds": 15.227996599998733,
+      "speedup": 1.3784779562534166,
+      "timed_region": "calibrate_dataset including model loading, indexing, solving and reporting",
+      "validation": "Saved synthetic observations; not hardware accuracy"
+    }
+  ],
+  "validation": "Three alternating-order repeats per mode; complete saved-observation reports match exactly; no hardware accuracy claim"
+}

@@ -20,32 +20,40 @@ scalar-only index adapters retain scalar intersections. No dependency upgrade
 or global library patch is required. The adapted loop includes Rtree's MIT
 notice in its source.
 
-At the bulk-only checkpoint:
+At this checkpoint:
 
-- 116 tests, Ruff, and whitespace checks pass, including dense buffer growth,
+- 124 tests, Ruff, and whitespace checks pass, including dense buffer growth,
   strided boxes, empty groups, duplicate-face ties and scalar fallback paths.
 - Six paired synthetic query cases match all projection, distance and face-ID
-  arrays exactly. Seven alternating-order repeats show 1.53–3.79 times faster
+  arrays exactly. Seven alternating-order repeats show 1.69–3.79 times faster
   median queries on this shared workstation. This is a query measurement, not
   an end-to-end calibration speedup.
 - Saved left- and dual-arm observation replay matches every report field
   exactly after excluding timing fields, including diagnostics, decisions,
   retries and full solver histories.
+- Rtree 1.3.0 with NumPy 1.26.4 passes 21 related tests; NumPy 2.2.6 with
+  Rtree 1.4.1 passes 22. Logs identify the actual imported versions and paths.
 
-The next candidate projects complete query groups in batches targeting 65,536
+The implementation projects complete query groups in batches targeting 65,536
 candidate pairs. A single dense query may exceed that target. This limits the
 large projection temporaries; the candidate-ID buffer itself still scales with
 the total number of intersections. Forced budgets of 1, 7, 64 and 513 pairs
 preserve exact outputs, including empty groups and per-point distance limits.
-The complete local suite now has 124 passing tests. Dependency compatibility,
-peak-memory and end-to-end measurements remain pending in the resource queue.
+
+In independent fresh processes, an unlimited query of 40,000 points against
+1,280 faces reduced peak RSS from 1,148,743,680 to 359,911,424 bytes (about 69%).
+All three result-array hashes match. These peaks include the interpreter and
+mesh/index setup, rather than isolating projection storage. The complete paired
+regression remains in progress.
 
 The [query measurements](results/throughput_query.json) include the source
 fingerprint. Reproduce with the locked simulation environment:
 
 ```bash
-OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 .venv/bin/python \
-  scripts/benchmark_proximity.py \
+# Check memory, load and competing processes before starting.
+flock -n -E 75 /home/ubuntu/.cache/codex-heavy-work.lock env \
+  OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 NUMEXPR_NUM_THREADS=1 \
+  nice -n 10 .venv/bin/python scripts/benchmark_proximity.py \
   --baseline-ref 2ebf11c9d2c7bc97d39ad706b1a0466e89902d3d \
   --memory-points 40000 --output outputs/throughput_query.json
 ```
@@ -56,6 +64,35 @@ source changes during measurement. The optional Unix memory measurement uses
 fresh processes so each peak RSS is independent. Saved-observation end-to-end
 timing is available through `scripts/benchmark_replay.py`; its alternating runs
 require exact complete-report agreement before reporting any speedup.
+
+## Saved-observation replay
+
+Three alternating-order repeats for each mode include model loading, index
+construction, calibration and report generation. Each pair's complete report
+matches exactly; only timing fields are excluded. The [recorded timings and
+input hashes](results/throughput_replay.json) use the same numerical source
+fingerprint as the query measurement.
+
+| Mode | Baseline median (s) | Optimized median (s) | Speed ratio |
+|---|---:|---:|---:|
+| Left arm | 38.40 | 27.29 | 1.407 |
+| Right arm | 26.17 | 19.06 | 1.373 |
+| Dual arm | 20.99 | 15.23 | 1.378 |
+
+These saved synthetic datasets are available after the ordinary reproduction
+run. For example, under the same resource checks and shared lock:
+
+```bash
+flock -n -E 75 /home/ubuntu/.cache/codex-heavy-work.lock env \
+  OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 NUMEXPR_NUM_THREADS=1 \
+  nice -n 10 .venv/bin/python scripts/benchmark_replay.py \
+  --baseline-ref 2ebf11c9d2c7bc97d39ad706b1a0466e89902d3d \
+  --asset-root ../HumanoidAssets/Marvin_M6_S_CCS_696_V4.0 \
+  --mode left --output outputs/throughput_left_replay.json
+```
+
+The speed ratios apply to these inputs and this workstation. They do not
+establish a uniform speedup across all meshes, datasets or environments.
 
 ## Paired regression in progress
 
@@ -75,6 +112,10 @@ baseline checkpoints were reused with their original source/input hashes; the
 larger incomplete development batch remains separate. Subsequent heavy jobs
 hold `/home/ubuntu/.cache/codex-heavy-work.lock`, run serially with one numerical
 thread, and defer when available memory or load fails the resource checks.
+New rendering checkpoints also receive a process-local affinity mask containing
+one logical CPU before numerical libraries load. This bounds native concurrency
+without changing other processes or global settings; [oneTBB's concurrency
+queries respect process affinity](https://oneapi-src.github.io/oneTBB/main/tbb_userguide/Guiding_Task_Scheduler_Execution.html).
 
 All accuracy checks use synthetic observations. This investigation does not
 establish hardware calibration accuracy.
