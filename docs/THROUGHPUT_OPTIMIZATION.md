@@ -2,8 +2,8 @@
 
 This work starts from main commit
 `2ebf11c9d2c7bc97d39ad706b1a0466e89902d3d`. The requested investigation window is
-2026-11-12 10:50–19:50 UTC. Validation below is an intermediate checkpoint;
-the paired benchmark is still running.
+2026-11-12 10:50:40–19:50:40 UTC. Validation below is an intermediate
+checkpoint; final measurements and paired regression are pending.
 
 ## Bulk triangle candidates
 
@@ -34,20 +34,48 @@ At this checkpoint:
 - Rtree 1.3.0 with NumPy 1.26.4 passes 21 related tests; NumPy 2.2.6 with
   Rtree 1.4.1 passes 22. Logs identify the actual imported versions and paths.
 
-The implementation projects complete query groups in batches targeting 65,536
-candidate pairs. A single dense query may exceed that target. This limits the
-large projection temporaries; the candidate-ID buffer itself still scales with
-the total number of intersections. Forced budgets of 1, 7, 64 and 513 pairs
-preserve exact outputs, including empty groups and per-point distance limits.
+The implementation now streams complete query groups in batches targeting
+65,536 candidate pairs. Both candidate storage and projection temporaries are
+limited by that target; a single dense query may exceed it. Each yielded batch
+owns its arrays. The native loop resets its completed-row count before every
+call because libspatialindex leaves that count unchanged when the first query
+does not fit. Forced budgets of 1, 7, 64 and 513 preserve exact outputs, including
+empty groups, dense groups, duplicate-face ties and per-point distance limits.
 
-The initial peak-memory measurement is under review: launching workers directly
-from a loaded benchmark process can include its pre-exec resident image in
-`ru_maxrss`. The raw readings are retained as superseded evidence. A corrected
-measurement launches each worker from a lightweight interpreter and records its
-startup peak and Linux `VmHWM` as a cross-check. Query timings and exact output
-comparisons remain valid. The complete paired regression is still in progress.
+The exact streaming source passes 24 focused tests in the default environment,
+23 with Rtree 1.3.0 and 24 with NumPy 2.2.6. The two benchmark-tool tests also
+pass in a core-only environment without trimesh or Rtree. The full suite and
+timing refresh are queued. The timings above and below are from the preceding
+projection-only source `847c7988265035601395683884a52cbbee783a06972a40c0b7dd9cef33131a57`;
+they are retained separately until the final source has been measured.
 
-The [query measurements](results/throughput_query.json) include the source
+## Isolated query memory
+
+The [corrected memory measurement](results/throughput_memory.json) compares
+40,000 fixed points against 1,280 faces, in independent processes under the same
+one-CPU affinity and explicit one-thread numerical settings. All result hashes
+agree exactly. Full-process high-water RSS includes imports and mesh/index
+construction and is sampled before output hashing.
+
+| Source | Peak RSS (MiB) |
+|---|---:|
+| Baseline main | 1099.05 |
+| Projection batches | 150.18 |
+| Streamed candidates and projections | 113.92 |
+
+Streaming reduces this measured peak by 89.6% relative to main and by 24.1%
+relative to projection batches. The current numerical source fingerprint is
+`6b34f4cb149fd6e9ea1739913612e35746f7c00e461130ff1a7ae91a55e7945f`.
+
+The initial memory figures were withdrawn: directly launching a worker from a
+loaded benchmark could count the parent's pre-exec image in `ru_maxrss`.
+Raw readings remain marked as superseded in the earlier query report.
+The corrected launcher starts the measured worker from a small stdlib-only
+interpreter. Startup peak was 11.25 MiB in all three workers, and Linux `VmHWM`
+matched each reported query peak. A regression test touches a 64 MiB parent-only
+allocation and verifies that the worker does not inherit it into its peak.
+
+The [preceding query measurements](results/throughput_query.json) include the source
 fingerprint. Reproduce with the locked simulation environment:
 
 ```bash
