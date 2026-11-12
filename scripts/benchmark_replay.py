@@ -12,13 +12,13 @@ from pathlib import Path
 from statistics import median
 
 from omnicalib import assets
-from omnicalib.reporting import write_json
+from omnicalib.reporting import environment_versions, write_json
 
 if __package__:
-    from .benchmark_proximity import baseline_module, source_fingerprint
+    from .benchmark_proximity import baseline_module, execution_policy, source_fingerprint
     from .compare_benchmarks import differences
 else:
-    from benchmark_proximity import baseline_module, source_fingerprint
+    from benchmark_proximity import baseline_module, execution_policy, source_fingerprint
     from compare_benchmarks import differences
 
 
@@ -56,6 +56,7 @@ def main():
     fingerprint = source_fingerprint(root / "omnicalib")
     options = {"trim_start_iteration": 2, "uncertainty_step_fraction": 0.05, "step_relaxation": 0.5}
     timings = {"baseline": [], "optimized": []}
+    policy = execution_policy()
     with baseline_module(revision) as (baseline, baseline_hash):
         old_assets = importlib.import_module(f"{baseline.__package__}.assets")
         artifact_root = _replay_artifacts(args.output, {
@@ -63,6 +64,7 @@ def main():
             "candidate_source_sha256": fingerprint, "dataset_sha256": dataset_hash,
             "config_sha256": hashlib.sha256(config_bytes).hexdigest(),
             "solver_options": options, "repeats": args.repeats,
+            "environment": environment_versions(), "execution_policy": policy,
         })
         print(f"Replay artifacts: {artifact_root}", flush=True)
         for repeat in range(args.repeats):
@@ -104,6 +106,7 @@ def main():
         "timed_region": "calibrate_dataset including model loading, indexing, solving and reporting",
         "validation": "Saved synthetic observations; not hardware accuracy",
         "artifact_directory": str(artifact_root),
+        "execution_policy": policy,
     }
     write_json(artifact_root / "summary.json", report)
     write_json(args.output, report)

@@ -8,7 +8,6 @@ import importlib.util
 import io
 import json
 import os
-import platform
 import subprocess
 import sys
 import tarfile
@@ -19,10 +18,9 @@ from pathlib import Path
 from statistics import median
 
 import numpy as np
-import trimesh
 
 from omnicalib.proximity import TriangleIndex
-from omnicalib.reporting import write_json
+from omnicalib.reporting import environment_versions, write_json
 
 
 def source_fingerprint(directory):
@@ -31,6 +29,22 @@ def source_fingerprint(directory):
         digest.update(path.name.encode())
         digest.update(path.read_bytes())
     return digest.hexdigest()
+
+
+def execution_policy():
+    from rtree import core
+
+    return {
+        "thread_variables": {
+            name: os.environ.get(name) for name in (
+                "OMP_NUM_THREADS", "OPENBLAS_NUM_THREADS", "MKL_NUM_THREADS",
+                "NUMEXPR_NUM_THREADS",
+            )
+        },
+        "cpu_affinity": sorted(os.sched_getaffinity(0))
+        if hasattr(os, "sched_getaffinity") else None,
+        "libspatialindex": core.rt.SIDX_Version().decode(),
+    }
 
 
 @contextmanager
@@ -57,6 +71,8 @@ def baseline_module(revision):
 
 
 def benchmark(baseline_index, repeats):
+    import trimesh
+
     rng = np.random.default_rng(20261109)
     results = []
     for subdivisions, count in [(2, 2000), (3, 2000), (3, 10000)]:
@@ -86,10 +102,26 @@ def benchmark(baseline_index, repeats):
     return results
 
 
+def _isolated_python(code, arguments, source_root, environment):
+    """Fork the measured worker from a small process, not the warmed benchmark.
+
+    Linux preserves resource usage across exec. An intermediate interpreter
+    avoids counting the large parent's pre-exec resident image as worker peak.
+    """
+    launcher = "import subprocess, sys\nraise SystemExit(subprocess.call(sys.argv[1:]))"
+    return subprocess.check_output(
+        [sys.executable, "-c", launcher, sys.executable, "-c", code, *arguments],
+        cwd=source_root, env=environment, text=True,
+    )
+
+
 def query_memory(source_root, count):
-    """Use a fresh process so peak RSS is independent for each implementation."""
+    """Measure independent query processes launched from a small interpreter."""
     code = """
 import hashlib, json, resource, sys, time
+from pathlib import Path
+units = 1024 if sys.platform != 'darwin' else 1
+startup_peak = resource.getrusage(resource.RUSAGE_SELF).ru_maxrss * units
 import numpy as np
 import trimesh
 from omnicalib.proximity import TriangleIndex
@@ -99,19 +131,24 @@ index = TriangleIndex(mesh)
 started = time.perf_counter()
 result = index.query(points)
 elapsed = time.perf_counter() - started
+peak = resource.getrusage(resource.RUSAGE_SELF).ru_maxrss * units
+vm_hwm = None
+if sys.platform == 'linux':
+    for line in Path('/proc/self/status').read_text().splitlines():
+        if line.startswith('VmHWM:'):
+            vm_hwm = int(line.split()[1]) * 1024
 digest = hashlib.sha256()
 for values in result:
     digest.update(values.tobytes())
-peak = resource.getrusage(resource.RUSAGE_SELF).ru_maxrss
 print(json.dumps({'points': len(points), 'faces': len(mesh.faces),
                  'elapsed_seconds': elapsed, 'result_sha256': digest.hexdigest(),
-                 'peak_rss_bytes': peak * (1024 if sys.platform != 'darwin' else 1)}))
+                 'peak_rss_bytes': peak, 'startup_peak_rss_bytes': startup_peak,
+                 'linux_vm_hwm_bytes': vm_hwm,
+                 'peak_method': 'getrusage after a lightweight launcher'}))
 """
     environment = os.environ.copy()
     environment.pop("PYTHONPATH", None)
-    result = subprocess.check_output(
-        [sys.executable, "-c", code, str(count)], cwd=source_root, env=environment, text=True
-    )
+    result = _isolated_python(code, [str(count)], source_root, environment)
     return json.loads(result)
 
 
@@ -150,8 +187,8 @@ def main():
         "baseline_commit": revision,
         "baseline_source_sha256": fingerprint,
         "candidate_source_sha256": candidate_fingerprint,
-        "environment": {"python": platform.python_version(), "numpy": np.__version__,
-                        "trimesh": trimesh.__version__},
+        "environment": environment_versions(),
+        "execution_policy": execution_policy(),
         "seed": 20261109, "repeats": args.repeats, "results": results,
     }
     if memory is not None:

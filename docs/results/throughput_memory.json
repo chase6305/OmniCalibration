@@ -1,0 +1,83 @@
+{
+  "checks": [
+    {
+      "name": "memory_isolation_regression",
+      "passed": true,
+      "tests": 1
+    },
+    {
+      "name": "minimal_tool_dependencies",
+      "passed": true,
+      "tests": 2
+    },
+    {
+      "name": "stream_default",
+      "passed": true,
+      "tests": 24
+    },
+    {
+      "name": "stream_rtree13",
+      "passed": true,
+      "tests": 23
+    },
+    {
+      "name": "stream_numpy2",
+      "passed": true,
+      "tests": 24
+    }
+  ],
+  "measurements": {
+    "main": {
+      "points": 40000,
+      "faces": 1280,
+      "elapsed_seconds": 1.3972350729964091,
+      "result_sha256": "466b6befd6b5beb150d00574450ab0d148854d33073386c459b0274a2d3fd369",
+      "peak_rss_bytes": 1152434176,
+      "startup_peak_rss_bytes": 11796480,
+      "linux_vm_hwm_bytes": 1152434176,
+      "peak_method": "getrusage after a lightweight launcher",
+      "source_sha256": "c3d3fa82a2809fceff57ff8a9f6555544c9bc20fe41a3a6aec6dbd5df8f0fd7e"
+    },
+    "projection": {
+      "points": 40000,
+      "faces": 1280,
+      "elapsed_seconds": 0.7292903740017209,
+      "result_sha256": "466b6befd6b5beb150d00574450ab0d148854d33073386c459b0274a2d3fd369",
+      "peak_rss_bytes": 157474816,
+      "startup_peak_rss_bytes": 11796480,
+      "linux_vm_hwm_bytes": 157474816,
+      "peak_method": "getrusage after a lightweight launcher",
+      "source_sha256": "847c7988265035601395683884a52cbbee783a06972a40c0b7dd9cef33131a57"
+    },
+    "stream": {
+      "points": 40000,
+      "faces": 1280,
+      "elapsed_seconds": 0.7359125729999505,
+      "result_sha256": "466b6befd6b5beb150d00574450ab0d148854d33073386c459b0274a2d3fd369",
+      "peak_rss_bytes": 119451648,
+      "startup_peak_rss_bytes": 11796480,
+      "linux_vm_hwm_bytes": 119451648,
+      "peak_method": "getrusage after a lightweight launcher",
+      "source_sha256": "6b34f4cb149fd6e9ea1739913612e35746f7c00e461130ff1a7ae91a55e7945f"
+    }
+  },
+  "exact_output_hashes": true,
+  "method": "Each measured worker is forked by a small stdlib-only launcher; startup peak and Linux VmHWM are recorded",
+  "cpu_affinity": [
+    31
+  ],
+  "baseline_commit": "2ebf11c9d2c7bc97d39ad706b1a0466e89902d3d",
+  "seed": 20261109,
+  "thread_variables": {
+    "OMP_NUM_THREADS": "1",
+    "OPENBLAS_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1",
+    "NUMEXPR_NUM_THREADS": "1"
+  },
+  "scope": "Full process high-water RSS through a 40000-point exact query; includes imports and mesh/index construction, excludes result hashing",
+  "validation": "Synthetic query output equality, not hardware calibration accuracy",
+  "relative_peak_reduction": {
+    "baseline_to_stream": 0.8963483984702654,
+    "projection_to_stream": 0.24145554804140867
+  }
+}
