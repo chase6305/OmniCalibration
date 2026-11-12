@@ -1,0 +1,75 @@
+{
+  "baseline_commit": "2ebf11c9d2c7bc97d39ad706b1a0466e89902d3d",
+  "seed": 20261109,
+  "repeats": 7,
+  "results": [
+    {
+      "faces": 320,
+      "points": 2000,
+      "max_distance": null,
+      "exact_match": true,
+      "baseline_seconds": 0.04305957700125873,
+      "optimized_seconds": 0.023320427997532533,
+      "speedup": 1.8464316780899022
+    },
+    {
+      "faces": 320,
+      "points": 2000,
+      "max_distance": 0.02,
+      "exact_match": true,
+      "baseline_seconds": 0.016065337000327418,
+      "optimized_seconds": 0.004670652000640985,
+      "speedup": 3.4396347657934405
+    },
+    {
+      "faces": 1280,
+      "points": 2000,
+      "max_distance": null,
+      "exact_match": true,
+      "baseline_seconds": 0.0940275440007099,
+      "optimized_seconds": 0.059434913000586675,
+      "speedup": 1.5820254334313868
+    },
+    {
+      "faces": 1280,
+      "points": 2000,
+      "max_distance": 0.02,
+      "exact_match": true,
+      "baseline_seconds": 0.01698740500069107,
+      "optimized_seconds": 0.004484549001062987,
+      "speedup": 3.787985145588662
+    },
+    {
+      "faces": 1280,
+      "points": 10000,
+      "max_distance": null,
+      "exact_match": true,
+      "baseline_seconds": 0.4765615219985193,
+      "optimized_seconds": 0.31234796999706305,
+      "speedup": 1.5257391363965014
+    },
+    {
+      "faces": 1280,
+      "points": 10000,
+      "max_distance": 0.02,
+      "exact_match": true,
+      "baseline_seconds": 0.0860638710000785,
+      "optimized_seconds": 0.02393842899982701,
+      "speedup": 3.5952180070254585
+    }
+  ],
+  "candidate_source_sha256": "da8504f75f4d062cdf6b4ef7f25d4ce00450f8a065bbd2b3c73c2b3ec656f0c2",
+  "replay_comparison": {
+    "left": {
+      "exact_match": true,
+      "changed_fields": 0,
+      "first_differences": []
+    },
+    "dual": {
+      "exact_match": true,
+      "changed_fields": 0,
+      "first_differences": []
+    }
+  },
+  "validation": "Synthetic geometry and saved synthetic observation replay; no hardware accuracy claim"
+}

@@ -8,6 +8,8 @@ Unlike rebuilding per-query vertex trees, this keeps both indexes per mesh.
 import numpy as np
 from scipy.spatial import cKDTree
 
+from ._rtree import intersection_many
+
 
 class TriangleIndex:
     def __init__(self, mesh):
@@ -36,11 +38,9 @@ class TriangleIndex:
             radii = np.minimum(radii, limits)
         radii += 1e-10
         boxes = np.column_stack((points - radii[:, None], points + radii[:, None]))
-        candidates = [list(self.triangle_tree.intersection(box)) for box in boxes]
-        counts = np.fromiter(map(len, candidates), dtype=int, count=len(points))
-        if counts.sum() == 0:
+        faces, counts = intersection_many(self.triangle_tree, boxes)
+        if len(faces) == 0:
             return result, distances, triangle_ids
-        faces = np.concatenate([a for a in candidates if a]).astype(int)
         rows = np.repeat(np.arange(len(points)), counts)
         projected = closest_point(self.triangles[faces], points[rows])
         squared = np.sum((projected - points[rows]) ** 2, axis=1)

@@ -1,0 +1,190 @@
+{
+  "seeds": [
+    22001,
+    22002,
+    22003,
+    22004,
+    22005,
+    22006,
+    22007,
+    22008,
+    22009,
+    22010,
+    22011,
+    22012,
+    22013,
+    22014,
+    22015,
+    22016
+  ],
+  "purpose": "Paired throughput regression against main 2ebf11c; fixed new seeds; all estimates, decisions and histories must match exactly except timing and source hash",
+  "defaults": {
+    "noise_m": 0.0002,
+    "frames_count": 8,
+    "samples_per_link": 100,
+    "matching": "triangle",
+    "rendered": true,
+    "max_points": 2000,
+    "outer_iterations": 35,
+    "camera_position": [
+      1.6,
+      0,
+      1.1
+    ],
+    "camera_target": [
+      0,
+      0,
+      1.0
+    ],
+    "solver_options": {
+      "trim_start_iteration": 2,
+      "uncertainty_step_fraction": 0.05,
+      "step_relaxation": 0.5
+    }
+  },
+  "cases": [
+    {
+      "id": "left_visible",
+      "config": "configs/marvin_left.json"
+    },
+    {
+      "id": "right_visible",
+      "config": "configs/marvin_right.json"
+    },
+    {
+      "id": "dual_visible",
+      "config": "configs/marvin_dual.json"
+    },
+    {
+      "id": "dual_encoder_noise",
+      "config": "configs/marvin_dual.json",
+      "settings": {
+        "encoder_noise_deg": 0.01,
+        "residual_sigma_m": 0.0002,
+        "solver_options": {
+          "trim_start_iteration": 2,
+          "uncertainty_step_fraction": 0.05,
+          "step_relaxation": 0.5,
+          "loss": "linear",
+          "encoder_sigma_rad": 0.00017453292519943296
+        }
+      }
+    },
+    {
+      "id": "left_unanchored",
+      "config": "configs/marvin_left.json",
+      "expected_observable": false,
+      "settings": {
+        "include_anchor": false
+      }
+    },
+    {
+      "id": "dual_scale_outliers",
+      "config": "configs/marvin_dual.json",
+      "settings": {
+        "estimate_depth_scale": true,
+        "residual_sigma_m": 0.0002,
+        "trim_fraction": 0.1,
+        "depth_noise": {
+          "sigma_m": 0.0002,
+          "scale_bias": 0.005,
+          "outlier_fraction": 0.05,
+          "outlier_sigma_m": 0.03
+        }
+      }
+    },
+    {
+      "id": "dual_quadratic_axial",
+      "config": "configs/marvin_dual.json",
+      "settings": {
+        "residual_sigma_m": 0.0002,
+        "depth_noise": {
+          "sigma_m": 0.0002,
+          "quadratic_range": true
+        },
+        "solver_options": {
+          "trim_start_iteration": 2,
+          "uncertainty_step_fraction": 0.05,
+          "step_relaxation": 0.5,
+          "loss": "linear",
+          "point_noise_model": "axial",
+          "axial_floor_fraction": 0.25,
+          "axial_range_power": 2.0
+        }
+      }
+    },
+    {
+      "id": "dual_scale_outliers_budget10",
+      "config": "configs/marvin_dual.json",
+      "settings": {
+        "estimate_depth_scale": true,
+        "residual_sigma_m": 0.0002,
+        "trim_fraction": 0.1,
+        "depth_noise": {
+          "sigma_m": 0.0002,
+          "scale_bias": 0.005,
+          "outlier_fraction": 0.05,
+          "outlier_sigma_m": 0.03
+        },
+        "solver_options": {
+          "trim_start_iteration": 2,
+          "uncertainty_step_fraction": 0.05,
+          "step_relaxation": 0.5,
+          "continuation_iterations": 10
+        }
+      }
+    },
+    {
+      "id": "standalone_left",
+      "config": "configs/marvin_standalone_left.json",
+      "settings": {
+        "estimate_camera": false,
+        "rendered": false,
+        "independent_sampling": true
+      }
+    },
+    {
+      "id": "standalone_right",
+      "config": "configs/marvin_standalone_right.json",
+      "settings": {
+        "estimate_camera": false,
+        "rendered": false,
+        "independent_sampling": true
+      }
+    },
+    {
+      "id": "dual_frame_selection",
+      "config": "configs/marvin_dual.json",
+      "settings": {
+        "frames_count": 12,
+        "selection_count": 5
+      }
+    },
+    {
+      "id": "dual_dropout_quantized",
+      "config": "configs/marvin_dual.json",
+      "settings": {
+        "depth_noise": {
+          "sigma_m": 0.0002,
+          "dropout": 0.3,
+          "quantization_m": 0.001
+        }
+      }
+    },
+    {
+      "id": "left_large_offsets",
+      "config": "configs/marvin_left.json",
+      "settings": {
+        "offset_amplitude_deg": 2.0
+      }
+    },
+    {
+      "id": "left_sampled",
+      "config": "configs/marvin_left.json",
+      "settings": {
+        "matching": "sampled",
+        "rendered": false
+      }
+    }
+  ]
+}
