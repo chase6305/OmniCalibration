@@ -185,22 +185,6 @@
       }
     }
   ],
-  "memory": {
-    "baseline": {
-      "points": 40000,
-      "faces": 1280,
-      "elapsed_seconds": 1.7317628929995408,
-      "result_sha256": "466b6befd6b5beb150d00574450ab0d148854d33073386c459b0274a2d3fd369",
-      "peak_rss_bytes": 1148743680
-    },
-    "optimized": {
-      "points": 40000,
-      "faces": 1280,
-      "elapsed_seconds": 0.901845570999285,
-      "result_sha256": "466b6befd6b5beb150d00574450ab0d148854d33073386c459b0274a2d3fd369",
-      "peak_rss_bytes": 359911424
-    }
-  },
   "validation": "Synthetic geometry queries; all six result arrays match exactly; independent memory-run result hashes match",
   "compatibility_checks": [
     {
@@ -213,5 +197,25 @@
       "rtree": "1.4.1",
       "related_tests_passed": 22
     }
-  ]
+  ],
+  "superseded_memory_measurement": {
+    "readings": {
+      "baseline": {
+        "points": 40000,
+        "faces": 1280,
+        "elapsed_seconds": 1.7317628929995408,
+        "result_sha256": "466b6befd6b5beb150d00574450ab0d148854d33073386c459b0274a2d3fd369",
+        "peak_rss_bytes": 1148743680
+      },
+      "optimized": {
+        "points": 40000,
+        "faces": 1280,
+        "elapsed_seconds": 0.901845570999285,
+        "result_sha256": "466b6befd6b5beb150d00574450ab0d148854d33073386c459b0274a2d3fd369",
+        "peak_rss_bytes": 359911424
+      }
+    },
+    "status": "under review",
+    "reason": "Direct fork/exec from a loaded parent can contribute a pre-exec resident image to ru_maxrss. Corrected lightweight-launcher measurements are pending. Query timings and output comparisons remain valid."
+  }
 }

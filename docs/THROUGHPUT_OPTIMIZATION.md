@@ -40,11 +40,12 @@ large projection temporaries; the candidate-ID buffer itself still scales with
 the total number of intersections. Forced budgets of 1, 7, 64 and 513 pairs
 preserve exact outputs, including empty groups and per-point distance limits.
 
-In independent fresh processes, an unlimited query of 40,000 points against
-1,280 faces reduced peak RSS from 1,148,743,680 to 359,911,424 bytes (about 69%).
-All three result-array hashes match. These peaks include the interpreter and
-mesh/index setup, rather than isolating projection storage. The complete paired
-regression remains in progress.
+The initial peak-memory measurement is under review: launching workers directly
+from a loaded benchmark process can include its pre-exec resident image in
+`ru_maxrss`. The raw readings are retained as superseded evidence. A corrected
+measurement launches each worker from a lightweight interpreter and records its
+startup peak and Linux `VmHWM` as a cross-check. Query timings and exact output
+comparisons remain valid. The complete paired regression is still in progress.
 
 The [query measurements](results/throughput_query.json) include the source
 fingerprint. Reproduce with the locked simulation environment:
@@ -61,7 +62,9 @@ flock -n -E 75 /home/ubuntu/.cache/codex-heavy-work.lock env \
 The query script extracts the selected numerical package, including its relative
 imports, records both source fingerprints and individual timings, and refuses
 source changes during measurement. The optional Unix memory measurement uses
-fresh processes so each peak RSS is independent. Saved-observation end-to-end
+workers forked by a lightweight launcher. Linux [preserves resource usage across
+exec](https://man7.org/linux/man-pages/man2/getrusage.2.html), so a large parent
+must not be the immediate fork parent of a peak-memory worker. Saved-observation end-to-end
 timing is available through `scripts/benchmark_replay.py`; its alternating runs
 require exact complete-report agreement before reporting any speedup.
 Every replay attempt receives a distinct report directory and input manifest.
