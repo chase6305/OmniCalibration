@@ -34,10 +34,10 @@ def test_dense_bulk_intersections_and_scalar_fallbacks(monkeypatch, backend):
     else:
         actual_tree = tree
         if backend == "missing":
-            monkeypatch.setattr(core.rt, "Index_Intersects_id_v", None)
+            monkeypatch.setattr(core.rt, "Index_Intersects_id_v", None, raising=False)
         elif backend == "unbound":
             # A library symbol without Rtree's ctypes signature is unsafe.
-            monkeypatch.setattr(core.rt, "Index_Intersects_id_v", lambda *args: None)
+            monkeypatch.setattr(core.rt, "Index_Intersects_id_v", lambda *args: None, raising=False)
     faces, counts = intersection_many(actual_tree, boxes)
     assert counts.dtype.kind == "i"
     np.testing.assert_array_equal(counts, [0, 513, 0, 513, 0])
