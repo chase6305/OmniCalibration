@@ -2,6 +2,7 @@
 """Time exact saved-observation replay against a trusted Git revision."""
 
 import argparse
+import gc
 import hashlib
 import importlib
 import json
@@ -57,6 +58,11 @@ def main():
     options = {"trim_start_iteration": 2, "uncertainty_step_fraction": 0.05, "step_relaxation": 0.5}
     timings = {"baseline": [], "optimized": []}
     policy = execution_policy()
+    gc_policy = {
+        "automatic_enabled": gc.isenabled(),
+        "thresholds": list(gc.get_threshold()),
+        "before_each_timed_call": "full collection, excluded from elapsed time",
+    }
     with baseline_module(revision) as (baseline, baseline_hash):
         old_assets = importlib.import_module(f"{baseline.__package__}.assets")
         artifact_root = _replay_artifacts(args.output, {
@@ -65,6 +71,7 @@ def main():
             "config_sha256": hashlib.sha256(config_bytes).hexdigest(),
             "solver_options": options, "repeats": args.repeats,
             "environment": environment_versions(), "execution_policy": policy,
+            "garbage_collection": gc_policy,
         })
         print(f"Replay artifacts: {artifact_root}", flush=True)
         for repeat in range(args.repeats):
@@ -73,6 +80,7 @@ def main():
                 implementations.reverse()
             reports = {}
             for name, implementation in implementations:
+                gc.collect()
                 started = time.perf_counter()
                 result = implementation.calibrate_dataset(
                     config, dataset, asset_root=args.asset_root.resolve(),
@@ -107,6 +115,7 @@ def main():
         "validation": "Saved synthetic observations; not hardware accuracy",
         "artifact_directory": str(artifact_root),
         "execution_policy": policy,
+        "garbage_collection": gc_policy,
     }
     write_json(artifact_root / "summary.json", report)
     write_json(args.output, report)
