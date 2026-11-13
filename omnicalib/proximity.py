@@ -8,6 +8,10 @@ Unlike rebuilding per-query vertex trees, this keeps both indexes per mesh.
 import numpy as np
 from scipy.spatial import cKDTree
 
+from ._rtree import intersection_batches
+
+_PROJECTION_BATCH_PAIRS = 65536
+
 
 class TriangleIndex:
     def __init__(self, mesh):
@@ -15,7 +19,9 @@ class TriangleIndex:
         self.normals = np.asarray(mesh.face_normals)
         self.bounds = np.asarray(mesh.bounds)
         self.vertex_tree = cKDTree(np.asarray(mesh.vertices)[mesh.referenced_vertices])
-        self.triangle_tree = mesh.triangles_tree
+        from trimesh.triangles import bounds_tree
+
+        self.triangle_tree = bounds_tree(self.triangles)
 
     def query(self, points, max_distance=None):
         from trimesh.triangles import closest_point
@@ -36,29 +42,27 @@ class TriangleIndex:
             radii = np.minimum(radii, limits)
         radii += 1e-10
         boxes = np.column_stack((points - radii[:, None], points + radii[:, None]))
-        candidates = [list(self.triangle_tree.intersection(box)) for box in boxes]
-        counts = np.fromiter(map(len, candidates), dtype=int, count=len(points))
-        if counts.sum() == 0:
-            return result, distances, triangle_ids
-        faces = np.concatenate([a for a in candidates if a]).astype(int)
-        rows = np.repeat(np.arange(len(points)), counts)
-        projected = closest_point(self.triangles[faces], points[rows])
-        squared = np.sum((projected - points[rows]) ** 2, axis=1)
-        # Candidates are already grouped by query point. Reduce each group in
-        # linear time instead of sorting all candidates by (row, distance, face).
-        # Keep the smallest face ID on exact distance ties, independent of the
-        # order returned by the spatial index.
-        populated_counts = counts[counts > 0]
-        starts = np.r_[0, np.cumsum(populated_counts)[:-1]]
-        minimum_squared = np.minimum.reduceat(squared, starts)
-        nearest = squared == np.repeat(minimum_squared, populated_counts)
-        minimum_faces = np.minimum.reduceat(
-            np.where(nearest, faces, np.iinfo(faces.dtype).max), starts
-        )
-        winners = nearest & (faces == np.repeat(minimum_faces, populated_counts))
-        positions = np.arange(len(faces))
-        best = np.minimum.reduceat(np.where(winners, positions, len(faces)), starts)
-        result[rows[best]] = projected[best]
-        distances[rows[best]] = np.sqrt(squared[best])
-        triangle_ids[rows[best]] = faces[best]
+        for first, faces, counts in intersection_batches(
+            self.triangle_tree, boxes, _PROJECTION_BATCH_PAIRS
+        ):
+            if len(faces) == 0:
+                continue
+            rows = np.repeat(np.arange(first, first + len(counts)), counts)
+            projected = closest_point(self.triangles[faces], points[rows])
+            squared = np.sum((projected - points[rows]) ** 2, axis=1)
+            # Reduce each group in linear time; exact ties choose the lowest
+            # face ID independently of candidate order and batch boundaries.
+            batch_counts = counts[counts > 0]
+            starts = np.r_[0, np.cumsum(batch_counts)[:-1]]
+            minimum_squared = np.minimum.reduceat(squared, starts)
+            nearest = squared == np.repeat(minimum_squared, batch_counts)
+            minimum_faces = np.minimum.reduceat(
+                np.where(nearest, faces, np.iinfo(faces.dtype).max), starts
+            )
+            winners = nearest & (faces == np.repeat(minimum_faces, batch_counts))
+            positions = np.arange(len(faces))
+            best = np.minimum.reduceat(np.where(winners, positions, len(faces)), starts)
+            result[rows[best]] = projected[best]
+            distances[rows[best]] = np.sqrt(squared[best])
+            triangle_ids[rows[best]] = faces[best]
         return result, distances, triangle_ids

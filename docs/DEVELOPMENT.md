@@ -111,3 +111,8 @@ for the chosen inputs, not a proof for all possible data.
 For exact triangle query performance, see the [linear candidate selection
 benchmark](PROXIMITY_OPTIMIZATION.md), including baseline revision, exact output
 checks, and workload-dependent timing results.
+
+The subsequent [throughput investigation](THROUGHPUT_OPTIMIZATION.md) adds bulk
+candidate queries, projection batches, independent peak-memory measurements and
+paired end-to-end replay. It also records validation under the shared-workstation
+resource policy.

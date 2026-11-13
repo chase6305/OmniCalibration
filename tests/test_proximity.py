@@ -1,7 +1,23 @@
+import gc
+import weakref
+
 import numpy as np
 import pytest
 
 from omnicalib.proximity import TriangleIndex
+
+
+def test_query_index_owns_triangle_tree_independently_of_mesh_lifetime():
+    trimesh = pytest.importorskip("trimesh")
+    pytest.importorskip("rtree")
+    mesh = trimesh.creation.box()
+    index = TriangleIndex(mesh)
+    reference = weakref.ref(index.triangle_tree)
+    del index
+    gc.collect()
+    # Keep the caller's mesh alive: its cached query helpers may reference it.
+    assert len(mesh.faces) == 12
+    assert reference() is None
 
 
 def test_cached_proximity_matches_independent_trimesh_reference():
@@ -73,3 +89,35 @@ def test_triangle_queries_match_exhaustive_reference(max_distance):
         assert (ids[expected_distances <= max_distance] >= 0).all()
     np.testing.assert_allclose(distances[near], expected_distances[near], atol=1e-12)
     np.testing.assert_allclose(projected[near], expected[near], atol=1e-12)
+
+
+@pytest.mark.parametrize("pair_budget", [1, 7, 64, 513])
+@pytest.mark.parametrize("limited", [False, True])
+def test_projection_batches_preserve_entire_query_groups(monkeypatch, pair_budget, limited):
+    trimesh = pytest.importorskip("trimesh")
+    pytest.importorskip("rtree")
+    from omnicalib import proximity
+
+    mesh = trimesh.creation.icosphere(subdivisions=1, radius=0.3)
+    index = TriangleIndex(mesh)
+    points = np.random.default_rng(91).normal(0, 0.25, (60, 3))
+    limits = np.linspace(0.0, 0.4, len(points)) if limited else None
+    monkeypatch.setattr(proximity, "_PROJECTION_BATCH_PAIRS", 10**9)
+    expected = index.query(points, limits)
+    calls = []
+    original = trimesh.triangles.closest_point
+
+    def project(triangles, observed):
+        calls.append((len(triangles), len(np.unique(observed, axis=0))))
+        return original(triangles, observed)
+
+    monkeypatch.setattr(trimesh.triangles, "closest_point", project)
+    monkeypatch.setattr(proximity, "_PROJECTION_BATCH_PAIRS", pair_budget)
+    actual = index.query(points, limits)
+    for before, after in zip(expected, actual, strict=True):
+        np.testing.assert_array_equal(after, before)
+    if sum(pairs for pairs, _ in calls) > pair_budget:
+        assert len(calls) > 1
+    # A single query can have more candidates than the target; splitting that
+    # group would change the reduction's ownership and tie-breaking semantics.
+    assert all(pairs <= pair_budget or unique_points == 1 for pairs, unique_points in calls)
