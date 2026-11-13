@@ -1,7 +1,23 @@
+import gc
+import weakref
+
 import numpy as np
 import pytest
 
 from omnicalib.proximity import TriangleIndex
+
+
+def test_query_index_owns_triangle_tree_independently_of_mesh_lifetime():
+    trimesh = pytest.importorskip("trimesh")
+    pytest.importorskip("rtree")
+    mesh = trimesh.creation.box()
+    index = TriangleIndex(mesh)
+    reference = weakref.ref(index.triangle_tree)
+    del index
+    gc.collect()
+    # Keep the caller's mesh alive: its cached query helpers may reference it.
+    assert len(mesh.faces) == 12
+    assert reference() is None
 
 
 def test_cached_proximity_matches_independent_trimesh_reference():

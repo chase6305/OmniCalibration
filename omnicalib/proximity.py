@@ -19,7 +19,9 @@ class TriangleIndex:
         self.normals = np.asarray(mesh.face_normals)
         self.bounds = np.asarray(mesh.bounds)
         self.vertex_tree = cKDTree(np.asarray(mesh.vertices)[mesh.referenced_vertices])
-        self.triangle_tree = mesh.triangles_tree
+        from trimesh.triangles import bounds_tree
+
+        self.triangle_tree = bounds_tree(self.triangles)
 
     def query(self, points, max_distance=None):
         from trimesh.triangles import closest_point
